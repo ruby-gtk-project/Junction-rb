@@ -2,3 +2,5 @@
 /vendor/bundle/
 /result
 Gemfile.lock
+/tmp/
+/data/schemas/gschemas.compiled

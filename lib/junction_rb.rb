@@ -1,0 +1,21 @@
+# frozen_string_literal: true
+
+require 'gtk4'
+require 'adwaita'
+
+require_relative 'junction_rb/version'
+require_relative 'junction_rb/host'
+require_relative 'junction_rb/resource'
+require_relative 'junction_rb/desktop_entry'
+require_relative 'junction_rb/settings'
+require_relative 'junction_rb/uri_entry'
+require_relative 'junction_rb/theme_switcher'
+require_relative 'junction_rb/menu_model'
+require_relative 'junction_rb/tile_button'
+require_relative 'junction_rb/app_button'
+require_relative 'junction_rb/show_in_folder_button'
+require_relative 'junction_rb/about_dialog'
+require_relative 'junction_rb/shortcuts_dialog'
+require_relative 'junction_rb/welcome_window'
+require_relative 'junction_rb/window'
+require_relative 'junction_rb/application'

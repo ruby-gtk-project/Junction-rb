@@ -26,6 +26,29 @@
             harfbuzz
             libyaml
             openssl
+            # glib2/gtk4 gem builds read glib's and gdk's .pc Requires.private,
+            # so these transitive .pc files must be on PKG_CONFIG_PATH too.
+            libsysprof-capture
+            pcre2
+            libffi
+            util-linux
+            zlib
+            libselinux
+            libxdmcp
+            libXau
+            libepoxy
+            fribidi
+            libthai
+            libdatrie
+            libxkbcommon
+            wayland
+            libpng
+            expat
+            at-spi2-core
+            graphene
+            librsvg
+            libxml2
+            libsepol
           ];
 
           shellHook = ''

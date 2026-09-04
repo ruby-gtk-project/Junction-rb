@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Junction (Ruby)
+Comment=Choose the application to open a link or file with
+Exec=junction-rb %U
+Icon=re.sonny.Junction.Rb
+Terminal=false
+Type=Application
+Categories=GTK;Utility;
+StartupNotify=true
+MimeType=x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/x-junction;text/html;text/xml;application/xhtml+xml;

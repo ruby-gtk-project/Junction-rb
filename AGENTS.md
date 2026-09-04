@@ -1,8 +1,12 @@
 # Junction — Ruby port
 
-This branch is an empty `ruby` orphan branch. The upstream code (the original
-implementation of Junction) lives on the fork's other branches; this branch is
-where the Ruby GTK4 / Libadwaita port is written.
+The Ruby GTK4 / Libadwaita port of Junction lives on this branch. The original
+GJS implementation is on `main`; `PORTING.md` records where the two differ and
+why.
+
+The app is in `lib/junction_rb/`, the entry point is `bin/junction-rb`, and the
+data files (GSettings schema, stylesheet, icons, desktop file) are in `data/`.
+`rake` runs the schema build, the tests and rubocop.
 
 ## Skills — use them
 
@@ -22,6 +26,9 @@ Two skills are installed in `.claude/skills/`. They are not optional reading.
 
 `direnv allow` (or `nix develop`) gets Ruby, GTK4, Libadwaita and the
 introspection typelibs. Then `bundle install`.
+
+The system `ruby` on PATH may be a wrapper pinned to a gemset without
+`adwaita` — run everything through `nix develop --command bundle exec …`.
 
 ## Style
 

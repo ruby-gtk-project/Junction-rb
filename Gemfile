@@ -1,10 +1,13 @@
 # frozen_string_literal: true
 
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
-gem "gem_kit"
-gem "gtk4"
+gem 'adwaita', '~> 4.3'
+gem 'gtk4', '~> 4.3'
 
 group :development do
-  gem "rubocop"
+  gem 'rake', '~> 13.0'
+  gem 'rubocop', '~> 1.80'
 end
+
+gem 'gem_kit'

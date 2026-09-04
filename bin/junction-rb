@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require_relative '../lib/junction_rb'
+
+JunctionRb::Application.new(ARGV).run
