@@ -185,6 +185,10 @@ module JunctionRb
         win.width_request = 360
         win.height_request = DEFAULT_HEIGHT
         win.add_css_class('main')
+
+        if JunctionRb.dev?
+          win.add_css_class('devel')
+        end
       end
     end
 

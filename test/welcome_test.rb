@@ -4,8 +4,11 @@
 # open.
 #
 # The "Set Junction as default for Web" button is deliberately never activated
-# here: it runs `gio mime` against the real session and would change which
-# browser the machine opens links with. What it would do is checked instead.
+# here: it runs `gio mime` against the session and would change which browser
+# the machine opens links with. What it would do is checked instead.
+#
+# XDG_CONFIG_HOME is a scratch directory, so the registration the window does on
+# construction writes to `mimeapps.list` there rather than the real one.
 
 $stdout.sync = true
 
@@ -45,7 +48,7 @@ GtkDriver.drive(app, shots: 'tmp/shots') do |d, _app|
     end
   end
 
-  d.step('installing would claim the web types') do
+  d.step('the window claims the web types on construction') do
     d.check('http and https are claimed') do
       (JunctionRb::WelcomeWindow::WEB_TYPES &
         ['x-scheme-handler/http', 'x-scheme-handler/https']).length == 2
@@ -54,7 +57,18 @@ GtkDriver.drive(app, shots: 'tmp/shots') do |d, _app|
       (JunctionRb::WelcomeWindow::WEB_TYPES &
         ['text/html', 'text/xml', 'application/xhtml+xml']).length == 3
     end
-    d.check('it would register this port, not the original') do
+    d.check('claiming them again is harmless') do
+      app.welcome_window.claim_web_types
+      true
+    end
+  end
+
+  d.step('the button claims the two link schemes') do
+    d.check('it covers http and https') do
+      JunctionRb::WelcomeWindow::SCHEMES.sort ==
+        ['x-scheme-handler/http', 'x-scheme-handler/https']
+    end
+    d.check('it registers this port, not the original') do
       JunctionRb::DESKTOP_ID == 're.sonny.Junction.Rb.desktop'
     end
   end

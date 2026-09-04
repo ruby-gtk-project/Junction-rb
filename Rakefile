@@ -13,6 +13,7 @@ task test: :schema do
     test/resource_test.rb
     test/cli_test.rb
     test/desktop_entry_test.rb
+    test/portal_test.rb
     test/window_test.rb
     test/url_test.rb
     test/welcome_test.rb

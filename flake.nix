@@ -49,12 +49,15 @@
             librsvg
             libxml2
             libsepol
+            # libportal: the background/autostart request and the OpenURI portal.
+            libportal
+            libportal-gtk4
           ];
 
           shellHook = ''
             export BUNDLE_PATH="$PWD/vendor/bundle"
             export BUNDLE_BUILD__GTK4="--use-system-libraries"
-            export GI_TYPELIB_PATH="${pkgs.gtk4}/lib/girepository-1.0:${pkgs.libadwaita}/lib/girepository-1.0''${GI_TYPELIB_PATH:+:$GI_TYPELIB_PATH}"
+            export GI_TYPELIB_PATH="${pkgs.gtk4}/lib/girepository-1.0:${pkgs.libadwaita}/lib/girepository-1.0:${pkgs.libportal}/lib/girepository-1.0:${pkgs.libportal-gtk4}/lib/girepository-1.0''${GI_TYPELIB_PATH:+:$GI_TYPELIB_PATH}"
           '';
         };
       }

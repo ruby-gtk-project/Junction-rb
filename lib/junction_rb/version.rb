@@ -13,4 +13,10 @@ module JunctionRb
   SETTINGS_PATH = '/re/sonny/Junction/Rb/'
 
   WEBSITE = 'https://junction.sonny.re'
+
+  # The original's __DEV__ flag, which its bundler compiled in. Here it is an
+  # environment variable, so a checkout can be run either way without a build
+  # step: JUNCTION_RB_DEV=1 adds the restart accelerator and the devel styling
+  # that marks a window as not-the-installed-copy.
+  def self.dev? = !ENV['JUNCTION_RB_DEV'].to_s.empty?
 end

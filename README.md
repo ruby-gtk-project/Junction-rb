@@ -56,6 +56,9 @@ rake test       # the suite; UI tests run headlessly and write tmp/shots/*.png
 rake lint
 ```
 
+`JUNCTION_RB_DEV=1` adds the restart accelerator (Ctrl+Shift+Q) and the `devel`
+window styling.
+
 The tests drive the real app with no display server. GTK4 renders offscreen, so
 the screenshots under `tmp/shots` are worth looking at — they show what the
 assertions do not think to ask about.

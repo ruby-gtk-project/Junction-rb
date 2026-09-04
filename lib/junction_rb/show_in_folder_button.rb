@@ -2,9 +2,8 @@
 
 module JunctionRb
   # "Open Location": reveal the file in the file manager rather than open it.
-  # The original went through the OpenURI portal for this; Gtk::FileLauncher has
-  # done the same job natively since GTK 4.10, portal included, so there is no
-  # reason to carry libportal for it.
+  # This goes through the OpenURI portal, which is what reaches the host's file
+  # manager from inside a sandbox.
   class ShowInFolderButton < TileButton
     ICON_SIZE = 48
 
@@ -32,21 +31,11 @@ module JunctionRb
     # Junction only steps out of the way once the file manager has actually come
     # up, so a failure leaves the window there to try something else with.
     def open_containing_folder
-      launcher.open_containing_folder(@parent) do |_launcher, result|
-        finish(result)
-      end
-    end
-
-    def finish(result)
-      launcher.open_containing_folder_finish(result).then do |opened|
+      Host.open_directory(@parent, @file.uri) do |opened|
         if opened
           @on_opened.call
         end
       end
-    rescue StandardError => e
-      warn "junction-rb: could not show #{@file.uri} in its folder: #{e.message}"
     end
-
-    def launcher = @launcher ||= Gtk::FileLauncher.new(@file)
   end
 end

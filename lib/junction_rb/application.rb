@@ -96,7 +96,17 @@ module JunctionRb
       end
     end
 
-    def activate = welcome_window.present
+    # Presenting the welcome window is also the moment to ask for background
+    # permission: it is the only path where Junction is in the foreground with
+    # the user's attention, so a portal prompt here is expected rather than an
+    # interruption.
+    def activate
+      welcome_window.present
+      # A null parent rather than the window's own handle, so the prompt does
+      # not sit on top of the welcome window's first appearance.
+      # https://github.com/sonnyp/Eloquent/issues/46
+      Host.request_background(nil)
+    end
 
     def welcome_window
       @welcome_window ||= WelcomeWindow.new(application: application)
@@ -109,6 +119,10 @@ module JunctionRb
       application.add_action(about_action)
       application.add_action(shortcuts_action)
       application.add_action(settings.create_action('color-scheme'))
+
+      if JunctionRb.dev?
+        register_restart_action
+      end
 
       quit_action.signal_connect('activate') { application.quit }
       about_action.signal_connect('activate') { AboutDialog.new.present(active_window) }
@@ -125,6 +139,30 @@ module JunctionRb
       'window.close'  => ['<Primary>W', 'Escape'],
       'win.copy'      => ['<Primary>C'],
     }.freeze
+
+    # Development only: quit and relaunch with the same arguments, so a code
+    # change can be picked up without leaving the keyboard.
+    def register_restart_action
+      application.add_action(restart_action)
+      application.set_accels_for_action('app.restart', ['<Primary><Shift>Q'])
+
+      restart_action.signal_connect('activate') { restart }
+    end
+
+    def restart
+      application.quit
+      GLib::Spawn.async(
+        nil,
+        [$PROGRAM_NAME, *@argv],
+        nil,
+        GLib::Spawn::DEFAULT,
+        nil,
+      )
+    rescue StandardError => e
+      warn "junction-rb: could not restart: #{e.message}"
+    end
+
+    def restart_action = @restart_action ||= Gio::SimpleAction.new('restart')
 
     def quit_action = @quit_action ||= Gio::SimpleAction.new('quit')
 

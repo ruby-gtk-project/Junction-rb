@@ -2,14 +2,59 @@
 
 module JunctionRb
   # Everything that differs between running on the host and running inside a
-  # Flatpak sandbox. The original reached for libportal for this; the two things
-  # it actually asked libportal were "am I in a sandbox" (a file test) and "open
-  # this file's folder" (Gtk::FileLauncher does it natively since GTK 4.10), so
-  # the dependency buys nothing here.
+  # Flatpak sandbox, plus the portal requests that go with it.
   module Host
     FLATPAK_INFO = '/.flatpak-info'
 
-    def self.flatpak? = File.exist?(FLATPAK_INFO)
+    def self.portal = @portal ||= Xdp::Portal.new
+
+    def self.flatpak? = Xdp::Portal.running_under_flatpak
+
+    # Asks to keep running when no window is open, and to be started with the
+    # session. Junction is a dispatcher: it is worth having ready before the
+    # first link is clicked rather than paying start-up costs then.
+    #
+    # The command is what the portal should autostart — the service form, which
+    # comes up on DBus without showing a window.
+    AUTOSTART_COMMAND = ['junction-rb', '--gapplication-service'].freeze
+
+    BACKGROUND_REASON = 'Run Junction in the background.'
+
+    def self.request_background(_parent)
+      BackgroundRequest.call(
+        reason:  BACKGROUND_REASON,
+        command: AUTOSTART_COMMAND,
+      ) { |granted| report_background(granted) }
+    rescue StandardError => e
+      warn "junction-rb: could not ask to run in the background: #{e.message}"
+    end
+
+    def self.report_background(granted)
+      unless granted
+        warn 'junction-rb: background permission was declined'
+      end
+    end
+
+    # Reveal a file in the file manager. Inside a sandbox this is the only way
+    # to reach the host's file manager at all.
+    def self.open_directory(window, uri, &block)
+      portal.open_directory(
+        XdpGtk4.parent_new_gtk(window),
+        uri,
+        Xdp::OpenUriFlags::NONE,
+        nil,
+      ) { |source, result| block.call(open_directory_finish(source, result)) }
+    rescue StandardError => e
+      warn "junction-rb: could not show #{uri} in its folder: #{e.message}"
+      block.call(false)
+    end
+
+    def self.open_directory_finish(source, result)
+      source.open_directory_finish(result)
+    rescue StandardError => e
+      warn "junction-rb: could not show the folder: #{e.message}"
+      false
+    end
 
     # Commands launched from inside the sandbox have to be handed back to the
     # host, or they run against the sandbox's own (nearly empty) filesystem.

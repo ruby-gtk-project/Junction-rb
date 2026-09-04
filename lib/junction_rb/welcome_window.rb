@@ -19,6 +19,18 @@ module JunctionRb
 
     def initialize(application:)
       @application = application
+      # The original registers these the moment welcome.js is imported, which is
+      # to say whenever Junction is launched with nothing to open. Keeping that:
+      # the window exists precisely to make Junction the thing that answers a
+      # link, and it would be useless the first time if it had not already
+      # claimed them.
+      claim_web_types
+    end
+
+    def claim_web_types
+      WEB_TYPES.each { |type| Host.spawn_sync("gio mime #{type} #{DESKTOP_ID}") }
+    rescue StandardError => e
+      warn "junction-rb: could not register the web types: #{e.message}"
     end
 
     def build
@@ -63,8 +75,12 @@ module JunctionRb
       warn "junction-rb: could not open the result page: #{e.message}"
     end
 
+    # The button's own job, which the original scopes to the two link schemes —
+    # the wider set was already claimed when the window was built.
+    SCHEMES = ['x-scheme-handler/https', 'x-scheme-handler/http'].freeze
+
     def set_as_default_for_web
-      WEB_TYPES.each { |type| Host.spawn_sync("gio mime #{type} #{DESKTOP_ID}") }
+      SCHEMES.each { |type| Host.spawn_sync("gio mime #{type} #{DESKTOP_ID}") }
       true
     rescue StandardError => e
       warn "junction-rb: could not register as the default handler: #{e.message}"
@@ -78,6 +94,10 @@ module JunctionRb
         win.title = 'Junction'
         win.hide_on_close = true
         win.add_css_class('welcome')
+
+        if JunctionRb.dev?
+          win.add_css_class('devel')
+        end
       end
     end
 
