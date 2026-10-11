@@ -5,7 +5,6 @@ require 'adwaita'
 require 'gobject-introspection'
 
 require_relative 'junction_rb/portal'
-require_relative 'junction_rb/version'
 require_relative 'junction_rb/background_request'
 require_relative 'junction_rb/host'
 require_relative 'junction_rb/resource'
@@ -22,3 +21,4 @@ require_relative 'junction_rb/shortcuts_dialog'
 require_relative 'junction_rb/welcome_window'
 require_relative 'junction_rb/window'
 require_relative 'junction_rb/application'
+require_relative "junction_rb/version"

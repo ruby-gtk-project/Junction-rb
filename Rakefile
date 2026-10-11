@@ -37,5 +37,3 @@ desc 'Lint'
 task :lint do
   sh 'rubocop'
 end
-
-task default: %i[schema test lint]
