@@ -1,159 +1,110 @@
-# Component identification — Junction (upstream `origin/main`) vs Junction-rb (`ruby`)
+# Component identification — Junction-rb vs `origin/main`
 
-Upstream: GJS + blueprint, `src/*.blp` + `src/*.js`, with the `troll/`
-submodule (a gitlink, never checked out) supplying `build()` and the
-`ThemeSelector` widget. Scans: `.claude/skills/component-identification/scripts/component-scan.sh`
-over a clean `git archive origin/main` export and over the working tree.
+Inventory of every window, dialog, widget, CSS class, signal, action,
+accelerator, preference, empty state and error state on both sides. Upstream is
+GJS + Blueprint (`src/*.js`, `src/*.blp`) on `origin/main`; the port is
+`lib/junction_rb/*.rb` on `ruby`.
 
-Upstream scan: 82 rows / 19 distinct widget types / 7 CSS classes / 9 signals /
-15 action rows. Port scan: 98 rows. The counts are close because the port is
-not a skeleton — the whole app is ported. What the counts do not show is where
-the port diverges, so each unit is read below.
+Facets recorded per component: **type**, **CSS classes**, **signals**,
+**actions**, **owner**.
 
-## Unit map
+## Top-level surfaces
 
-Upstream splits a component across a `.blp` (tree, CSS, signals) and a `.js`
-(callbacks, actions); both halves join on one `lib/*.rb`.
+| Surface | Upstream owner | Port owner | Type |
+|---|---|---|---|
+| Chooser window | `src/window.js` + `window.blp` | `lib/junction_rb/window.rb` | `Adw.ApplicationWindow` / `Adwaita::ApplicationWindow` |
+| Welcome window | `src/welcome.js` + `welcome.blp` | `lib/junction_rb/welcome_window.rb` | `Adw.ApplicationWindow` |
+| About dialog | `src/about.js` | `lib/junction_rb/about_dialog.rb` | `Adw.AboutDialog` |
+| Shortcuts reference | `src/ShortcutsWindow.js` + `.blp` | `lib/junction_rb/shortcuts_dialog.rb` | `Gtk.ShortcutsWindow` → `Adwaita::ShortcutsDialog` |
+| Main menu (×2 buttons) | `window.blp` `menu menu_model` | `lib/junction_rb/menu_model.rb` | `Gio.Menu` |
+| Theme switcher | `troll/src/widgets/ThemeSelector.js` (submodule) | `lib/junction_rb/theme_switcher.rb` | `Gtk.Box` of 3 `Gtk.CheckButton` |
+| Application tile | `src/AppButton.js` + `AppButton.blp` | `lib/junction_rb/app_button.rb` + `tile_button.rb` | `Gtk.Button` |
+| "Open Location" tile | `ShowInFolderButton` in `AppButton.js` | `lib/junction_rb/show_in_folder_button.rb` | `Gtk.Button` |
+| URI bar | `src/Entry.js` | `lib/junction_rb/uri_entry.rb` | `Gtk.Entry` |
+| Desktop-action popover | `popupActionsMenu` in `AppButton.js` | `AppButton#popup_actions_menu` | `Gtk.PopoverMenu` |
 
-| Upstream file(s) | Port file | Kind |
+## Chooser window tree
+
+| Node | Upstream (`window.blp`) | Port (`window.rb`) |
 |---|---|---|
-| `src/application.js`, `src/main.js`, `src/bin.js`, `src/local.js` | `lib/junction_rb/application.rb`, `lib/junction_rb.rb`, `exe/junction-rb` | application / actions / accelerators |
-| `src/window.blp` + `src/window.js` | `lib/junction_rb/window.rb` | window (the chooser) |
-| `menu menu_model` in `src/window.blp` | `lib/junction_rb/menu_model.rb` | menu model |
-| `src/AppButton.blp` + `TileButton()` | `lib/junction_rb/tile_button.rb` | grid-tile base |
-| `AppButton()` in `src/AppButton.js` | `lib/junction_rb/app_button.rb` | application tile |
-| `ShowInFolderButton()` in `src/AppButton.js` | `lib/junction_rb/show_in_folder_button.rb` | "Open Location" tile |
-| `src/Entry.js` + `Entry entry` in `src/window.blp` | `lib/junction_rb/uri_entry.rb` | URI bar |
-| `troll/src/widgets/ThemeSelector.js` + its CSS | `lib/junction_rb/theme_switcher.rb`, tail of `data/style.css` | menu custom slot |
-| `src/welcome.blp` + `src/welcome.js` | `lib/junction_rb/welcome_window.rb` | welcome window / empty state |
-| `src/ShortcutsWindow.blp` + `src/ShortcutsWindow.js` | `lib/junction_rb/shortcuts_dialog.rb` | shortcuts dialog |
-| `src/about.js` | `lib/junction_rb/about_dialog.rb` | about dialog + debug report |
-| `src/common.js` + `data/*.gschema.xml` | `lib/junction_rb/settings.rb`, `data/schemas/re.sonny.Junction.Rb.gschema.xml` | GSettings |
-| `src/util.js` (`readResource`, `parse`, x-junction) | `lib/junction_rb/resource.rb` | model: the thing being opened |
-| `getApplications()`, `openWith*`, `getKeyFile`, `flatpakify` | `lib/junction_rb/desktop_entry.rb` | model: candidate application |
-| `spawn*`, `getOSRelease`, `getFlatpakInfo`, `getIconFilename`, `getRealPath` | `lib/junction_rb/host.rb` | host / sandbox |
-| `Xdp.Portal` use in `application.js`, `AppButton.js` | `lib/junction_rb/portal.rb`, `lib/junction_rb/background_request.rb` | XDG portals |
-| `src/style.css` | `data/style.css` | stylesheet |
-| `data/re.sonny.Junction.desktop` | `data/re.sonny.Junction.Rb.desktop` | desktop entry |
-| `data/re.sonny.Junction.metainfo.xml` | `data/re.sonny.Junction.Rb.metainfo.xml` | AppStream |
-| `data/re.sonny.Junction.service` | `data/re.sonny.Junction.Rb.service` | D-Bus activation |
-| `data/icons/*` | `data/icons/**` | icons |
-| `po/` (on `origin/l10n`) | `po/` | catalogue, 32 languages |
-| — | `lib/junction.rb`, `lib/junction/application.rb`, `exe/junction` | **extra: dead scaffold, still wired to an installed executable** |
+| window | `styles ["main"]`, 772×218, min 360×218 | `add_css_class('main')`, same sizes ✓ |
+| window (dev) | `__DEV__` → `devel` class | `JunctionRb.dev?` → `devel` ✓ |
+| breakpoint | `max-aspect-ratio: 1`, 5 setters | `Adwaita::BreakpointCondition.parse`, `apply`/`unapply` → same 5 ✓ |
+| `toolbar_view` | `Adw.ToolbarView`, `reveal-top-bars: false` | ✓ |
+| `header_bar` | `Adw.HeaderBar` [top], start `button_menu_top` | ✓ |
+| `button_menu_top` / `_bottom` | `MenuButton`, `open-menu-symbolic`, tooltip `Main Menu`, `valign: center`, `primary: true`, `styles ["circular","flat"]` | ✓ both, each with its own model and `ThemeSwitcher` in the `themeswitcher` slot ✓ |
+| content | `WindowHandle > ScrolledWindow(vexpand) > FlowBox list` | ✓ |
+| `list` | `styles ["list"]`, max 5 / min 2 per line, homogeneous, 12/12 spacing, `selection-mode: none`, `activate-on-single-click: true`, halign/valign center | ✓ all nine |
+| flow-box child | `Gtk.FlowBoxChild { focusable: false }` | ✓ |
+| bottom bar | `Box`, spacing 12, `styles ["bar"]` | ✓ |
+| `entry` | `hexpand`, `input-purpose: url`, `xalign: 0.5`, `styles ["uri"]` | ✓ |
+| `window_controls_bottom` | `WindowControls`, `decoration-layout: "close"`, **side defaults to start** | `Gtk::WindowControls.new(:end)` — **differs**, see component-parity P2 |
 
-## Window — `src/window.blp` + `src/window.js` → `lib/junction_rb/window.rb`
+## Signals and controllers
 
-| Widget | ×up | ×port | CSS | Signals / actions |
-|---|---:|---:|---|---|
-| `Adw.ApplicationWindow` | 1 | 1 | `main`, `devel` (dev) | 772×218, min 360×218 |
-| `Adw.Breakpoint` | 1 | 1 | — | `max-aspect-ratio: 1`; port drives it from `apply`/`unapply` |
-| `Adw.ToolbarView` | 1 | 1 | — | `reveal-top-bars` false, true in portrait |
-| `Adw.HeaderBar` | 1 | 1 | — | — |
-| `Gtk.MenuButton` | 2 | 2 | `circular`, `flat` | `open-menu-symbolic`, `primary`, tooltip `Main Menu`, `themeswitcher` custom child |
-| `Gtk.WindowHandle` | 1 | 1 | — | — |
-| `Gtk.ScrolledWindow` | 1 | 1 | — | `vexpand` |
-| `Gtk.FlowBox` | 1 | 1 | `list` | 2–5 per line, homogeneous, 12px spacing, single click, no selection |
-| `Gtk.FlowBoxChild` | repeater | repeater | — | `focusable: false` |
-| `Gtk.Box` (bottom bar) | 1 | 1 | `bar` | spacing 12 |
-| `Gtk.Entry` | 1 | 1 | `uri` | see URI bar |
-| `Gtk.WindowControls` | 1 | 1 | — | `decoration-layout: "close"`, hidden in portrait |
-| `Gtk.EventControllerKey` | 1 | 1 | — | `key-pressed` → focus tile 1…9, `key-released` → activate |
+| Component | Upstream | Port |
+|---|---|---|
+| window | `Gtk.EventControllerKey` → `key-pressed` focus nth tile, `key-released` activate nth tile, both return `!!button` | ✓ `key_controller`, returns `!tile.nil?` |
+| tile | `clicked` → open+close | ✓ `TileButton#build` |
+| tile | `Gtk.GestureClick{button: 0}` → `pressed`: secondary = actions menu, middle = open and stay, primary = open, Ctrl held = stay; else `DENIED` | ✓ `AppButton#handle_press`, same four branches, same `claimed`/`denied` |
+| tile | `Gtk.GestureLongPress` → actions menu, `CLAIMED` | ✓ |
+| tile | `Gtk.EventControllerKey` → `key-released`: `Menu` = actions menu; Ctrl+`Return`/`space` = open and stay | ✓ `AppButton#handle_key` |
+| entry | `Gtk.EventControllerFocus` → `enter`, deferred `select_region(-1,0)` + `position = -1` via timeout | ✓ `UriEntry#scroll_to_end` |
+| welcome install button | `clicked => $onInstall()` | ✓ |
+| theme buttons | `notify::active` → check icon visible | ✓ |
+| settings | `changed::color-scheme` → `StyleManager.set_color_scheme` | ✓ `Settings#on_color_scheme_change` |
+| app | `startup`, `open`, `activate`, `handle-local-options` | ✓ all four |
 
-Actions: `win.copy`, `win.show-app-names` (from GSettings), and the desktop-action
-runner — upstream `win.run_action` with an `a{ss}` target, port `win.run-action`
-with an `as` target.
-Repeaters: one tile per recommended application, then one `Open Location` tile
-when the resource is a local file that is neither `inode/directory` nor
-`application/octet-stream`.
+## Actions, accelerators, preferences
 
-## Menu — `menu menu_model` → `lib/junction_rb/menu_model.rb`
+| Action | Upstream | Port |
+|---|---|---|
+| `app.quit` | `<Primary>Q` | ✓ |
+| `app.about` | no accel | ✓ |
+| `app.shortcuts` | `<Primary>question` | ✓ |
+| `app.color-scheme` | `settings.create_action` | ✓ |
+| `app.restart` | `__DEV__` only, `<Primary><Shift>Q` | ✓ `JunctionRb.dev?` |
+| `window.close` | `<Primary>W`, `Escape` | ✓ |
+| `win.copy` | `<Primary>C` | ✓ |
+| `win.show-app-names` | `settings.create_action` | ✓ |
+| `win.run_action` | `a{ss}` target | `win.run-action`, `as` target — renamed on both sides consistently |
+| CLI `--terminate_after_init` | `handle-local-options` → 0 | ✓ |
+| CLI parameter string / description | `[URI…]`, `<https://junction.sonny.re>` | ✓ |
+| GSettings `show-app-names` (b, false) | ✓ | ✓ |
+| GSettings `color-scheme` (i, 0) | ✓ | ✓ |
 
-Three sections, one custom slot (`themeswitcher`) plus four labelled items:
-`Show App Names`, `Copy to Clipboard` (`win.`), `Keyboard Shortcuts`,
-`About Junction` (`app.`). Port matches, and builds a fresh model per button
-because a widget can only live in one popover.
+## Empty and error states
 
-## Tiles — `src/AppButton.blp` + `src/AppButton.js` → `tile_button.rb`, `app_button.rb`, `show_in_folder_button.rb`
+| State | Upstream | Port |
+|---|---|---|
+| no application handles the type | empty `FlowBox`, no placeholder | ✓ same (empty grid) |
+| content type unknowable | `logError`, fall back to `application/octet-stream` | ✓ `Resource#query_content_type` rescue |
+| insecure (`http`) resource | primary entry icon `channel-insecure-symbolic`, insensitive, non-activatable, tooltip | ✓ `UriEntry#mark_insecure` |
+| launch failed | `console.error("Could not launch …")`, window stays open | ✓ `warn`, window stays |
+| key file unreadable | `console.error`, return `null` | ✓ `DesktopEntry#load_key_file` rescue |
+| actions menu empty | no popup | ✓ `if menu.n_items.positive?` |
+| "Open Location" refused by portal | window stays open | ✓ `ShowInFolderButton#open_containing_folder` |
+| default-handler registration failed | opens `<site>/error` | ✓ `WelcomeWindow#claim` checks exit status |
+| icon is neither themed nor a file | no image set (blank tile) | port adds `application-x-executable-symbolic` (addition) |
 
-| Widget | × | CSS | Signals |
-|---|---:|---|---|
-| `Gtk.Button` | 1 | `flat`, 134×134 | `clicked` → open and close |
-| `Gtk.Box` | 1 | — | vertical, centred |
-| `Gtk.Image` | 1 | `icon-dropshadow` | 92px (48px on Open Location) |
-| `Gtk.Label` | 1 | — | ellipsize end, 10 chars, `visible` bound to `show-app-names` |
-| `Gtk.PopoverMenu` | 1 | — | desktop actions, rebuilt on each popup |
-| `Gtk.GestureClick` (`button: 0`) | 1 | — | right → actions menu, middle → open-and-stay, Ctrl+left → open-and-stay |
-| `Gtk.GestureLongPress` | 1 | — | actions menu |
-| `Gtk.EventControllerKey` | 1 | — | `Menu` → actions menu; Ctrl+Return/space → open-and-stay |
+## Components upstream has that the port has no counterpart for
 
-## URI bar — `src/Entry.js` → `uri_entry.rb`
+- `data/screenshot.png`, `data/screenshot-file.png`, `data/screenshot-mobile.png`
+  and two of the three `<screenshot>` entries that reference them.
+- `re.sonny.Junction.json` (Flatpak manifest) and
+  `build-aux/flatpak/glib-appinfo.patch`.
+- `data/meson.build` / `meson.build`: the install rules for the desktop file,
+  metainfo, schema and icons, the `i18n.merge_file` translation merge, and the
+  three validation tests (`desktop-file-validate`, `appstreamcli validate`,
+  `glib-compile-schemas --strict`).
+- `<url type="donation">`, `<update_contact>` in the metainfo.
 
-`Gtk.Entry` `.uri`, `input-purpose: url`, `xalign 0.5`, `hexpand`. Editable for
-URLs, read-only for files; caret at position 0 for a URL and -1 for a filename.
-`http` gets a non-sensitive, non-activatable `channel-insecure-symbolic`
-primary icon with GNOME's own wording as the tooltip. A
-`Gtk.EventControllerFocus` deselects and scrolls to the end on `enter`,
-deferred one main-loop turn. Port matches on all five facets.
+## Components the port adds
 
-## Theme switcher — `troll/src/widgets/ThemeSelector.js` → `theme_switcher.rb`
-
-`Gtk.Box.themeswitcher` (homogeneous, 18px) holding three
-`Gtk.Overlay` → `Gtk.CheckButton` (`.light`, `.system`, `.dark`, one group) each
-overlaid with a `Gtk.Image.check` (`object-select-symbolic`, 13px). The 46 CSS
-lines are reconstructed at the tail of `data/style.css`. `system` is hidden
-when `Adw.StyleManager` reports no system preference.
-**Divergence:** upstream's three check buttons target the stateful
-`app.color-scheme` action; the port connects `notify::active` and writes
-GSettings directly, so the action exists with nothing targeting it.
-
-## Welcome window — `src/welcome.blp` + `src/welcome.js` → `welcome_window.rb`
-
-| Widget | × | CSS | Signals |
-|---|---:|---|---|
-| `Adw.ApplicationWindow` | 1 | `welcome`, `devel` | title `Junction`, `hide-on-close` |
-| `Adw.ToolbarView` + `Adw.HeaderBar` | 1 | — | — |
-| `Gtk.Button` (about) | 1 | — | `action-name: app.about`, `help-about-symbolic`, tooltip |
-| `Gtk.Box` `#content` | 1 | — | 68px padding from the stylesheet, spacing 14 |
-| `Gtk.Image` | 1 | — | app icon, 128px |
-| `Gtk.LinkButton` | 1 | — | `Test Junction` → `<site>/demo` |
-| `Gtk.Button` (install) | 1 | — | `clicked` → claim http/https, then open `/success` or `/error` |
-
-## Shortcuts — `src/ShortcutsWindow.blp` → `shortcuts_dialog.rb`
-
-Upstream: `Gtk.ShortcutsWindow` (`modal: false`, transient for the active
-window) → 1 `ShortcutsSection` → 2 `ShortcutsGroup` → 8 `ShortcutsShortcut`.
-Port: `Adwaita::ShortcutsDialog` → 2 `ShortcutsSection` → 8 `ShortcutsItem`
-(GTK deprecated `ShortcutsWindow` in 4.18). All eight accelerators and titles
-are present. **Divergence:** the port titles the second section `Application`;
-upstream's groups are untitled, so this is a new user-visible string.
-
-## About — `src/about.js` → `about_dialog.rb`
-
-`Adw.AboutDialog` with the full credit list, the `Contributors` credit section,
-and the debug report. Port's report drops `datadir` and the libadwaita version
-line, and names Ruby / ruby-gnome in place of GJS.
-
-## Application — `src/application.js` + `src/main.js` → `application.rb`
-
-Actions `app.quit`, `app.about`, `app.shortcuts`, `app.color-scheme`,
-`app.restart` (dev only). Accelerators `<Primary>Q`, `<Primary>question`,
-`<Primary><Shift>Q`, `window.close` on `<Primary>W` and `Escape`, `win.copy` on
-`<Primary>C`. `HANDLES_OPEN`, `hold()`, `--terminate_after_init`,
-option-context parameter string and description, colour scheme from GSettings,
-http/https claimed under Flatpak, background portal request on activate.
-All present.
-
-## Under-reports the scan cannot see, resolved by reading
-
-- **Repeaters.** One `AppButton` per recommended application, plus a
-  conditional `ShowInFolderButton`. One scan row, N components.
-- **Shared factory.** `Window#menu_button` is one method called from two
-  memoized accessors — two `Gtk.MenuButton`s, one textual occurrence (the scan
-  shows `Gtk.MenuButton 1` for the port against `2` upstream; the port is
-  correct).
-- **Dynamic CSS.** `devel` is added at runtime on both windows; the theme
-  switcher's `.light`/`.system`/`.dark` come from `add_css_class(name.to_s)`.
-- **Submodule.** `troll`'s `ThemeSelector` produces no upstream rows at all, so
-  the port's faithful copy reads as an unexplained extra. It is not.
-- **Action names from a table.** `Application::ACCELERATORS` and the GSettings
-  `create_action` calls put no literal in the `action` stream.
+`lib/junction_rb/host.rb` (sandbox predicate + portal wrappers),
+`lib/junction_rb/portal.rb` (GI loader for Xdp/XdpGtk4),
+`lib/junction_rb/background_request.rb` (Fiddle call for the GPtrArray
+argument), `lib/junction_rb/theme_switcher.rb` (an in-repo copy of troll's
+widget, including its CSS, appended to `data/style.css`),
+`lib/junction_rb/tile_button.rb` (the shared tile shape upstream expresses as
+one `.blp` used twice). All five are mechanism, not new UI.

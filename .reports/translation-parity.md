@@ -1,123 +1,160 @@
-# Translation parity — Junction-rb against `origin/main` (+ `origin/l10n` for `po/`)
+# Translation parity — Junction-rb against `origin/main`
 
-Upstream's `main` carries no `po/`; the catalogue lives on `origin/l10n`
-(32 languages, `po/re.sonny.Junction.pot`, `po/meson.build`). The msgid *set*
-is therefore taken from the `_()` markers in `origin/main`'s sources plus its
-`data/` files, which is what a fresh `xgettext` run would produce.
+Verdict: **not clean.** The catalogue survived — 32 languages, byte-identical
+msgids, upstream's gettext domain kept so the `.mo` files are still found — but
+a third of the strings the port actually displays have no msgid in any
+catalogue, and the data-file translations are never merged into the files that
+would carry them.
 
-Verdict: **not clean.** The 32 catalogues survived byte for byte, 21 of 24
-source msgids match byte for byte — and none of it reaches a user, because no
-compiled catalogue is committed or packaged.
+## Setup, and what the spec is
 
-## Claim 3 first, because it voids the other two
+`origin/main` has **no `po/` directory**: `git ls-tree -r --name-only
+origin/main | grep po/` is empty, and `meson.build` has no `subdir('po')`.
+Upstream keeps its catalogue on a separate l10n branch; `data/meson.build`
+reads it with `po_dir: '../po'`. So the spec for this report is in two parts:
 
-**`locale/` is gitignored and absent from `spec.files`.**
+1. the msgids upstream *marks* — `_()` in `src/*.js`, `_("…")` in `src/*.blp`,
+   the translatable fields of `data/re.sonny.Junction.desktop` and
+   `data/re.sonny.Junction.metainfo.xml`, and the `gettext-domain` of
+   `data/re.sonny.Junction.gschema.xml`;
+2. the 32 catalogues the port ships in `po/`, which came across from upstream's
+   l10n branch and are the asset most easily destroyed by a port.
 
-- `lib/junction_rb.rb:48` — `LOCALE_DIR = File.expand_path('../locale', __dir__)`
-- `.gitignore:11` — `/locale/`
-- `junction-rb.gemspec:72-82` — `spec.files` enumerates `lib`, `exe`,
-  `data/**/*` and `po/**/*`. Not `locale/**/*`.
-- `locale/` does not exist in the working tree.
+The domain is kept correctly: `JunctionRb::TEXT_DOMAIN = 're.sonny.Junction'`
+(`lib/junction_rb.rb`), the gschema's `gettext-domain`, the metainfo's
+`<translation type="gettext">` and `Rakefile:222` all say
+`re.sonny.Junction`, not `.Rb`. A `.mo` is looked up by domain name, so this is
+the single decision that keeps all 32 languages alive, and it was made right.
+`po/LINGUAS` lists 32 locales, `po/` holds 32 `.po` files, and
+`locale/*/LC_MESSAGES/re.sonny.Junction.mo` holds 32 compiled catalogues.
 
-So `bindtextdomain('re.sonny.Junction', path: <gem>/locale)` resolves to a
-directory that is not in the repository and not in the built gem. Every
-`_()` call returns its msgid, in all 32 languages. The `.po` files ship as
-data nothing reads.
+## Gap 1 — the desktop file and the metainfo are never merged with the catalogue
 
-Upstream compiles its catalogue in `po/meson.build` as part of the build, so an
-installed Junction has 32 `.mo` files under `$prefix/share/locale`. The port's
-equivalent is `rake gettext:mo:update`, which is a developer task nobody runs
-at install time.
+Upstream builds both through `i18n.merge_file` (`data/meson.build:1-24`), which
+runs `msgfmt --desktop` / `msgfmt --xml` against `po/` and installs a file
+containing `Comment[fr]=…`, `<summary xml:lang="fr">…` and a translated
+`<caption>` for every one of the 32 languages.
 
-Fix, in order: add `locale/**/*.mo` to `spec.files`, un-ignore the compiled
-output (or generate it from a gemspec/extension hook), and make `rake test`
-depend on the compile so the wiring is exercised. Until then the port is
-"translated into English".
+The port has no equivalent step anywhere: `Rakefile`'s only translation tasks
+are `gettext:*` (which compile `.mo` files for the Ruby gem's own lookups) and
+`po:check` (which validates format specifiers). `namespace :install` installs
+the D-Bus service and nothing else.
 
-## Claim 1 and 2 — the key sets
+Consequence: `Comment=Application chooser` ships in English only, and so do
+`<summary>` and the screenshot caption. These are the strings a user sees in
+the application grid and in the software centre — the most visible translated
+text the project has — and all 32 translations of them are present in `po/`
+and reach nothing.
 
-Census: `.claude/skills/translation-parity/scripts/msgid-census.sh`, run over a
-clean `git archive origin/main` export and over the working tree, with `po/`
-rows excluded from the port side.
+Fix: an install task that runs `msgfmt --desktop --template=<desktop> -d po -o
+<out>` and `msgfmt --xml --template=<metainfo> -d po -o <out>` before copying,
+as part of closing component-parity P0.
 
-### Byte-identical, present on both sides (21)
+## Gap 2 — eight strings the port displays have no msgid in any catalogue
 
-`About Junction` · `Application chooser` ·
-`Choosy;BrowserChooser;Braus;Browserosaurus;Finicky;Buffet;OpenIn;BrowserSelect;` ·
-`Copy to Clipboard` · `Discard and close` · `Keyboard Shortcuts` ·
-`Main Menu` · `Open Location` · `Open with application at position` ·
-`Open with selected application` ·
-`Open with selected application and stay active` · `Quit` ·
-`Run Junction in the background.` · `Select next/previous application` ·
-`Set Junction as default for Web` · `Show App Names` · `Test Junction` ·
-`This site has no security. An attacker could see any information you send, or control the content that you see.` ·
-`translator-credits` · `View File in File Manager` ·
-`Choose the browser to open the link with`
+Every `_()` / `N_()` marker in `lib/` and `exe/`, checked against all 32 `.po`
+files:
 
-Produced differently in several cases — `N_()` in a frozen table with `_()` at
-display (`shortcuts_dialog.rb`, `uri_entry.rb`, `host.rb`) rather than a
-`.blp` label — which is fine: the key that reaches the catalogue is the same.
-
-### Gaps — upstream keys the port does not emit (3)
-
-| msgid | Upstream | Port | Why it is a gap |
-|---|---|---|---|
-| `Junction` | `data/re.sonny.Junction.desktop:3` (`Name=`) | `Name=Junction (Ruby)` | The upstream key is gone and a new, untranslated key takes its place. Both halves count. Upstream's own comment says "Do NOT translate", but `xgettext` extracts `Name=` regardless and the l10n `.pot` carries it. |
-| `Choose the application to open the image with` | metainfo `<caption>` | — | The `screenshot-file.png` screenshot was not ported, so the caption went with it. 32 translations stranded. |
-| `Junction supports Linux mobile` | metainfo `<caption>` | — | Same, for `screenshot-mobile.png`. |
-
-### Extra port keys nobody has translated (1)
-
-| msgid | Where |
+| msgid | catalogues containing it |
 |---|---|
-| `Junction (Ruby)` | `data/re.sonny.Junction.Rb.desktop:3` |
+| `About Junction` | 32 |
+| `Copy to Clipboard` | 32 |
+| `Discard and close` | 32 |
+| `Keyboard Shortcuts` | 32 |
+| `Open with application at position` | 32 |
+| `Open with selected application` | 32 |
+| `Open with selected application and stay active` | 32 |
+| `Quit` | 32 |
+| `Select next/previous application` | 32 |
+| `Set Junction as default for Web` | 32 |
+| `Test Junction` | 32 |
+| `This site has no security. An attacker could see any information you send, or control the content that you see.` | 32 |
+| `translator-credits` | 32 |
+| **`Main Menu`** | **0** |
+| **`Show App Names`** | **0** |
+| **`Open Location`** | **0** |
+| **`View File in File Manager`** | **0** |
+| **`Run Junction in the background.`** | **0** |
+| **`Light Style`** | **0** |
+| **`Dark Style`** | **0** |
+| **`Follow System Style`** | **0** |
 
-If the port genuinely needs a distinguishable name — and installing beside the
-original is the whole reason for the `.Rb` suffix — the honest shape is
-`Name=Junction` with `X-GNOME-FullName` or a `NoDisplay` sibling, or
-`translatable="no"` handling that keeps the msgid intact. The current form
-deletes 32 translations of one word.
+Eight of twenty-one marked strings — the main menu button's tooltip, one of the
+two preferences in that menu, both strings on the "Open Location" tile, the
+portal's background-permission reason, and all three theme-switcher tooltips —
+render in English in every locale.
 
-### Unmarked user-visible strings in the port (5)
+The catalogue predates the UI it is paired with. It still carries msgids for
+controls that no longer exist (`Reveal`, `Reveal in Folder`, `Show names`,
+`All Applications`, `View All`, `Middle click to open in multiple
+applications`) — the older spellings of exactly the strings now missing. So the
+translators' work for these controls exists, under previous msgids, and the
+port shipped the catalogue without ever merging it against its own message set.
 
-These never reach the catalogue at all, so they are English for everyone:
+Evidence that the merge has never been run: there is **no `.pot` file** in the
+repository (`ls po/` → 32 `.po`, `LINGUAS`, `POTFILES`), and `po/*.po` carry no
+`#:` source references for any `lib/*.rb` file. `GetText::Tools::Task` would
+generate `po/re.sonny.Junction.pot` on `rake gettext:po:update`; nothing in the
+tree shows it ever has.
 
-| String | Where | Upstream |
-|---|---|---|
-| `Light Style` | `theme_switcher.rb:12` | `troll`'s `ThemeSelector`; also unmarked upstream, but it is a port string now |
-| `Follow System Style` | `theme_switcher.rb:13` | as above |
-| `Dark Style` | `theme_switcher.rb:14` | as above |
-| `Application` | `shortcuts_dialog.rb:24` | **no upstream counterpart** — the port invented this section title |
-| `Contributors` | `about_dialog.rb:32` | unmarked upstream too (`about.js:68`) |
+Fix: run `rake gettext:po:update`, then `msgmerge` the retired msgids onto
+their successors (or let translators re-fill eight strings) and commit the
+`.pot` so the next pass can diff instead of grep.
 
-`Application` is the one that matters: it is a string the port added, visible in
-a dialog, in no catalogue.
+## Gap 3 — one msgid with 32 translations was deleted by dropping a screenshot
 
-### `po/POTFILES` is incomplete
+`Choose the application to open the image with` is the caption of upstream's
+`screenshot-file.png`. It is present in all 32 catalogues and absent from the
+port, because the port ships one `<screenshot>` instead of three
+(component-parity P4). The third caption, `Junction supports Linux mobile`, is
+also absent from the port, and is not in the catalogue either.
 
-`po/POTFILES` lists eight `lib/` files. It omits
-`lib/junction_rb/theme_switcher.rb` and `lib/junction_rb/application.rb`, so
-even once the strings above are marked, `rxgettext` will not see them.
+That is a msgid that did not survive, which is precisely what this report is
+for.
 
-### The catalogues themselves
+## Gap 4 — `po/POTFILES` is not what extracts anything
 
-- `po/*.po` are **byte-identical** to `origin/l10n:po/*.po` for every language
-  checked (`fr`, `de`, `ja` diffed clean), and `po/LINGUAS` matches exactly:
-  32 languages. Claim 3's "the languages come with it" half is satisfied as
-  source; it is the compile and the packaging that are missing.
-- `po/re.sonny.Junction.pot` was **not** ported. Upstream ships it on `l10n`.
-  Without a committed template there is no reviewable record of the current key
-  set, which is how three msgids went missing unnoticed.
-- The l10n snapshot predates upstream's current wording: `Show names`,
-  `Reveal`, `Reveal in Folder`, `All Applications`, `View All`. The port
-  correctly follows current upstream (`Show App Names`, `Open Location`,
-  `View File in File Manager`) and so inherits the same five-string translation
-  debt upstream has. Not a port gap.
+`po/POTFILES` lists the three data files first:
 
-## Summary
+```
+data/re.sonny.Junction.Rb.desktop
+data/schemas/re.sonny.Junction.Rb.gschema.xml
+data/re.sonny.Junction.Rb.metainfo.xml
+```
 
-| Claim | State |
-|---|---|
-| 1. Key sets equal | **fail** — 3 upstream keys missing, 1 extra |
-| 2. Each key byte-identical | **fail** on `Junction` → `Junction (Ruby)`; pass on the other 21 |
-| 3. Languages come with it | **fail** — 32 `.po` present, 0 `.mo` committed or packaged |
+`Rakefile:230-232` sets
+
+```ruby
+task.files = Dir.glob("lib/**/*.rb") + Dir.glob("exe/*")
+```
+
+so `POTFILES` is never read and the three data files are never scanned. Run
+`rake gettext:po:update` as it stands and every data-file msgid —
+`Application chooser`, the keyword list, the screenshot caption — is marked
+obsolete in all 32 catalogues and eventually dropped. `POTFILES` is currently
+documentation of an intent the build does not honour, and the one place it
+matters is also the place where running the task is dangerous.
+
+Fix: either feed `POTFILES` to `task.files`, or extract the data files
+separately (`xgettext --language=Desktop`, `--its`) and keep one message set.
+
+## Things done right, recorded so they are not re-litigated
+
+- Domain kept as `re.sonny.Junction` everywhere, so no `.mo` is orphaned.
+- msgids byte-identical to upstream's, including the translator comment on the
+  insecure-site string, which `--add-comments=TRANSLATORS` preserves.
+- `N_()` for strings in frozen constants (`UriEntry::INSECURE_TOOLTIP`,
+  `ShortcutsDialog::SECTIONS`, `ThemeSwitcher::TOOLTIPS`,
+  `Host::BACKGROUND_REASON`), translated at display — the locale is not settled
+  at load time, and this is the only correct shape.
+- `bindtextdomain` on the namespace module, so every `JunctionRb::*` class
+  resolves the domain through `GetText::ClassInfo#related_classes`, plus
+  `GLib::GetText.bindtextdomain` for GLib's own lookups.
+- `Name=Junction`, `Keywords=` and `X-Purism-FormFactor=` keep upstream's
+  `# TRANSLATORS: Do NOT translate` comments; `X-GNOME-FullName` is an `X-` key
+  and is not extracted, so naming the port adds no untranslated msgid.
+- `rake po:check` runs GNU `msgfmt -c --check-format` over all 32 files, which
+  `rmsgfmt` cannot do. This is strictly better than upstream, which has no
+  format check at all.
+- `<name translatable="no">`, `<description translatable="no">` and the
+  release notes `translatable="no"` match upstream's own markers.

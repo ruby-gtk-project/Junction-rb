@@ -1,124 +1,113 @@
 # Test parity — Junction-rb against `origin/main`
 
-Upstream suite: `test/util.test.js`, run by `troll/tst`. Four tests.
-Port suite: seven files run by `rake test`, 170 `check(...)` assertions.
+Upstream suite: `test/util.test.js`, run by `troll/tst`. Four tests,
+~40 assertions, covering `parse`, `readResource`, `prefixCommandLineForHost`
+and `getIconFilename`. Upstream additionally registers three validation tests
+in `data/meson.build`.
 
-Verdict: **not clean.** The port has far more assertions than upstream, but
-two of upstream's four tests are only partially ported and the cases upstream
-specifically pinned are the ones missing. Volume is not parity.
+Port suite: eight files listed in `Rakefile:184-198`, run one process each by
+`rake test`.
 
-| # | Upstream test | Port test(s) | State |
+Verdict: **not clean** — but the body of upstream's own suite is now fully
+ported. The remaining gaps are upstream's *build-time* tests and the fact that
+the port's suite cannot be executed.
+
+## Upstream's four unit tests: ported in full
+
+| # | Upstream test | Port | State |
 |---|---|---|---|
-| 1 | `test/util.test.js:19` `parse` | `test/resource_test.rb:102-125` (6 `check`s on `Resource.parse_location`) | **gap** — partial |
-| 2 | `test/util.test.js:35` `readResource` | `test/resource_test.rb:32-98` (19 `check`s) | **gap** — partial |
-| 3 | `test/util.test.js:103` `prefixCommandLineForHost` | `test/desktop_entry_test.rb:188-194` (2 `check`s) | **gap** — partial |
-| 4 | `test/util.test.js:128` `getIconFilename` | `test/desktop_entry_test.rb:196` (1 `check`) | **gap** — partial |
+| 1 | `util.test.js:19` `parse` (10 assertions) | `test/resource_test.rb:150-205` (12 checks on `Resource.parse_location`) | **ported** |
+| 2 | `util.test.js:35` `readResource` (11 inputs) | `test/resource_test.rb:32-148` | **ported** |
+| 3 | `util.test.js:103` `prefixCommandLineForHost` (4 assertions, both sandbox states) | `test/desktop_entry_test.rb:224-241` | **ported** |
+| 4 | `util.test.js:128` `getIconFilename` (8 assertions) | `test/desktop_entry_test.rb:245-283` | **ported** |
 
-Counts: upstream 4, port 4 mapped — but all four are partial, so the bijection
-holds and claim 3 ("each pair tests the same thing") fails four times out of
-four.
+Bijection holds four for four, and each pair now tests the same thing:
 
-## 1 — `parse` → `Resource.parse_location`
+- **`parse`** — every one of upstream's ten inputs is asserted on the same
+  expected value, including the five the previous pass flagged: `~/` collapsing
+  to `$HOME`, `/` → `file:///`, `/foo/` keeping its trailing slash,
+  `mailto:foo@bar.com` passing through untouched, and `http://example.com`
+  passing through untouched.
+- **`readResource`** — all eleven inputs, including `/`, `x-junction:///`,
+  `file:///etc/os-release`, `x-junction:///etc/os-release`, `x-junction://~`,
+  `x-junction://~/.config` (both hitting the `Gio::File.parse_name` branch the
+  previous pass found dead), and a non-existent path falling back to
+  `application/octet-stream` through the `query_info` rescue.
+- **`prefixCommandLineForHost`** — upstream's exact command line
+  `foo --bar hello='world' something="wow"` in both sandbox states, plus the
+  no-double-prefix case in both. The seam is `Host.flatpak = true/false`
+  (`host.rb:33-39`), which is the direct analogue of upstream assigning over
+  `Xdp.Portal.running_under_flatpak`, and it is reset to `nil` afterwards with
+  a check that the question goes back to libportal.
+- **`getIconFilename`** — all four paths (`/usr/share`, `/etc/foo`,
+  `/home/foo`, `/opt/foo`) × both sandbox states, pinning that only `/usr/` and
+  `/etc/` are rewritten.
 
-Upstream asserts ten inputs. The port asserts six, and five of upstream's are
-absent:
+## Gap 1 — upstream's three build-time tests are not ported
 
-| Upstream assertion | Port |
-|---|---|
-| `parse("~")` → `file://$HOME` | `check('a tilde is expanded')` only asserts `start_with?('file:///')`, not the value |
-| `parse("~/")` → `file://$HOME` | **missing** — the trailing-slash collapse is untested |
-| `parse("~/foo")` → `file://$HOME/foo` | ported |
-| `parse("/")` → `file:///` | **missing** |
-| `parse("/foo/")` → `file:///foo/` | **missing** — the trailing slash must survive |
-| `parse("/foo")` → `file:///foo` | ported (`/tmp/x`) |
-| `parse("/foo/bar")` → `file:///foo/bar` | ported |
-| `parse("mailto:foo@bar.com")` unchanged | **missing** — and `mailto:` is the scheme upstream's own FIXME is about |
-| `parse("http://example.com")` unchanged | **missing** |
-| `parse(".../query?q=random%2Fword")` unchanged | ported |
+`data/meson.build` registers these as `test()`s, so upstream's CI fails on a
+malformed data file:
 
-Behaviour still owed: a user who types `~/`, `/`, a directory path with a
-trailing slash, or a `mailto:` address into the URI bar gets the right URI
-handed to the application they pick.
+| Upstream test | Command | Port |
+|---|---|---|
+| "Validate desktop file" | `desktop-file-validate` | **missing** |
+| "Validate appstream file" | `appstreamcli validate --no-net --explain` | **missing** |
+| "Validate schema file" | `glib-compile-schemas --strict --dry-run` | **missing** — `rake schema` compiles without `--strict` |
 
-## 2 — `readResource` → `Resource`
+These are the tests that would catch the data-file problems in
+`.reports/component-parity.md` (P4, P7) and anything else wrong with a metainfo
+that has been substantially rewritten for the port.
 
-Upstream asserts the whole `{resource, scheme, content_type}` triple over
-eleven inputs. The port's 19 checks cover scheme, content type, entry text and
-`show_in_folder?` separately — broader in some directions, and missing four of
-upstream's inputs entirely:
+## Gap 2 — the suite cannot be executed, here or in CI
 
-| Upstream input | Port |
-|---|---|
-| `/` | **missing** (the port uses a tmpdir, never the root) |
-| `x-junction:///` | **missing** — the bare-path wrap is untested |
-| `file:///etc/os-release` | **missing** |
-| `x-junction:///etc/os-release` | **missing** |
-| `x-junction://file:///etc/os-release` | ported in spirit (`x-junction://file:0//tmp/x`) |
-| `x-junction://~` | **missing** — `Resource.parse_wrapped`'s `start_with?('~/')` branch, i.e. `Gio::File.parse_name`, is never executed by any test |
-| `x-junction://~/.config` | **missing** — same branch |
-| `https://example.com/` | ported |
-| `http://example.com/foobar?hello=world` | ported |
-| `x-junction://http://example.com/foobar?hello=world` | ported in spirit (https variant) |
-| non-existent path → `application/octet-stream` | **missing** — `resource_test.rb:69-77` writes four real bytes to a real file, which exercises sniffing, not the `query_info` rescue in `Resource#query_content_type:84` |
+- **In this checkout.** `rake` is not in the bundle and `gtk4` / `adwaita` are
+  not installed, so every file dies at `lib/junction_rb.rb:3` with
+  `LoadError: cannot load such file -- gtk4`; `nix develop -c bundle exec`
+  fails the same way. `nix/Gemfile.lock` pins `gtk4 (4.3.9)` and
+  `adwaita (4.3.9)`, so the intent is there, but the environment this audit
+  runs in cannot provision it. **This census is therefore static: no assertion
+  in the port's suite has been observed to pass.**
+- **In CI.** `.gitlab-ci.yml` is the stock kettle template: it sets
+  `K_SOUP_COV_*` and runs the RSpec-based `rake` defaults. There is no `spec/`
+  directory, and nothing in the file invokes `rake test` or any of the eight
+  files under `test/`. There is no `.github/workflows/` at all. Upstream runs
+  its suite from `.husky/pre-push` and `Makefile`; the port's suite runs only
+  when a human types `rake test`.
 
-Behaviour still owed: a `x-junction://~/…` link from a web page opens the file
-in the user's home directory; a link to a path that does not exist still puts
-up a chooser instead of an error.
+Fix: a CI job (or a `rake default` entry) that runs `rake test` in the nix dev
+shell, plus the three validations above.
 
-## 3 — `prefixCommandLineForHost` → `Host.prefix_command_line`
+## Gap 3 — `rake test` depends on `gettext:mo:update`, which can silently stub out
 
-Upstream monkey-patches `Xdp.Portal.running_under_flatpak` to `() => true` and
-asserts the sandboxed branch produces
-`flatpak-spawn --host foo --bar hello='world' something="wow"`, then asserts an
-already-prefixed command is still not double-prefixed under the sandbox. The
-port tests only the two host-side cases
-(`desktop_entry_test.rb:188`, `:192`) and never sets `Host.flatpak?` true.
-
-So the branch that matters — the one that exists *because* the sandbox needs it
-— has no coverage on either `prefix_command_line` or anything downstream of it
-(`DesktopEntry#launch`'s `host_app_info`, `Host.real_path`,
-`Application#claim_web_handler`).
-
-Behaviour still owed: inside a Flatpak, picking an application actually
-launches it on the host rather than inside the sandbox.
-
-## 4 — `getIconFilename` → `Host.host_path`
-
-Upstream asserts eight cases: `/usr/share/…`, `/etc/foo/…`, `/home/foo/…` and
-`/opt/foo/…`, each with `running_under_flatpak` false and true, pinning that
-only `/usr/` and `/etc/` are rewritten to `/run/host/…`. The port has one
-assertion, the `/usr/` case with flatpak off
-(`desktop_entry_test.rb:196`, named "a host path is only rewritten inside a
-sandbox" — which is precisely the claim it does not test).
-
-Behaviour still owed: inside a Flatpak, an application whose icon is a
-`Gio::FileIcon` under `/usr` or `/etc` shows its icon rather than a blank tile,
-and one under `/home` or `/opt` is not broken by a spurious `/run/host` prefix.
+`Rakefile:184` makes `test` depend on `gettext:mo:update`, and
+`Rakefile:248-253` replaces that task with a `warn`-only stub when the gettext
+gem is missing. So on a machine without the gem the suite still reports success
+while the catalogues it claims to validate were never compiled. Upstream's
+`i18n` dependency is hard; this one is not.
 
 ## Port tests with no upstream counterpart
 
-These are additions, not parity failures, and most of them are good — they pin
-the three ruby-gnome bugs `PORTING.md` records. Recorded so the census is
-complete in both directions:
+Additions, not parity failures, recorded so the census is complete in both
+directions. Most pin the ruby-gnome divergences `PORTING.md` records, which is
+exactly where a port needs tests upstream does not have:
 
-`test/cli_test.rb` (7), `test/portal_test.rb` (14),
-`test/window_test.rb` (46), `test/url_test.rb` (23),
-`test/welcome_test.rb` (21), and the discovery/key-file half of
-`test/desktop_entry_test.rb` (~28).
+| File | Covers |
+|---|---|
+| `test/cli_test.rb` | `--terminate_after_init`, option context strings, argv[0] handling |
+| `test/portal_test.rb` | `BackgroundRequest` through Fiddle; `Host.open_directory` both outcomes via the `Host.portal=` seam |
+| `test/window_test.rb` | the widget tree, the breakpoint, the actions, the 1…9 shortcuts, driven through `GtkDriver` |
+| `test/url_test.rb` | scheme detection, `https` vs `http`, entry round-tripping |
+| `test/welcome_test.rb` | the welcome window, the install button, the success/error routing |
+| `test/settings_test.rb` | the schema, both keys, the stateful actions |
+| `test/desktop_entry_test.rb` (first half) | discovery, exclusions, key-file and desktop-action parsing |
 
-## Mechanical findings about the suite itself
+## Mechanical notes
 
-- **Nothing stubs `Host.flatpak?`.** It is `Xdp::Portal.running_under_flatpak`,
-  a module function on an introspected class, so every sandbox branch in
-  `host.rb`, `desktop_entry.rb` and `application.rb` is dead to the suite.
-  Upstream solved this by assigning over the function; the port needs the
-  equivalent seam (a `Host.flatpak?` that reads a memoised ivar a test can set,
-  or `define_singleton_method`).
-- **`spec/` is empty.** `.rspec` and `spec/spec_helper.rb` exist, `rake test`
-  does not run them, and there is not one spec file. Either wire it up or
-  remove it; a configured-but-empty suite reads as coverage that is not there.
-- **The suite cannot currently run.** Every test file requires
-  `lib/junction_rb`, and five of the seven reach `Settings`, which raises
-  `NameError: uninitialized constant JunctionRb::SETTINGS_PATH` (see
-  `.reports/component-parity.md` P0). Parity cannot be measured by execution
-  until that is fixed; this census is static.
+- `spec/` is gone and `.rspec`/`spec_helper.rb` with it — the
+  configured-but-empty suite the previous pass flagged no longer exists.
+- `test/gtk_driver.rb` renders offscreen, so no display server is needed; the
+  harness itself is sound and `exit`s non-zero on any failed check.
+- Each test file is its own process with its own `FAILURES` array and its own
+  `exit`, so one crashing file does not mask the others — but `rake test` uses
+  `sh`, which aborts the task on the first non-zero exit, so a failure in
+  `resource_test.rb` hides the seven files after it.

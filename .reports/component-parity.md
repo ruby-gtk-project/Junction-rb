@@ -1,148 +1,191 @@
 # Component parity — Junction-rb against `origin/main`
 
-Verdict: **not clean.** One gap stops the application starting at all; eight
-more are real behaviour or assets upstream has and the port does not.
+Verdict: **not clean.**
 
-## P0 — `JunctionRb::SETTINGS_PATH` does not exist
+The nine gaps the previous pass found in the application code are closed:
+`SETTINGS_PATH` exists, `exe/junction` and `lib/junction/` are gone, the
+welcome window's `/error` path is reachable, the debug report carries `datadir`
+and `libadwaita`, the shortcuts dialog no longer invents a section title, the
+theme switcher now targets `app.color-scheme` with `i` variants and writes
+nothing itself, the desktop file claims upstream's three MIME types and no
+more, and the raster icon is present.
 
-`lib/junction_rb/settings.rb:17`
+What remains is almost entirely **the half of upstream that is not in `src/`**:
+the port reproduces the widget tree faithfully and then has no way to install
+itself, so the application cannot do the one thing it exists for — be the thing
+the desktop hands a link to.
 
-```ruby
-def settings = @settings ||= Gio::Settings.new(APPLICATION_ID, path: SETTINGS_PATH)
+## P0 — nothing installs the desktop file, the metainfo, the schema or the icons
+
+Upstream `data/meson.build` installs five things and validates three of them:
+
+| Upstream install | Port |
+|---|---|
+| `re.sonny.Junction.desktop` → `$datadir/applications` (via `i18n.merge_file`) | **nothing** |
+| `re.sonny.Junction.metainfo.xml` → `$datadir/metainfo` (via `i18n.merge_file`) | **nothing** |
+| `re.sonny.Junction.gschema.xml` → `$datadir/glib-2.0/schemas` | **nothing** |
+| `icons/re.sonny.Junction.svg` → `hicolor/scalable/apps` | **nothing** |
+| `icons/re.sonny.Junction-symbolic.svg` → `hicolor/symbolic/apps` | **nothing** |
+| `re.sonny.Junction.service` → `$datadir/dbus-1/services` | ✓ `rake install:service` |
+
+`Rakefile:282` — `namespace :install` contains exactly one task, `:service`.
+`gem install junction-rb` therefore puts `exe/junction-rb` on `$PATH` and
+nothing else anywhere:
+
+- No `.desktop` in `applications/`, so `x-scheme-handler/https` can never be
+  pointed at Junction-rb. `WelcomeWindow#claim_web_types` runs
+  `gio mime x-scheme-handler/http re.sonny.Junction.Rb.desktop` against a
+  desktop id that does not exist, so the welcome window's one button is a
+  no-op on an installed copy.
+- No compiled schema in any XDG data dir, so `Gio::Settings.new` aborts the
+  process (`GLib-GIO-ERROR **: Settings schema 're.sonny.Junction.Rb' is not
+  installed`). `data/schemas/gschemas.compiled` is found only because
+  `rake run` and `rake test` export `GSETTINGS_SCHEMA_DIR`
+  (`Rakefile:174-178`). Run `junction-rb` any other way and start-up dies in
+  `Application#start_up`.
+- No icons in `hicolor`, so `JunctionRb.icon_name` resolves to nothing outside
+  a checkout (`Application#load_icons` adds `data/icons`, which is inside the
+  gem, so this one survives — but the dock and the shell do not see it).
+- No metainfo, so no software-centre entry at all.
+
+Fix: an `install:data` task (or `install:all`) that copies the desktop file,
+the metainfo, the schema and the two icons into
+`$XDG_DATA_HOME/{applications,metainfo,glib-2.0/schemas,icons/hicolor/...}`,
+runs `glib-compile-schemas` and `update-desktop-database` on the target, and
+merges the translations (see translation-parity P1). Upstream's
+`gnome.post_install(glib_compile_schemas: true, gtk_update_icon_cache: true,
+update_desktop_database: true)` is the list.
+
+## P1 — the gem declares no runtime dependencies
+
+`junction-rb.gemspec` has 20+ `add_development_dependency` calls and **not one
+`add_dependency`**. `gtk4`, `adwaita`, `gettext` and `gobject-introspection`
+appear only in `Gemfile:62-69`, which an installed gem never reads.
+
+```
+$ gem install junction-rb && junction-rb
+lib/junction_rb.rb:3:in 'require': cannot load such file -- gtk4 (LoadError)
 ```
 
-`SETTINGS_PATH` is defined nowhere in the repository —
-`grep -rn SETTINGS_PATH lib exe test spec data PORTING.md` returns that one
-line and nothing else. Commit 8b79115 added `APPLICATION_ID`, `DESKTOP_ID`,
-`WEBSITE` and `JunctionRb.dev?` to `lib/junction_rb.rb` ("the constants every
-other file already referenced and nothing defined") and missed this one.
+Upstream's equivalent — `meson.build` + `re.sonny.Junction.json` — pins gjs,
+gtk4, libadwaita and libportal explicitly. Fix: add
+`spec.add_dependency("gtk4", "~> 4.3")`, `adwaita`, `gettext`,
+`gobject-introspection`.
 
-Every path through the app reaches it:
+## P2 — the bottom bar's close button does not render
 
-- `Application#start_up` → `settings.apply_color_scheme` → `NameError`, so
-  start-up aborts before any window is presented.
-- `Application#register_actions` → `settings.create_action('color-scheme')`.
-- `Window#register_actions` → `create_action('show-app-names')`.
-- `TileButton#build` → `@settings.bind('show-app-names', …)`, i.e. every tile.
-- `ThemeSwitcher#build` → `@settings.color_scheme`.
-
-Upstream: `src/common.js` — `new Gio.Settings({schema_id: "re.sonny.Junction",
-path: "/re/sonny/Junction/"})`.
-Fix: define `SETTINGS_PATH = '/re/sonny/Junction/Rb/'` in `lib/junction_rb.rb`,
-matching `path` in `data/schemas/re.sonny.Junction.Rb.gschema.xml`, and add a
-test that constructs `Settings` and reads both keys.
-
-## P1 — `exe/junction` launches the unwritten scaffold
-
-`exe/junction:4-6` requires `junction` and runs `Junction::Application`, which
-is `lib/junction/application.rb` — an `Adw.StatusPage` reading **"The Ruby port
-has not been written yet."** `lib/junction.rb` and `lib/junction/application.rb`
-are the original skeleton under a stale `Junction` module that nothing in
-`lib/junction_rb.rb` requires.
-
-The gemspec lists only `junction-rb` in `spec.executables`, but
-`enumerate_package_files.call("exe")` puts `exe/junction` in `spec.files`, so
-the file ships; and anyone running `exe/junction` from a checkout gets the
-status page. Upstream's only entry points are `src/bin.js` (installed) and
-`src/local.js` (checkout), both of which run the real application.
-Fix: delete `exe/junction`, `lib/junction.rb` and `lib/junction/`.
-
-## P2 — the welcome window's error path is unreachable
-
-`lib/junction_rb/welcome_window.rb:103-109`
+`lib/junction_rb/window.rb:270`
 
 ```ruby
-def set_as_default_for_web
-  SCHEMES.each { |type| Host.spawn_sync("gio mime #{type} #{DESKTOP_ID}") }
-  true
-rescue StandardError => e
-  ...
-  false
-end
+Gtk::WindowControls.new(:end).tap { |c| c.decoration_layout = 'close' }
 ```
 
-`GLib::Spawn.command_line_sync` returns `[stdout, stderr, status]`; it does not
-raise when `gio mime` exits non-zero. So `set_as_default_for_web` returns
-`true` whatever happened, and `install` always opens `<site>/success`.
-Upstream `src/welcome.js:32-42` checks the result of each `spawn_sync` and
-returns `false`, which is what routes the user to `<site>/error`.
-Fix: inspect the exit status of both spawns, as `Host.real_path` already does.
+Upstream `src/window.blp:446` declares `WindowControls window_controls_bottom
+{ decoration-layout: "close"; }` and never sets `side`, so it keeps the default
+`GTK_PACK_START`. `GtkWindowControls` splits `decoration-layout` on `":"` and a
+`side` of `start` renders the tokens before the colon while `end` renders the
+tokens after it. `"close"` has no colon, so the end group is empty: with
+`side = :end` the widget has nothing to show.
 
-## P3 — the debug report drops two lines upstream puts in it
+Consequence: in landscape — the default, and the only orientation where the
+bottom bar carries the window controls — there is no close button at all. The
+window is still dismissible with `Escape`/`Ctrl+W`, which is why this is easy
+to miss, but the control upstream puts in the bar is gone.
 
-`lib/junction_rb/about_dialog.rb:40-60` vs `src/about.js:19-39`.
+Fix: `Gtk::WindowControls.new(:start)`, or keep `:end` and set the layout to
+`':close'`.
 
-- `datadir ${pkg.datadir}` has no counterpart. On a checkout this is the line
-  that says where the icons and stylesheet were loaded from.
-- `libadwaita ${getGIRepositoryVersion(Adw)}` is missing. The port reports
-  Ruby, ruby-gnome, GTK and GLib but not libadwaita, which is the library most
-  likely to differ between a bug report and the developer's machine.
+## P3 — `rake run` points at a file that does not exist
 
-## P4 — two of three screenshots, and their captions, are not ported
+`Rakefile:201-208` runs `ruby bin/junction-rb`. `bin/` contains `setup` and
+`turbo_tests2`; the executable is `exe/junction-rb`. The documented way to
+launch the port from a checkout fails with `No such file or directory`.
 
-Upstream `data/re.sonny.Junction.metainfo.xml` ships three `<screenshot>`s:
-`screenshot.png` ("Choose the browser to open the link with"),
-`screenshot-file.png` ("Choose the application to open the image with") and
-`screenshot-mobile.png` ("Junction supports Linux mobile"). The port ships one.
-`data/screenshot-file.png` and `data/screenshot-mobile.png` have no port
-counterpart, and the two captions are translatable msgids with 32 translations
-each (see `.reports/translation-parity.md`).
+## P4 — two of three screenshots, and their captions, are still missing
 
-## P5 — `data/icons/re.sonny.Junction.png` is not ported
+Upstream ships three `<screenshot>` elements and the three PNGs behind them.
+The port ships one, pointing at `docs/window.png`.
 
-Upstream ships a raster app icon beside the SVGs. The port ships
-`.Rb.svg`, `.Rb.Devel.svg`, `.Rb-symbolic.svg` and `.Rb.Source.svg` but no PNG,
-so any consumer that wants a raster (some docks, some software centres, the
-Flatpak `--filesystem` icon cache) falls back to rendering or to nothing.
+| Upstream | Caption | Port |
+|---|---|---|
+| `data/screenshot.png` | "Choose the browser to open the link with" | ✓ (`docs/window.png`) |
+| `data/screenshot-file.png` | "Choose the application to open the image with" | **missing** — and this msgid has 32 translations in `po/` |
+| `data/screenshot-mobile.png` | "Junction supports Linux mobile" | **missing** |
 
-## P6 — the shortcuts dialog invents a section title
+The mobile screenshot is the one that evidences `<display_length compare="ge">360`
+and the portrait breakpoint the port does implement.
 
-`lib/junction_rb/shortcuts_dialog.rb:24` titles the second section
-`'Application'`. Upstream's `src/ShortcutsWindow.blp` gives both
-`ShortcutsGroup`s no title. The string is also a bare literal with no `N_()`,
-so it is user-visible and untranslatable. Either drop it, matching upstream, or
-mark it and add it to `po/POTFILES` — but the first is parity.
+## P5 — no Flatpak manifest, so no sandbox exists to run the sandbox code in
 
-## P7 — the theme switcher bypasses `app.color-scheme`
+Upstream ships `re.sonny.Junction.json` and
+`build-aux/flatpak/glib-appinfo.patch`. The port ships neither, while
+`lib/junction_rb/host.rb`, `background_request.rb`, `portal.rb` and the
+`Host.flatpak?` branches of `desktop_entry.rb`, `resource.rb` and
+`application.rb` exist only for Flatpak. Every one of those paths —
+`flatpak-spawn --host`, `/run/host` icon rewriting, `flatpak document-info`,
+the background/autostart portal, `xdp_portal_open_directory` — is therefore
+unexercised by anything, test or human.
 
-Upstream's `troll` `ThemeSelector` gives its three `Gtk.CheckButton`s
-`action-name: "app.color-scheme"` with integer targets, so the stateful action
-GSettings created is the single source of truth. The port
-(`theme_switcher.rb:40-52`) connects `notify::active` and writes
-`@settings.color_scheme` directly, with a `@syncing` flag to break the loop it
-creates. `app.color-scheme` is still registered
-(`application.rb:122`) with nothing targeting it. The visible behaviour is the
-same today; the duplicated authority is the kind of thing that drifts.
+## P6 — upstream's three build-time validations are not ported
 
-## P8 — the desktop entry claims four MIME types upstream does not
+`data/meson.build` registers `desktop-file-validate`, `appstreamcli validate
+--no-net --explain` and `glib-compile-schemas --strict --dry-run` as *tests*.
+The port's `rake schema` runs `glib-compile-schemas` without `--strict`, and
+nothing validates the desktop file or the metainfo. The port's metainfo is the
+one of the three files that has been rewritten most (new ids, new releases, new
+urls), so it is the one most likely to be invalid.
 
-`data/re.sonny.Junction.Rb.desktop` `MimeType=` adds `text/html`, `text/xml`
-and `application/xhtml+xml` to upstream's three. Upstream claims those types
-only imperatively, from `welcome.js`, when the user asks. Declaring them in the
-desktop file means the port offers itself for every local HTML file the moment
-it is installed, which upstream deliberately does not do (see its metainfo
-release note "Do not automatically set as default application").
+## P7 — `<url type="donation">` dropped
+
+Upstream carries `<url type="donation">https://junction.sonny.re/donate</url>`.
+The port carries homepage, bugtracker and vcs-browser only. Junction is
+donation-funded; dropping the link is a user-visible loss in every software
+centre. (`<update_contact>junction@sonny.re</update_contact>` is also dropped,
+which is correct — bug mail for the port should not go to upstream.)
+
+## P8 — "Open Location" shrinks its tile
+
+`show_in_folder_button.rb:28-30` sets `image.width_request` and
+`image.height_request` to 48 as well as `pixel_size`. Upstream's
+`TileButton({icon_size: 48})` calls only `image.set_pixel_size(48)`
+(`AppButton.js:629-631`), leaving the 92×92 requests the `.blp` sets, so the
+folder tile occupies the same box as every application tile and its icon is
+centred in it. In the port the box collapses to 48 and the tile's contents sit
+higher than its neighbours'.
 
 ## Divergences that are parity, recorded so they are not re-litigated
 
-Each is forced by the bindings and preserves the behaviour; `PORTING.md`
-documents all of them.
+Each is forced by the bindings or by installing beside the original, preserves
+the behaviour, and is documented in `PORTING.md`.
 
 - `Adwaita::Breakpoint#add_setter` cannot take a boolean, so the five portrait
   changes run from `apply`/`unapply`. Same condition, same five changes.
-- `win.run-action` takes `as` (`[desktop id, action]`) instead of `a{ss}`;
-  the location is read off the entry at activation time.
-- `Adwaita::ShortcutsDialog` replaces the deprecated `Gtk.ShortcutsWindow`.
+- `win.run-action` takes `as` (`[desktop id, action]`) instead of `a{ss}`; the
+  location is read off the entry at activation time.
+- `Adwaita::ShortcutsDialog` replaces the deprecated `Gtk.ShortcutsWindow`;
+  both sections stay untitled, as upstream's do.
 - `Gio::AppInfo`'s action API is unbound, so desktop actions are parsed from
   the key file — which upstream does anyway, for glib#2568.
-- `GLib::Uri` is unbound, so the scheme is read off the URI text with a regex.
+- `GLib::Uri` is unbound, so the scheme is read off the URI text with a regex
+  (and this is *why* the port gets `https` right where `g_file_get_uri_scheme`
+  reports `http`).
 - `xdp_portal_request_background` takes a `GPtrArray`, so that one call goes
   through Fiddle (`background_request.rb`).
 - `Adwaita::Application` is broken in the bindings, so the application is
-  `Gtk::Application` with `Adwaita::ApplicationWindow` windows — the same shape
-  the pilot port `gnome-contacts-rb` uses.
+  `Gtk::Application` with `Adwaita::ApplicationWindow` windows — the shape the
+  pilot port `gnome-contacts-rb` uses (`lib/main.rb:202-211`).
 - Ids carry `.Rb` so the port installs beside the original; both Junctions are
   in `DesktopEntry::EXCLUDED`.
+- troll's `ThemeSelector` is a submodule upstream, so the widget and its CSS
+  are reproduced in `theme_switcher.rb` and appended to `data/style.css`. The
+  rest of `data/style.css` is byte-identical to `src/style.css`.
 - `welcome.js` claims the five web types at module-import time, which fires on
   every launch including `open`; the port claims them in
   `WelcomeWindow#initialize`, so only on `activate`. Narrower, and better.
+
+## Unverifiable from `origin/main`
+
+The `troll` submodule is a gitlink, so `ThemeSelector`'s exact widget tree
+cannot be read from this ref. Upstream's 1.13 release note "Follow system color
+scheme and accent color" suggests the widget may now do more than the port's
+three-button copy; it cannot be confirmed or denied here.
