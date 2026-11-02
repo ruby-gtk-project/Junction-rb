@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: re.sonny.Junction\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-15 00:57+0200\n"
+"POT-Creation-Date: 2026-11-02 17:16+0000\n"
 "PO-Revision-Date: 2023-10-24 20:04+0000\n"
 "Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
-"Language-Team: Turkish <https://hosted.weblate.org/projects/junction/junction/tr/>\n"
+"Language-Team: Turkish <https://hosted.weblate.org/projects/junction/"
+"junction/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,249 +19,295 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.1.1-dev\n"
 
-#. TRANSLATORS: Don't translate
-#: data/re.sonny.Junction.desktop:4
-msgid "Junction"
-msgstr "Junction"
-
-#: data/re.sonny.Junction.desktop:5 data/re.sonny.Junction.metainfo.xml:10
-msgid "Application chooser"
-msgstr "Uygulama seçici"
-
-#. TRANSLATORS: Don't translate
-#: data/re.sonny.Junction.desktop:13
-msgid "Choosy;BrowserChooser;Braus;Browserosaurus;Finicky;Buffet;OpenIn;BrowserSelect;"
-msgstr "Choosy;BrowserChooser;Braus;Browserosaurus;Finicky;Buffet;OpenIn;BrowserSelect;Birlikte Aç;Seçici;Tarayıcı Seçici;"
-
-#: data/re.sonny.Junction.metainfo.xml:13
-msgid "Junction lets you choose the application to open files and links."
-msgstr "Junction, dosyaları ve bağlantıları açacak uygulamayı seçmenize olanak tanır."
-
-#: data/re.sonny.Junction.metainfo.xml:14
-msgid "After installing make sure to launch the application."
-msgstr "Kurduktan sonra uygulamayı başlattığınızdan emin olun."
-
-#: data/re.sonny.Junction.metainfo.xml:17
-msgid "Junction will pop up automatically when you open a link in a desktop application. Use the mouse or keyboard navigation to choose the application to open the link or file with."
-msgstr "Bir masaüstü uygulamasında bir bağlantı açtığınızda Junction otomatik olarak açılacaktır. Bağlantının veya dosyanın açılacağı uygulamayı seçmek için fareyi veya klavyeyi kullanın."
-
-#: data/re.sonny.Junction.metainfo.xml:22
-msgid "Features:"
-msgstr "Özellikler:"
-
-#: data/re.sonny.Junction.metainfo.xml:24
-msgid "Choose the application to open with"
-msgstr "Hangi uygulamayla açılacağını seç"
-
-#: data/re.sonny.Junction.metainfo.xml:25
-msgid "Show the location before opening"
-msgstr "Açmadan önce konumu göster"
-
-#: data/re.sonny.Junction.metainfo.xml:26
-msgid "Edit the URL before opening"
-msgstr "Açmadan önce URL'yi düzenle"
-
-#: data/re.sonny.Junction.metainfo.xml:27
-msgid "Show a hint for insecure link"
-msgstr "Güvenli olmayan bağlantı için bir ipucu göster"
-
-#: data/re.sonny.Junction.metainfo.xml:28
-msgid "Keyboard navigation"
-msgstr "Klavye ile gezinme"
-
-#: data/re.sonny.Junction.metainfo.xml:29
-msgid "Middle click to open in multiple applications"
-msgstr "Birden çok uygulamada açmak için orta tıklama"
-
-#: data/re.sonny.Junction.metainfo.xml:41
-msgid "Choose the browser to open the link with"
-msgstr "Bağlantının açılacağı tarayıcıyı seçin"
-
-#: data/re.sonny.Junction.metainfo.xml:47
-msgid "Choose the application to open the image with"
-msgstr "Resmin açılacağı uygulamayı seçin"
-
-#: data/re.sonny.Junction.metainfo.xml:53
-msgid "Junction features great support for keyboard"
-msgstr "Junction, harika bir klavye desteğine sahiptir"
-
-#: data/re.sonny.Junction.metainfo.xml:59
-msgid "Desktop actions are supported too"
-msgstr "Masaüstü eylemleri de desteklenir"
-
-#: data/re.sonny.Junction.metainfo.xml:67
-msgid "Add an option \"Reveal in Folder\" for files"
-msgstr "Dosyalar için \"Klasörde Göster\" seçeneği ekle"
-
-#: data/re.sonny.Junction.metainfo.xml:68
-msgid "Reveal document portal file paths"
-msgstr "Belge portalı dosya yollarını göster"
-
-#: data/re.sonny.Junction.metainfo.xml:69
-msgid "Bug fix for desktop actions"
-msgstr "Masaüstü eylemleri için hata düzeltmesi"
-
-#: data/re.sonny.Junction.metainfo.xml:70
-msgid "Bug fix when opening with Libreoffice"
-msgstr "Libreoffice ile açarken hata düzeltmesi"
-
-#: data/re.sonny.Junction.metainfo.xml:77
-msgid "Support desktop actions"
-msgstr "Masaüstü eylemlerini destekle"
-
-#: data/re.sonny.Junction.metainfo.xml:78
-msgid "Support snap applications"
-msgstr "Snap uygulamalarını destekle"
-
-#: data/re.sonny.Junction.metainfo.xml:85
-#: data/re.sonny.Junction.metainfo.xml:102
-msgid "Improve design"
-msgstr "Tasarımı iyileştir"
-
-#: data/re.sonny.Junction.metainfo.xml:86
-msgid "New icon"
-msgstr "Yeni simge"
-
-#: data/re.sonny.Junction.metainfo.xml:87
-msgid "Add a x-junction:// protocol API"
-msgstr "x-junction:// protokol API'si ekle"
-
-#: data/re.sonny.Junction.metainfo.xml:88
-msgid "Do not automatically set as default application"
-msgstr "Otomatik olarak öntanımlı uygulama olarak ayarlama"
-
-#: data/re.sonny.Junction.metainfo.xml:89
-msgid "Fix missing options"
-msgstr "Eksik seçenekleri düzelt"
-
-#: data/re.sonny.Junction.metainfo.xml:90
-msgid "Limit the number of options to 4"
-msgstr "Seçenek sayısını 4 ile sınırla"
-
-#: data/re.sonny.Junction.metainfo.xml:91
-msgid "Add an option to open with any application"
-msgstr "Herhangi bir uygulamayla açma seçeneği ekle"
-
-#: data/re.sonny.Junction.metainfo.xml:92
-msgid "Add a System Information panel in the about dialog"
-msgstr "Hakkında iletişim kutusuna bir Sistem Bilgisi paneli ekle"
-
-#: data/re.sonny.Junction.metainfo.xml:99
-msgid "Fix for applications that do not support URIs"
-msgstr "URI'leri desteklemeyen uygulamalar için düzeltme"
-
-#: data/re.sonny.Junction.metainfo.xml:100
-msgid "Add an option to display application names"
-msgstr "Uygulama adlarını görüntülemek için bir seçenek ekle"
-
-#: data/re.sonny.Junction.metainfo.xml:101
-msgid "Add a menu button"
-msgstr "Menü düğmesi ekle"
-
-#: data/re.sonny.Junction.metainfo.xml:103
-msgid "Improve keyboard usage"
-msgstr "Klavye kullanımını iyileştir"
-
-#: data/re.sonny.Junction.metainfo.xml:104
-msgid "Improve CLI usage"
-msgstr "Komut satırı kullanımını iyileştir"
-
-#: data/re.sonny.Junction.metainfo.xml:105
-msgid "Support opening multiple URIs"
-msgstr "Birden çok URI açmayı destekle"
-
-#: data/re.sonny.Junction.metainfo.xml:107
-msgid "Support D-Bus activation"
-msgstr "D-Bus ile etkinleştirmeyi destekle"
-
-#: data/re.sonny.Junction.metainfo.xml:108
-msgid "Use libadwaita"
-msgstr "libadwaita kullan"
-
-#: data/re.sonny.Junction.metainfo.xml:115
-msgid "Fix for missing applications"
-msgstr "Eksik uygulamalar için düzeltme"
-
-#: data/re.sonny.Junction.metainfo.xml:116
-msgid "Add a Shortcuts window - accessible with &lt;Ctrl&gt;?"
-msgstr "&lt;Ctrl&gt;? ile erişilebilen bir Kısayollar penceresi eklensin mi?"
-
-#: data/re.sonny.Junction.metainfo.xml:122
-msgid "This is the first release of Junction. We hope you like it."
-msgstr "Bu, Junction'ın ilk sürümüdür. Beğeneceğinizi umuyoruz."
-
-#: src/Entry.js:23
-msgid "This site has no security. An attacker could see any information you send, or control the content that you see."
-msgstr "Bu sitenin güvenliği yok. Saldırgan, gönderdiğiniz herhangi bir bilgiyi görebilir veya gördüğünüz içeriği denetleyebilir."
-
-#: src/AppButton.js:158
-msgid "Reveal"
-msgstr "Göster"
-
-#: src/AppButton.js:159
-msgid "Reveal in Folder"
-msgstr "Klasörde Göster"
-
-#: src/AppButton.js:202
-msgid "All Applications"
-msgstr "Tüm Uygulamalar"
-
-#: src/AppButton.js:216
-msgid "View All"
-msgstr "Tümünü Görüntüle"
-
-#: src/window.blp:64
-msgid "Show names"
-msgstr "Adları göster"
-
-#: src/window.blp:69 src/ShortcutsWindow.blp:15
-msgid "Copy to Clipboard"
-msgstr "Panoya kopyala"
-
-#: src/window.blp:75 src/welcome.blp:56 src/ShortcutsWindow.blp:42
-msgid "Keyboard Shortcuts"
-msgstr "Klavye Kısayolları"
-
-#: src/window.blp:80 src/welcome.blp:61
-msgid "About Junction"
-msgstr "Junction Hakkında"
-
-#: src/welcome.blp:32
-msgid "Test Junction"
-msgstr "Junction'ı Deneyin"
-
-#: src/welcome.blp:39
-msgid "Set Junction as default for Web"
-msgstr "Junction'ı Web için öntanımlı olarak ayarla"
-
-#. TRANSLATORS: eg. 'Translator Name <your.email@domain.com>' or 'Translator Name https://website.example'
-#: src/about.js:61
+#: ../lib/junction_rb/about_dialog.rb:26
 msgid "translator-credits"
 msgstr "Oğuz Ersen https://ersen.moe"
 
-#: src/ShortcutsWindow.blp:10
+#: ../lib/junction_rb/host.rb:48
+msgid "Run Junction in the background."
+msgstr ""
+
+#: ../lib/junction_rb/menu_model.rb:31
+#, fuzzy
+#| msgid "Show names"
+msgid "Show App Names"
+msgstr "Adları göster"
+
+#: ../lib/junction_rb/menu_model.rb:32
+#: ../lib/junction_rb/shortcuts_dialog.rb:21
+msgid "Copy to Clipboard"
+msgstr "Panoya kopyala"
+
+#: ../lib/junction_rb/menu_model.rb:38
+#: ../lib/junction_rb/shortcuts_dialog.rb:28
+msgid "Keyboard Shortcuts"
+msgstr "Klavye Kısayolları"
+
+#: ../lib/junction_rb/menu_model.rb:39 ../lib/junction_rb/welcome_window.rb:135
+msgid "About Junction"
+msgstr "Junction Hakkında"
+
+#: ../lib/junction_rb/shortcuts_dialog.rb:20
 msgid "Discard and close"
 msgstr "Gözden çıkar ve kapat"
 
-#: src/ShortcutsWindow.blp:20
+#: ../lib/junction_rb/shortcuts_dialog.rb:22
 msgid "Select next/previous application"
 msgstr "Sonraki/önceki uygulamayı seç"
 
-#: src/ShortcutsWindow.blp:25
+#: ../lib/junction_rb/shortcuts_dialog.rb:23
 msgid "Open with selected application"
 msgstr "Seçilen uygulamayla aç"
 
-#: src/ShortcutsWindow.blp:30
+#: ../lib/junction_rb/shortcuts_dialog.rb:24
 msgid "Open with selected application and stay active"
 msgstr "Seçilen uygulamayla aç ve etkin kal"
 
-#: src/ShortcutsWindow.blp:35
+#: ../lib/junction_rb/shortcuts_dialog.rb:25
 msgid "Open with application at position"
 msgstr "Sıradaki uygulamayla aç"
 
-#: src/ShortcutsWindow.blp:47
+#: ../lib/junction_rb/shortcuts_dialog.rb:29
 msgid "Quit"
 msgstr "Çık"
+
+#: ../lib/junction_rb/show_in_folder_button.rb:15
+msgid "Open Location"
+msgstr ""
+
+#: ../lib/junction_rb/show_in_folder_button.rb:16
+msgid "View File in File Manager"
+msgstr ""
+
+#: ../lib/junction_rb/theme_switcher.rb:20
+msgid "Light Style"
+msgstr ""
+
+#: ../lib/junction_rb/theme_switcher.rb:21
+msgid "Follow System Style"
+msgstr ""
+
+#: ../lib/junction_rb/theme_switcher.rb:22
+msgid "Dark Style"
+msgstr ""
+
+#: ../lib/junction_rb/uri_entry.rb:15
+msgid ""
+"This site has no security. An attacker could see any information you send, "
+"or control the content that you see."
+msgstr ""
+"Bu sitenin güvenliği yok. Saldırgan, gönderdiğiniz herhangi bir bilgiyi "
+"görebilir veya gördüğünüz içeriği denetleyebilir."
+
+#: ../lib/junction_rb/welcome_window.rb:158
+msgid "Test Junction"
+msgstr "Junction'ı Deneyin"
+
+#: ../lib/junction_rb/welcome_window.rb:165
+msgid "Set Junction as default for Web"
+msgstr "Junction'ı Web için öntanımlı olarak ayarla"
+
+#: ../lib/junction_rb/window.rb:278
+msgid "Main Menu"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.desktop:3
+msgid "Junction"
+msgstr "Junction"
+
+#: data/re.sonny.Junction.Rb.desktop:9
+#: data/re.sonny.Junction.Rb.metainfo.xml:28
+msgid "Application chooser"
+msgstr "Uygulama seçici"
+
+#: data/re.sonny.Junction.Rb.desktop:21
+msgid "Choosy;BrowserChooser;Braus;Browserosaurus;Finicky;Buffet;OpenIn;BrowserSelect;"
+msgstr ""
+"Choosy;BrowserChooser;Braus;Browserosaurus;Finicky;Buffet;OpenIn;BrowserSelect;Birlikte "
+"Aç;Seçici;Tarayıcı Seçici;"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:22
+#, fuzzy
+#| msgid "Junction"
+msgid "Junction (Ruby)"
+msgstr "Junction"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:24
+msgid "Sonny Piers"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:31
+#, fuzzy
+#| msgid ""
+#| "Junction will pop up automatically when you open a link in a desktop "
+#| "application. Use the mouse or keyboard navigation to choose the "
+#| "application to open the link or file with."
+msgid ""
+"Junction pops up automatically when you open a file or link in another app. "
+"Use the mouse or keyboard navigation to choose which app you want to open it "
+"with."
+msgstr ""
+"Bir masaüstü uygulamasında bir bağlantı açtığınızda Junction otomatik olarak "
+"açılacaktır. Bağlantının veya dosyanın açılacağı uygulamayı seçmek için "
+"fareyi veya klavyeyi kullanın."
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:35
+msgid "Features:"
+msgstr "Özellikler:"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:37
+#, fuzzy
+#| msgid "Choose the application to open with"
+msgid "Choose the app to open with"
+msgstr "Hangi uygulamayla açılacağını seç"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:38
+msgid "Show the location before opening"
+msgstr "Açmadan önce konumu göster"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:39
+msgid "Edit the URL before opening"
+msgstr "Açmadan önce URL'yi düzenle"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:40
+#, fuzzy
+#| msgid "Show a hint for insecure link"
+msgid "Show a hint for insecure links"
+msgstr "Güvenli olmayan bağlantı için bir ipucu göster"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:41
+msgid "Keyboard navigation"
+msgstr "Klavye ile gezinme"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:42
+#, fuzzy
+#| msgid "Support desktop actions"
+msgid "Supports desktop actions on right click"
+msgstr "Masaüstü eylemlerini destekle"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:43
+#, fuzzy
+#| msgid "Middle click to open in multiple applications"
+msgid "Middle Click or Ctrl + Click to open in multiple applications"
+msgstr "Birden çok uygulamada açmak için orta tıklama"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:44
+msgid "Linux Mobile support"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:46
+msgid "This is a Ruby GTK4 / Libadwaita port of Junction."
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:64
+msgid "Choose the browser to open the link with"
+msgstr "Bağlantının açılacağı tarayıcıyı seçin"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:72
+msgid "First release of the Ruby GTK4 port"
+msgstr ""
+
+#~ msgid "Junction lets you choose the application to open files and links."
+#~ msgstr ""
+#~ "Junction, dosyaları ve bağlantıları açacak uygulamayı seçmenize olanak "
+#~ "tanır."
+
+#~ msgid "After installing make sure to launch the application."
+#~ msgstr "Kurduktan sonra uygulamayı başlattığınızdan emin olun."
+
+#~ msgid "Choose the application to open the image with"
+#~ msgstr "Resmin açılacağı uygulamayı seçin"
+
+#~ msgid "Junction features great support for keyboard"
+#~ msgstr "Junction, harika bir klavye desteğine sahiptir"
+
+#~ msgid "Desktop actions are supported too"
+#~ msgstr "Masaüstü eylemleri de desteklenir"
+
+#~ msgid "Add an option \"Reveal in Folder\" for files"
+#~ msgstr "Dosyalar için \"Klasörde Göster\" seçeneği ekle"
+
+#~ msgid "Reveal document portal file paths"
+#~ msgstr "Belge portalı dosya yollarını göster"
+
+#~ msgid "Bug fix for desktop actions"
+#~ msgstr "Masaüstü eylemleri için hata düzeltmesi"
+
+#~ msgid "Bug fix when opening with Libreoffice"
+#~ msgstr "Libreoffice ile açarken hata düzeltmesi"
+
+#~ msgid "Support snap applications"
+#~ msgstr "Snap uygulamalarını destekle"
+
+#~ msgid "Improve design"
+#~ msgstr "Tasarımı iyileştir"
+
+#~ msgid "New icon"
+#~ msgstr "Yeni simge"
+
+#~ msgid "Add a x-junction:// protocol API"
+#~ msgstr "x-junction:// protokol API'si ekle"
+
+#~ msgid "Do not automatically set as default application"
+#~ msgstr "Otomatik olarak öntanımlı uygulama olarak ayarlama"
+
+#~ msgid "Fix missing options"
+#~ msgstr "Eksik seçenekleri düzelt"
+
+#~ msgid "Limit the number of options to 4"
+#~ msgstr "Seçenek sayısını 4 ile sınırla"
+
+#~ msgid "Add an option to open with any application"
+#~ msgstr "Herhangi bir uygulamayla açma seçeneği ekle"
+
+#~ msgid "Add a System Information panel in the about dialog"
+#~ msgstr "Hakkında iletişim kutusuna bir Sistem Bilgisi paneli ekle"
+
+#~ msgid "Fix for applications that do not support URIs"
+#~ msgstr "URI'leri desteklemeyen uygulamalar için düzeltme"
+
+#~ msgid "Add an option to display application names"
+#~ msgstr "Uygulama adlarını görüntülemek için bir seçenek ekle"
+
+#~ msgid "Add a menu button"
+#~ msgstr "Menü düğmesi ekle"
+
+#~ msgid "Improve keyboard usage"
+#~ msgstr "Klavye kullanımını iyileştir"
+
+#~ msgid "Improve CLI usage"
+#~ msgstr "Komut satırı kullanımını iyileştir"
+
+#~ msgid "Support opening multiple URIs"
+#~ msgstr "Birden çok URI açmayı destekle"
+
+#~ msgid "Support D-Bus activation"
+#~ msgstr "D-Bus ile etkinleştirmeyi destekle"
+
+#~ msgid "Use libadwaita"
+#~ msgstr "libadwaita kullan"
+
+#~ msgid "Fix for missing applications"
+#~ msgstr "Eksik uygulamalar için düzeltme"
+
+#~ msgid "Add a Shortcuts window - accessible with &lt;Ctrl&gt;?"
+#~ msgstr ""
+#~ "&lt;Ctrl&gt;? ile erişilebilen bir Kısayollar penceresi eklensin mi?"
+
+#~ msgid "This is the first release of Junction. We hope you like it."
+#~ msgstr "Bu, Junction'ın ilk sürümüdür. Beğeneceğinizi umuyoruz."
+
+#~ msgid "Reveal"
+#~ msgstr "Göster"
+
+#~ msgid "Reveal in Folder"
+#~ msgstr "Klasörde Göster"
+
+#~ msgid "All Applications"
+#~ msgstr "Tüm Uygulamalar"
+
+#~ msgid "View All"
+#~ msgstr "Tümünü Görüntüle"
 
 #~ msgid "Add Polish translation"
 #~ msgstr "Lehçe çeviri ekle"

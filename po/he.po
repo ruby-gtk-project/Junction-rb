@@ -7,257 +7,299 @@ msgid ""
 msgstr ""
 "Project-Id-Version: re.sonny.Junction\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-15 00:57+0200\n"
+"POT-Creation-Date: 2026-11-02 17:16+0000\n"
 "PO-Revision-Date: 2022-03-16 20:49+0000\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gnome.org>\n"
-"Language-Team: Hebrew <https://hosted.weblate.org/projects/junction/junction/he/>\n"
+"Language-Team: Hebrew <https://hosted.weblate.org/projects/junction/junction/"
+"he/>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && n % 10 == 0) ? 2 : 3));\n"
+"Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
+"n % 10 == 0) ? 2 : 3));\n"
 "X-Generator: Weblate 4.12-dev\n"
 
-#. TRANSLATORS: Don't translate
-#: data/re.sonny.Junction.desktop:4
-msgid "Junction"
-msgstr "צומת"
-
-#: data/re.sonny.Junction.desktop:5 data/re.sonny.Junction.metainfo.xml:10
-msgid "Application chooser"
-msgstr "בורר יישומים"
-
-#. TRANSLATORS: Don't translate
-#: data/re.sonny.Junction.desktop:13
-msgid "Choosy;BrowserChooser;Braus;Browserosaurus;Finicky;Buffet;OpenIn;BrowserSelect;"
-msgstr "Choosy;BrowserChooser;Braus;Browserosaurus;Finicky;Buffet;OpenIn;BrowserSelect;"
-
-#: data/re.sonny.Junction.metainfo.xml:13
-msgid "Junction lets you choose the application to open files and links."
-msgstr "צומת מאפשר לך לבחור את היישום לפתיחת קבצים וקישורים."
-
-#: data/re.sonny.Junction.metainfo.xml:14
-msgid "After installing make sure to launch the application."
-msgstr "לאחר ההתקנה יש לנסות להפעיל את היישום."
-
-#: data/re.sonny.Junction.metainfo.xml:17
-msgid "Junction will pop up automatically when you open a link in a desktop application. Use the mouse or keyboard navigation to choose the application to open the link or file with."
-msgstr "צומת יקפוץ אוטומטית בעת פתיחת קישור ביישום לשולן העבודה. אפשר להשתמש בעכבר או בניווט עם המקלדת כדי לבחור את היישום שאתו ייפתח הקישור או הקובץ."
-
-#: data/re.sonny.Junction.metainfo.xml:22
-msgid "Features:"
-msgstr "יכולות:"
-
-#: data/re.sonny.Junction.metainfo.xml:24
-msgid "Choose the application to open with"
-msgstr "בחירת היישום לפתיחה באמצעותו"
-
-#: data/re.sonny.Junction.metainfo.xml:25
-msgid "Show the location before opening"
-msgstr "הצגת המיקום בטרם הפתיחה"
-
-#: data/re.sonny.Junction.metainfo.xml:26
-msgid "Edit the URL before opening"
-msgstr "עריכת הכתובת בטרם הפתיחה"
-
-#: data/re.sonny.Junction.metainfo.xml:27
-msgid "Show a hint for insecure link"
-msgstr "הצגת רמז לקישור בלתי מאובטח"
-
-#: data/re.sonny.Junction.metainfo.xml:28
-msgid "Keyboard navigation"
-msgstr "ניווט עם המקלדת"
-
-#: data/re.sonny.Junction.metainfo.xml:29
-msgid "Middle click to open in multiple applications"
-msgstr "לחיצה אמצעית לפתיחה במספר יישומים"
-
-#: data/re.sonny.Junction.metainfo.xml:41
-msgid "Choose the browser to open the link with"
-msgstr "נא לבחור את הדפדפן אתו ייפתח הקישור"
-
-#: data/re.sonny.Junction.metainfo.xml:47
-msgid "Choose the application to open the image with"
-msgstr "נא לבחור את היישום אתו תיפתח התמונה"
-
-#: data/re.sonny.Junction.metainfo.xml:53
-msgid "Junction features great support for keyboard"
-msgstr "צומת מציג תמיכה מעולה במקלדת"
-
-#: data/re.sonny.Junction.metainfo.xml:59
-msgid "Desktop actions are supported too"
-msgstr "יש גם תמיכה בפעולות שולחן עבודה"
-
-#: data/re.sonny.Junction.metainfo.xml:67
-msgid "Add an option \"Reveal in Folder\" for files"
-msgstr "הוספת אפשרות „חשיפה בתיקייה” לקבצים"
-
-#: data/re.sonny.Junction.metainfo.xml:68
-msgid "Reveal document portal file paths"
-msgstr "חשיפת נתיבי קובצי שערי מסמכים"
-
-#: data/re.sonny.Junction.metainfo.xml:69
-msgid "Bug fix for desktop actions"
-msgstr "תוקנה תקלה בפעולות שולחן עבודה"
-
-#: data/re.sonny.Junction.metainfo.xml:70
-msgid "Bug fix when opening with Libreoffice"
-msgstr "תוקנה תקלה בפתיחה עם LibreOffice"
-
-#: data/re.sonny.Junction.metainfo.xml:77
-msgid "Support desktop actions"
-msgstr "תמיכה בפעולות שולחן עבודה"
-
-#: data/re.sonny.Junction.metainfo.xml:78
-msgid "Support snap applications"
-msgstr "תמיכה ביישומי snap"
-
-#: data/re.sonny.Junction.metainfo.xml:85
-#: data/re.sonny.Junction.metainfo.xml:102
-msgid "Improve design"
-msgstr "העיצוב השתפר"
-
-#: data/re.sonny.Junction.metainfo.xml:86
-msgid "New icon"
-msgstr "סמל חדש"
-
-#: data/re.sonny.Junction.metainfo.xml:87
-msgid "Add a x-junction:// protocol API"
-msgstr "נוסף API לפרוטוקול x-junction://‎"
-
-#: data/re.sonny.Junction.metainfo.xml:88
-msgid "Do not automatically set as default application"
-msgstr "לא מוגדר כיישום ברירת המחדל אוטומטית"
-
-#: data/re.sonny.Junction.metainfo.xml:89
-msgid "Fix missing options"
-msgstr "תוקנו אפשרויות חסרות"
-
-#: data/re.sonny.Junction.metainfo.xml:90
-msgid "Limit the number of options to 4"
-msgstr "הגבלת מספר האפשרויות ל־4"
-
-#: data/re.sonny.Junction.metainfo.xml:91
-msgid "Add an option to open with any application"
-msgstr "נוספה אפשרות לפתוח עם כל יישום שהוא"
-
-#: data/re.sonny.Junction.metainfo.xml:92
-msgid "Add a System Information panel in the about dialog"
-msgstr "נוסף לוח לפרטי המערכת בחלונית על אודות"
-
-#: data/re.sonny.Junction.metainfo.xml:99
-msgid "Fix for applications that do not support URIs"
-msgstr "הוצג תיקון ליישומים שלא תומכים בכתובות"
-
-#: data/re.sonny.Junction.metainfo.xml:100
-msgid "Add an option to display application names"
-msgstr "נוספה אפשרות להצגת שמות היישומים"
-
-#: data/re.sonny.Junction.metainfo.xml:101
-msgid "Add a menu button"
-msgstr "נוסף כפתור בתפריט"
-
-#: data/re.sonny.Junction.metainfo.xml:103
-msgid "Improve keyboard usage"
-msgstr "השימוש במקלדת השתפר"
-
-#: data/re.sonny.Junction.metainfo.xml:104
-msgid "Improve CLI usage"
-msgstr "השימוש דרך שורת הפקודה השתפר"
-
-#: data/re.sonny.Junction.metainfo.xml:105
-msgid "Support opening multiple URIs"
-msgstr "תמיכה בפתיחה מרוכזת של כתובות"
-
-#: data/re.sonny.Junction.metainfo.xml:107
-msgid "Support D-Bus activation"
-msgstr "תמיכה בהפעלת D-Bus"
-
-#: data/re.sonny.Junction.metainfo.xml:108
-msgid "Use libadwaita"
-msgstr "נעשה שימוש ב־libadwaita"
-
-#: data/re.sonny.Junction.metainfo.xml:115
-msgid "Fix for missing applications"
-msgstr "תיקון ליישומים חסרים"
-
-#: data/re.sonny.Junction.metainfo.xml:116
-msgid "Add a Shortcuts window - accessible with &lt;Ctrl&gt;?"
-msgstr "נוסף חלון קיצורי דרך - נגיש עם ‎&lt;Ctrl&gt;?‎"
-
-#: data/re.sonny.Junction.metainfo.xml:122
-msgid "This is the first release of Junction. We hope you like it."
-msgstr "זאת מהדורת הבכורה של צומת. מקווים שאהבת."
-
-#: src/Entry.js:23
-msgid "This site has no security. An attacker could see any information you send, or control the content that you see."
-msgstr "אתר זה לוקה מבחינת אבטחה. לתוקפים יש אפשרות לצפות בפרטים ששלחת או לשלוט בתוכן המוצג."
-
-#: src/AppButton.js:158
-msgid "Reveal"
-msgstr "חשיפה"
-
-#: src/AppButton.js:159
-msgid "Reveal in Folder"
-msgstr "חשיפה בתיקייה"
-
-#: src/AppButton.js:202
-msgid "All Applications"
-msgstr "כל היישומים"
-
-#: src/AppButton.js:216
-msgid "View All"
-msgstr "להציג הכול"
-
-#: src/window.blp:64
-msgid "Show names"
-msgstr "הצגת שמות"
-
-#: src/window.blp:69 src/ShortcutsWindow.blp:15
-msgid "Copy to Clipboard"
-msgstr "העתקה ללוח הגזירים"
-
-#: src/window.blp:75 src/welcome.blp:56 src/ShortcutsWindow.blp:42
-msgid "Keyboard Shortcuts"
-msgstr "קיצורי מקלדת"
-
-#: src/window.blp:80 src/welcome.blp:61
-msgid "About Junction"
-msgstr "על „צומת”"
-
-#: src/welcome.blp:32
-msgid "Test Junction"
-msgstr "בדיקת צומת"
-
-#: src/welcome.blp:39
-msgid "Set Junction as default for Web"
-msgstr "הגדרת צומת כברירת המחדל לאתרים"
-
-#. TRANSLATORS: eg. 'Translator Name <your.email@domain.com>' or 'Translator Name https://website.example'
-#: src/about.js:61
+#: ../lib/junction_rb/about_dialog.rb:26
 msgid "translator-credits"
 msgstr "ירון שהרבני <sh.yaron@gmail.com>"
 
-#: src/ShortcutsWindow.blp:10
+#: ../lib/junction_rb/host.rb:48
+msgid "Run Junction in the background."
+msgstr ""
+
+#: ../lib/junction_rb/menu_model.rb:31
+#, fuzzy
+#| msgid "Show names"
+msgid "Show App Names"
+msgstr "הצגת שמות"
+
+#: ../lib/junction_rb/menu_model.rb:32
+#: ../lib/junction_rb/shortcuts_dialog.rb:21
+msgid "Copy to Clipboard"
+msgstr "העתקה ללוח הגזירים"
+
+#: ../lib/junction_rb/menu_model.rb:38
+#: ../lib/junction_rb/shortcuts_dialog.rb:28
+msgid "Keyboard Shortcuts"
+msgstr "קיצורי מקלדת"
+
+#: ../lib/junction_rb/menu_model.rb:39 ../lib/junction_rb/welcome_window.rb:135
+msgid "About Junction"
+msgstr "על „צומת”"
+
+#: ../lib/junction_rb/shortcuts_dialog.rb:20
 msgid "Discard and close"
 msgstr "התעלמות וסגירה"
 
-#: src/ShortcutsWindow.blp:20
+#: ../lib/junction_rb/shortcuts_dialog.rb:22
 msgid "Select next/previous application"
 msgstr "בחירת היישום הבא/הקודם"
 
-#: src/ShortcutsWindow.blp:25
+#: ../lib/junction_rb/shortcuts_dialog.rb:23
 msgid "Open with selected application"
 msgstr "פתיחה עם היישום הנבחר"
 
-#: src/ShortcutsWindow.blp:30
+#: ../lib/junction_rb/shortcuts_dialog.rb:24
 msgid "Open with selected application and stay active"
 msgstr "פתיחה עם היישום הנבחר ולהישאר פעיל"
 
-#: src/ShortcutsWindow.blp:35
+#: ../lib/junction_rb/shortcuts_dialog.rb:25
 msgid "Open with application at position"
 msgstr "פתיחה עם היישום במיקום"
 
-#: src/ShortcutsWindow.blp:47
+#: ../lib/junction_rb/shortcuts_dialog.rb:29
 msgid "Quit"
 msgstr "יציאה"
+
+#: ../lib/junction_rb/show_in_folder_button.rb:15
+msgid "Open Location"
+msgstr ""
+
+#: ../lib/junction_rb/show_in_folder_button.rb:16
+msgid "View File in File Manager"
+msgstr ""
+
+#: ../lib/junction_rb/theme_switcher.rb:20
+msgid "Light Style"
+msgstr ""
+
+#: ../lib/junction_rb/theme_switcher.rb:21
+msgid "Follow System Style"
+msgstr ""
+
+#: ../lib/junction_rb/theme_switcher.rb:22
+msgid "Dark Style"
+msgstr ""
+
+#: ../lib/junction_rb/uri_entry.rb:15
+msgid ""
+"This site has no security. An attacker could see any information you send, "
+"or control the content that you see."
+msgstr ""
+"אתר זה לוקה מבחינת אבטחה. לתוקפים יש אפשרות לצפות בפרטים ששלחת או לשלוט "
+"בתוכן המוצג."
+
+#: ../lib/junction_rb/welcome_window.rb:158
+msgid "Test Junction"
+msgstr "בדיקת צומת"
+
+#: ../lib/junction_rb/welcome_window.rb:165
+msgid "Set Junction as default for Web"
+msgstr "הגדרת צומת כברירת המחדל לאתרים"
+
+#: ../lib/junction_rb/window.rb:278
+msgid "Main Menu"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.desktop:3
+msgid "Junction"
+msgstr "צומת"
+
+#: data/re.sonny.Junction.Rb.desktop:9
+#: data/re.sonny.Junction.Rb.metainfo.xml:28
+msgid "Application chooser"
+msgstr "בורר יישומים"
+
+#: data/re.sonny.Junction.Rb.desktop:21
+msgid "Choosy;BrowserChooser;Braus;Browserosaurus;Finicky;Buffet;OpenIn;BrowserSelect;"
+msgstr "Choosy;BrowserChooser;Braus;Browserosaurus;Finicky;Buffet;OpenIn;BrowserSelect;"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:22
+#, fuzzy
+#| msgid "Junction"
+msgid "Junction (Ruby)"
+msgstr "צומת"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:24
+msgid "Sonny Piers"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:31
+#, fuzzy
+#| msgid ""
+#| "Junction will pop up automatically when you open a link in a desktop "
+#| "application. Use the mouse or keyboard navigation to choose the "
+#| "application to open the link or file with."
+msgid ""
+"Junction pops up automatically when you open a file or link in another app. "
+"Use the mouse or keyboard navigation to choose which app you want to open it "
+"with."
+msgstr ""
+"צומת יקפוץ אוטומטית בעת פתיחת קישור ביישום לשולן העבודה. אפשר להשתמש בעכבר "
+"או בניווט עם המקלדת כדי לבחור את היישום שאתו ייפתח הקישור או הקובץ."
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:35
+msgid "Features:"
+msgstr "יכולות:"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:37
+#, fuzzy
+#| msgid "Choose the application to open with"
+msgid "Choose the app to open with"
+msgstr "בחירת היישום לפתיחה באמצעותו"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:38
+msgid "Show the location before opening"
+msgstr "הצגת המיקום בטרם הפתיחה"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:39
+msgid "Edit the URL before opening"
+msgstr "עריכת הכתובת בטרם הפתיחה"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:40
+#, fuzzy
+#| msgid "Show a hint for insecure link"
+msgid "Show a hint for insecure links"
+msgstr "הצגת רמז לקישור בלתי מאובטח"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:41
+msgid "Keyboard navigation"
+msgstr "ניווט עם המקלדת"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:42
+#, fuzzy
+#| msgid "Support desktop actions"
+msgid "Supports desktop actions on right click"
+msgstr "תמיכה בפעולות שולחן עבודה"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:43
+#, fuzzy
+#| msgid "Middle click to open in multiple applications"
+msgid "Middle Click or Ctrl + Click to open in multiple applications"
+msgstr "לחיצה אמצעית לפתיחה במספר יישומים"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:44
+msgid "Linux Mobile support"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:46
+msgid "This is a Ruby GTK4 / Libadwaita port of Junction."
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:64
+msgid "Choose the browser to open the link with"
+msgstr "נא לבחור את הדפדפן אתו ייפתח הקישור"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:72
+msgid "First release of the Ruby GTK4 port"
+msgstr ""
+
+#~ msgid "Junction lets you choose the application to open files and links."
+#~ msgstr "צומת מאפשר לך לבחור את היישום לפתיחת קבצים וקישורים."
+
+#~ msgid "After installing make sure to launch the application."
+#~ msgstr "לאחר ההתקנה יש לנסות להפעיל את היישום."
+
+#~ msgid "Choose the application to open the image with"
+#~ msgstr "נא לבחור את היישום אתו תיפתח התמונה"
+
+#~ msgid "Junction features great support for keyboard"
+#~ msgstr "צומת מציג תמיכה מעולה במקלדת"
+
+#~ msgid "Desktop actions are supported too"
+#~ msgstr "יש גם תמיכה בפעולות שולחן עבודה"
+
+#~ msgid "Add an option \"Reveal in Folder\" for files"
+#~ msgstr "הוספת אפשרות „חשיפה בתיקייה” לקבצים"
+
+#~ msgid "Reveal document portal file paths"
+#~ msgstr "חשיפת נתיבי קובצי שערי מסמכים"
+
+#~ msgid "Bug fix for desktop actions"
+#~ msgstr "תוקנה תקלה בפעולות שולחן עבודה"
+
+#~ msgid "Bug fix when opening with Libreoffice"
+#~ msgstr "תוקנה תקלה בפתיחה עם LibreOffice"
+
+#~ msgid "Support snap applications"
+#~ msgstr "תמיכה ביישומי snap"
+
+#~ msgid "Improve design"
+#~ msgstr "העיצוב השתפר"
+
+#~ msgid "New icon"
+#~ msgstr "סמל חדש"
+
+#~ msgid "Add a x-junction:// protocol API"
+#~ msgstr "נוסף API לפרוטוקול x-junction://‎"
+
+#~ msgid "Do not automatically set as default application"
+#~ msgstr "לא מוגדר כיישום ברירת המחדל אוטומטית"
+
+#~ msgid "Fix missing options"
+#~ msgstr "תוקנו אפשרויות חסרות"
+
+#~ msgid "Limit the number of options to 4"
+#~ msgstr "הגבלת מספר האפשרויות ל־4"
+
+#~ msgid "Add an option to open with any application"
+#~ msgstr "נוספה אפשרות לפתוח עם כל יישום שהוא"
+
+#~ msgid "Add a System Information panel in the about dialog"
+#~ msgstr "נוסף לוח לפרטי המערכת בחלונית על אודות"
+
+#~ msgid "Fix for applications that do not support URIs"
+#~ msgstr "הוצג תיקון ליישומים שלא תומכים בכתובות"
+
+#~ msgid "Add an option to display application names"
+#~ msgstr "נוספה אפשרות להצגת שמות היישומים"
+
+#~ msgid "Add a menu button"
+#~ msgstr "נוסף כפתור בתפריט"
+
+#~ msgid "Improve keyboard usage"
+#~ msgstr "השימוש במקלדת השתפר"
+
+#~ msgid "Improve CLI usage"
+#~ msgstr "השימוש דרך שורת הפקודה השתפר"
+
+#~ msgid "Support opening multiple URIs"
+#~ msgstr "תמיכה בפתיחה מרוכזת של כתובות"
+
+#~ msgid "Support D-Bus activation"
+#~ msgstr "תמיכה בהפעלת D-Bus"
+
+#~ msgid "Use libadwaita"
+#~ msgstr "נעשה שימוש ב־libadwaita"
+
+#~ msgid "Fix for missing applications"
+#~ msgstr "תיקון ליישומים חסרים"
+
+#~ msgid "Add a Shortcuts window - accessible with &lt;Ctrl&gt;?"
+#~ msgstr "נוסף חלון קיצורי דרך - נגיש עם ‎&lt;Ctrl&gt;?‎"
+
+#~ msgid "This is the first release of Junction. We hope you like it."
+#~ msgstr "זאת מהדורת הבכורה של צומת. מקווים שאהבת."
+
+#~ msgid "Reveal"
+#~ msgstr "חשיפה"
+
+#~ msgid "Reveal in Folder"
+#~ msgstr "חשיפה בתיקייה"
+
+#~ msgid "All Applications"
+#~ msgstr "כל היישומים"
+
+#~ msgid "View All"
+#~ msgstr "להציג הכול"

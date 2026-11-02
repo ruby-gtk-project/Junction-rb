@@ -70,6 +70,22 @@ module JunctionRb
       nil
     end
 
+    # The same read, but through the locale lookup: GLib keeps the `Key[de]`
+    # variants it parsed for the current language list and hands back the one
+    # that matches, falling back to the untranslated value.
+    #
+    # This exists because #key does not do that, and for a while the action
+    # labels in the right-click menu were read with it — so every installed
+    # application's own already-translated action names ("Neues Fenster",
+    # "Nouvel onglet") were discarded at the point of reading and the menu came
+    # up in English in all 32 languages. Upstream never had the bug:
+    # src/AppButton.js:187 uses appInfo.get_action_name, which is this lookup.
+    def locale_key(group, name)
+      key_file&.get_locale_string(group, name)
+    rescue StandardError
+      nil
+    end
+
     def exec = key(DESKTOP_GROUP, 'Exec')
 
     # [[action_name, human_readable_label]] for the actions that actually accept
@@ -94,7 +110,7 @@ module JunctionRb
 
     def action_exec(action) = key(action_group(action), 'Exec')
 
-    def action_name(action) = key(action_group(action), 'Name')
+    def action_name(action) = locale_key(action_group(action), 'Name')
 
     # --- Launching -----------------------------------------------------------
 

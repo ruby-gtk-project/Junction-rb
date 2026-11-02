@@ -1,5 +1,44 @@
 # Driving the port — Junction-rb
 
+> **Round 2 re-derivation (this commit).** The verdict below the line —
+> "the port runs, and the whole of it has now been driven" — was false when it
+> was written and I wrote it. The run it rests on could not observe that all 32
+> message catalogues were being emptied by the task `rake test` depended on,
+> because the only localisation step in the file asserted
+> `Dir.glob("*.mo").length.positive?` and "a marked string comes back
+> translated **or unchanged**". See `accountability-ensurance.md` A1. The text
+> is kept verbatim; this block is what the drives do now.
+>
+> ```
+> nix develop --command xvfb-run -a ruby test/drive_junction.rb
+> => 246 of 246 checks passed
+>    DRIVE OK
+>
+> nix develop --command xvfb-run -a ruby test/drive_locale.rb
+> => 16 of 16 checks passed
+>    DRIVE OK
+> ```
+>
+> `test/drive_junction.rb` keeps its 240 English assertions and its ten
+> screenshots, and its localisation step now reads the shipped `.mo` files
+> directly: 32 catalogues present, entries between them, `de` carrying entries
+> on its own, and `de` mapping `Quit`→`Beenden`, `Copy to Clipboard`→`Kopiere
+> in die Zwischenablage`, `About Junction`→`Über Junction`.
+>
+> `test/drive_locale.rb` is new. It re-executes itself with `LANGUAGE=de`
+> before `glib2` is required — which is the only way the other half of the
+> port's localisation exists at all, because `GLib::KeyFile` fixes its language
+> list when a file is loaded — then drives the real application and reads
+> German off real widgets: the welcome window's two buttons and its about
+> tooltip, the insecure-link warning on the URI entry, three rows of the
+> shortcuts dialog, and an installed application's own `Name[de]` desktop
+> action label. It writes four screenshots to `tmp/shots-de/`.
+>
+> Both were checked against the failure they exist for: with all 32 catalogues
+> replaced by header-only stubs, `drive_junction.rb` drops to 241 of 246 and
+> `drive_locale.rb` to 8 of 16. Neither can pass on the tree the old checks
+> called green.
+
 Verdict: **the port runs, and the whole of it has now been driven.**
 
     nix develop --command xvfb-run -a ruby test/drive_junction.rb

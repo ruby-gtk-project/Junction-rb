@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: re.sonny.Junction\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-15 00:57+0200\n"
+"POT-Creation-Date: 2026-11-02 17:16+0000\n"
 "PO-Revision-Date: 2022-02-13 21:56+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
-"Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/junction/junction/pt_BR/>\n"
+"Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
+"junction/junction/pt_BR/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,252 +19,296 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.11-dev\n"
 
-#. TRANSLATORS: Don't translate
-#: data/re.sonny.Junction.desktop:4
-msgid "Junction"
-msgstr "Junction"
-
-#: data/re.sonny.Junction.desktop:5 data/re.sonny.Junction.metainfo.xml:10
-msgid "Application chooser"
-msgstr "Seletor de aplicativo"
-
-#. TRANSLATORS: Don't translate
-#: data/re.sonny.Junction.desktop:13
-msgid "Choosy;BrowserChooser;Braus;Browserosaurus;Finicky;Buffet;OpenIn;BrowserSelect;"
-msgstr "Choosy;BrowserChooser;Braus;Browserosaurus;Finicky;Buffet;OpenIn;BrowserSelect;"
-
-#: data/re.sonny.Junction.metainfo.xml:13
-msgid "Junction lets you choose the application to open files and links."
-msgstr "O Junction permite que você escolha o aplicativo para abrir arquivos e links."
-
-#: data/re.sonny.Junction.metainfo.xml:14
-msgid "After installing make sure to launch the application."
-msgstr "Após a instalação, certifique-se de iniciar o aplicativo."
-
-#: data/re.sonny.Junction.metainfo.xml:17
-msgid "Junction will pop up automatically when you open a link in a desktop application. Use the mouse or keyboard navigation to choose the application to open the link or file with."
-msgstr "O Junction aparecerá automaticamente quando você abrir um link em um aplicativo de desktop. Use a navegação do mouse ou do teclado para escolher o aplicativo com o qual abrir o link ou arquivo."
-
-#: data/re.sonny.Junction.metainfo.xml:22
-msgid "Features:"
-msgstr "Funcionalidades:"
-
-#: data/re.sonny.Junction.metainfo.xml:24
-msgid "Choose the application to open with"
-msgstr "Escolha com qual aplicativo abrir"
-
-#: data/re.sonny.Junction.metainfo.xml:25
-msgid "Show the location before opening"
-msgstr "Mostrar a localização antes de abrir"
-
-#: data/re.sonny.Junction.metainfo.xml:26
-msgid "Edit the URL before opening"
-msgstr "Editar o URL antes de abrir"
-
-#: data/re.sonny.Junction.metainfo.xml:27
-msgid "Show a hint for insecure link"
-msgstr "Mostrar uma advertência para links inseguros"
-
-#: data/re.sonny.Junction.metainfo.xml:28
-msgid "Keyboard navigation"
-msgstr "Navegação por teclado"
-
-#: data/re.sonny.Junction.metainfo.xml:29
-msgid "Middle click to open in multiple applications"
-msgstr "Clicar com o botão do meio para abrir em vários aplicativos"
-
-#: data/re.sonny.Junction.metainfo.xml:41
-msgid "Choose the browser to open the link with"
-msgstr "Escolha o navegador para abrir o link"
-
-#: data/re.sonny.Junction.metainfo.xml:47
-msgid "Choose the application to open the image with"
-msgstr "Escolha o aplicativo para abrir a imagem"
-
-#: data/re.sonny.Junction.metainfo.xml:53
-msgid "Junction features great support for keyboard"
-msgstr "O Junction oferece ótimo suporte para teclado"
-
-#: data/re.sonny.Junction.metainfo.xml:59
-msgid "Desktop actions are supported too"
-msgstr "Ações de área de trabalho também são suportadas"
-
-#: data/re.sonny.Junction.metainfo.xml:67
-msgid "Add an option \"Reveal in Folder\" for files"
-msgstr "Adiciona uma opção \"Revelar na pasta\" para arquivos"
-
-#: data/re.sonny.Junction.metainfo.xml:68
-msgid "Reveal document portal file paths"
-msgstr "Revela caminhos de arquivo de portal de documentos"
-
-#: data/re.sonny.Junction.metainfo.xml:69
-msgid "Bug fix for desktop actions"
-msgstr "Correção de bug para as ações da área de trabalho"
-
-#: data/re.sonny.Junction.metainfo.xml:70
-msgid "Bug fix when opening with Libreoffice"
-msgstr "Correção de bug quando aberto com o Libreoffice"
-
-#: data/re.sonny.Junction.metainfo.xml:77
-msgid "Support desktop actions"
-msgstr "Suporte a ações de área de trabalho"
-
-#: data/re.sonny.Junction.metainfo.xml:78
-msgid "Support snap applications"
-msgstr "Suporte a aplicativos snap"
-
-#: data/re.sonny.Junction.metainfo.xml:85
-#: data/re.sonny.Junction.metainfo.xml:102
-msgid "Improve design"
-msgstr "Melhorar o design"
-
-#: data/re.sonny.Junction.metainfo.xml:86
-msgid "New icon"
-msgstr "Novo ícone"
-
-#: data/re.sonny.Junction.metainfo.xml:87
-msgid "Add a x-junction:// protocol API"
-msgstr "Adicionar uma API de protocolo x-junction://"
-
-#: data/re.sonny.Junction.metainfo.xml:88
-msgid "Do not automatically set as default application"
-msgstr "Não definir automaticamente como aplicativo padrão"
-
-#: data/re.sonny.Junction.metainfo.xml:89
-msgid "Fix missing options"
-msgstr "Corrigir opções ausentes"
-
-#: data/re.sonny.Junction.metainfo.xml:90
-msgid "Limit the number of options to 4"
-msgstr "Limitar o número de opções para 4"
-
-#: data/re.sonny.Junction.metainfo.xml:91
-msgid "Add an option to open with any application"
-msgstr "Adicionar uma opção para abrir com qualquer aplicativo"
-
-#: data/re.sonny.Junction.metainfo.xml:92
-msgid "Add a System Information panel in the about dialog"
-msgstr "Adicionar um painel de informações do sistema na caixa de diálogo Sobre"
-
-#: data/re.sonny.Junction.metainfo.xml:99
-msgid "Fix for applications that do not support URIs"
-msgstr "Correção para aplicativos que não oferecem suporte a URIs"
-
-#: data/re.sonny.Junction.metainfo.xml:100
-msgid "Add an option to display application names"
-msgstr "Adicionar uma opção para exibir nomes de aplicativos"
-
-#: data/re.sonny.Junction.metainfo.xml:101
-msgid "Add a menu button"
-msgstr "Adicionar um botão de menu"
-
-#: data/re.sonny.Junction.metainfo.xml:103
-msgid "Improve keyboard usage"
-msgstr "Melhorar o uso do teclado"
-
-#: data/re.sonny.Junction.metainfo.xml:104
-msgid "Improve CLI usage"
-msgstr "Melhorar o uso da CLI"
-
-#: data/re.sonny.Junction.metainfo.xml:105
-msgid "Support opening multiple URIs"
-msgstr "Suporte para abertura de vários URIs"
-
-#: data/re.sonny.Junction.metainfo.xml:107
-msgid "Support D-Bus activation"
-msgstr "Suporte à ativação de D-Bus"
-
-#: data/re.sonny.Junction.metainfo.xml:108
-msgid "Use libadwaita"
-msgstr "Usar libadwaita"
-
-#: data/re.sonny.Junction.metainfo.xml:115
-msgid "Fix for missing applications"
-msgstr "Correção para aplicativos ausentes"
-
-#: data/re.sonny.Junction.metainfo.xml:116
-msgid "Add a Shortcuts window - accessible with &lt;Ctrl&gt;?"
-msgstr "Adiciona uma janela de Atalhos – acessível com &lt;Ctrl&gt;?"
-
-#: data/re.sonny.Junction.metainfo.xml:122
-msgid "This is the first release of Junction. We hope you like it."
-msgstr "Este é o primeiro lançamento do Junction. Esperamos que você goste."
-
-#: src/Entry.js:23
-msgid "This site has no security. An attacker could see any information you send, or control the content that you see."
-msgstr "Este site não possui segurança. Um invasor poderia ver qualquer informação que você envie ou controlar o conteúdo que você vê."
-
-#: src/AppButton.js:158
-msgid "Reveal"
-msgstr "Revelar"
-
-#: src/AppButton.js:159
-msgid "Reveal in Folder"
-msgstr "Revelar na pasta"
-
-#: src/AppButton.js:202
-msgid "All Applications"
-msgstr "Todos os aplicativos"
-
-#: src/AppButton.js:216
-msgid "View All"
-msgstr "Ver todos"
-
-#: src/window.blp:64
-msgid "Show names"
-msgstr "Mostrar nomes"
-
-#: src/window.blp:69 src/ShortcutsWindow.blp:15
-msgid "Copy to Clipboard"
-msgstr "Copia para a área de transferência"
-
-#: src/window.blp:75 src/welcome.blp:56 src/ShortcutsWindow.blp:42
-msgid "Keyboard Shortcuts"
-msgstr "Atalhos de teclado"
-
-#: src/window.blp:80 src/welcome.blp:61
-msgid "About Junction"
-msgstr "Sobre o Junction"
-
-#: src/welcome.blp:32
-msgid "Test Junction"
-msgstr "Testar o Junction"
-
-#: src/welcome.blp:39
-msgid "Set Junction as default for Web"
-msgstr "Definir o Junction como padrão para a Web"
-
-#. TRANSLATORS: eg. 'Translator Name <your.email@domain.com>' or 'Translator Name https://website.example'
-#: src/about.js:61
+#: ../lib/junction_rb/about_dialog.rb:26
 msgid "translator-credits"
 msgstr ""
 "Tiago Lucas Flach <tiagolucas9830@gmail.com>\n"
 "Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Gabriel Gian <gabrielgian@protonmail.com>"
 
-#: src/ShortcutsWindow.blp:10
+#: ../lib/junction_rb/host.rb:48
+msgid "Run Junction in the background."
+msgstr ""
+
+#: ../lib/junction_rb/menu_model.rb:31
+#, fuzzy
+#| msgid "Show names"
+msgid "Show App Names"
+msgstr "Mostrar nomes"
+
+#: ../lib/junction_rb/menu_model.rb:32
+#: ../lib/junction_rb/shortcuts_dialog.rb:21
+msgid "Copy to Clipboard"
+msgstr "Copia para a área de transferência"
+
+#: ../lib/junction_rb/menu_model.rb:38
+#: ../lib/junction_rb/shortcuts_dialog.rb:28
+msgid "Keyboard Shortcuts"
+msgstr "Atalhos de teclado"
+
+#: ../lib/junction_rb/menu_model.rb:39 ../lib/junction_rb/welcome_window.rb:135
+msgid "About Junction"
+msgstr "Sobre o Junction"
+
+#: ../lib/junction_rb/shortcuts_dialog.rb:20
 msgid "Discard and close"
 msgstr "Descarta e fecha"
 
-#: src/ShortcutsWindow.blp:20
+#: ../lib/junction_rb/shortcuts_dialog.rb:22
 msgid "Select next/previous application"
 msgstr "Seleciona o aplicativo seguinte/anterior"
 
-#: src/ShortcutsWindow.blp:25
+#: ../lib/junction_rb/shortcuts_dialog.rb:23
 msgid "Open with selected application"
 msgstr "Abre com o aplicativo selecionado"
 
-#: src/ShortcutsWindow.blp:30
+#: ../lib/junction_rb/shortcuts_dialog.rb:24
 msgid "Open with selected application and stay active"
 msgstr "Abre com o aplicativo selecionado e se mantém ativo"
 
-#: src/ShortcutsWindow.blp:35
+#: ../lib/junction_rb/shortcuts_dialog.rb:25
 msgid "Open with application at position"
 msgstr "Abre com o aplicativo na posição"
 
-#: src/ShortcutsWindow.blp:47
+#: ../lib/junction_rb/shortcuts_dialog.rb:29
 msgid "Quit"
 msgstr "Sai"
+
+#: ../lib/junction_rb/show_in_folder_button.rb:15
+msgid "Open Location"
+msgstr ""
+
+#: ../lib/junction_rb/show_in_folder_button.rb:16
+msgid "View File in File Manager"
+msgstr ""
+
+#: ../lib/junction_rb/theme_switcher.rb:20
+msgid "Light Style"
+msgstr ""
+
+#: ../lib/junction_rb/theme_switcher.rb:21
+msgid "Follow System Style"
+msgstr ""
+
+#: ../lib/junction_rb/theme_switcher.rb:22
+msgid "Dark Style"
+msgstr ""
+
+#: ../lib/junction_rb/uri_entry.rb:15
+msgid ""
+"This site has no security. An attacker could see any information you send, "
+"or control the content that you see."
+msgstr ""
+"Este site não possui segurança. Um invasor poderia ver qualquer informação "
+"que você envie ou controlar o conteúdo que você vê."
+
+#: ../lib/junction_rb/welcome_window.rb:158
+msgid "Test Junction"
+msgstr "Testar o Junction"
+
+#: ../lib/junction_rb/welcome_window.rb:165
+msgid "Set Junction as default for Web"
+msgstr "Definir o Junction como padrão para a Web"
+
+#: ../lib/junction_rb/window.rb:278
+msgid "Main Menu"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.desktop:3
+msgid "Junction"
+msgstr "Junction"
+
+#: data/re.sonny.Junction.Rb.desktop:9
+#: data/re.sonny.Junction.Rb.metainfo.xml:28
+msgid "Application chooser"
+msgstr "Seletor de aplicativo"
+
+#: data/re.sonny.Junction.Rb.desktop:21
+msgid "Choosy;BrowserChooser;Braus;Browserosaurus;Finicky;Buffet;OpenIn;BrowserSelect;"
+msgstr "Choosy;BrowserChooser;Braus;Browserosaurus;Finicky;Buffet;OpenIn;BrowserSelect;"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:22
+#, fuzzy
+#| msgid "Junction"
+msgid "Junction (Ruby)"
+msgstr "Junction"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:24
+msgid "Sonny Piers"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:31
+#, fuzzy
+#| msgid ""
+#| "Junction will pop up automatically when you open a link in a desktop "
+#| "application. Use the mouse or keyboard navigation to choose the "
+#| "application to open the link or file with."
+msgid ""
+"Junction pops up automatically when you open a file or link in another app. "
+"Use the mouse or keyboard navigation to choose which app you want to open it "
+"with."
+msgstr ""
+"O Junction aparecerá automaticamente quando você abrir um link em um "
+"aplicativo de desktop. Use a navegação do mouse ou do teclado para escolher "
+"o aplicativo com o qual abrir o link ou arquivo."
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:35
+msgid "Features:"
+msgstr "Funcionalidades:"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:37
+#, fuzzy
+#| msgid "Choose the application to open with"
+msgid "Choose the app to open with"
+msgstr "Escolha com qual aplicativo abrir"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:38
+msgid "Show the location before opening"
+msgstr "Mostrar a localização antes de abrir"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:39
+msgid "Edit the URL before opening"
+msgstr "Editar o URL antes de abrir"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:40
+#, fuzzy
+#| msgid "Show a hint for insecure link"
+msgid "Show a hint for insecure links"
+msgstr "Mostrar uma advertência para links inseguros"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:41
+msgid "Keyboard navigation"
+msgstr "Navegação por teclado"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:42
+#, fuzzy
+#| msgid "Support desktop actions"
+msgid "Supports desktop actions on right click"
+msgstr "Suporte a ações de área de trabalho"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:43
+#, fuzzy
+#| msgid "Middle click to open in multiple applications"
+msgid "Middle Click or Ctrl + Click to open in multiple applications"
+msgstr "Clicar com o botão do meio para abrir em vários aplicativos"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:44
+msgid "Linux Mobile support"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:46
+msgid "This is a Ruby GTK4 / Libadwaita port of Junction."
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:64
+msgid "Choose the browser to open the link with"
+msgstr "Escolha o navegador para abrir o link"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:72
+msgid "First release of the Ruby GTK4 port"
+msgstr ""
+
+#~ msgid "Junction lets you choose the application to open files and links."
+#~ msgstr ""
+#~ "O Junction permite que você escolha o aplicativo para abrir arquivos e "
+#~ "links."
+
+#~ msgid "After installing make sure to launch the application."
+#~ msgstr "Após a instalação, certifique-se de iniciar o aplicativo."
+
+#~ msgid "Choose the application to open the image with"
+#~ msgstr "Escolha o aplicativo para abrir a imagem"
+
+#~ msgid "Junction features great support for keyboard"
+#~ msgstr "O Junction oferece ótimo suporte para teclado"
+
+#~ msgid "Desktop actions are supported too"
+#~ msgstr "Ações de área de trabalho também são suportadas"
+
+#~ msgid "Add an option \"Reveal in Folder\" for files"
+#~ msgstr "Adiciona uma opção \"Revelar na pasta\" para arquivos"
+
+#~ msgid "Reveal document portal file paths"
+#~ msgstr "Revela caminhos de arquivo de portal de documentos"
+
+#~ msgid "Bug fix for desktop actions"
+#~ msgstr "Correção de bug para as ações da área de trabalho"
+
+#~ msgid "Bug fix when opening with Libreoffice"
+#~ msgstr "Correção de bug quando aberto com o Libreoffice"
+
+#~ msgid "Support snap applications"
+#~ msgstr "Suporte a aplicativos snap"
+
+#~ msgid "Improve design"
+#~ msgstr "Melhorar o design"
+
+#~ msgid "New icon"
+#~ msgstr "Novo ícone"
+
+#~ msgid "Add a x-junction:// protocol API"
+#~ msgstr "Adicionar uma API de protocolo x-junction://"
+
+#~ msgid "Do not automatically set as default application"
+#~ msgstr "Não definir automaticamente como aplicativo padrão"
+
+#~ msgid "Fix missing options"
+#~ msgstr "Corrigir opções ausentes"
+
+#~ msgid "Limit the number of options to 4"
+#~ msgstr "Limitar o número de opções para 4"
+
+#~ msgid "Add an option to open with any application"
+#~ msgstr "Adicionar uma opção para abrir com qualquer aplicativo"
+
+#~ msgid "Add a System Information panel in the about dialog"
+#~ msgstr ""
+#~ "Adicionar um painel de informações do sistema na caixa de diálogo Sobre"
+
+#~ msgid "Fix for applications that do not support URIs"
+#~ msgstr "Correção para aplicativos que não oferecem suporte a URIs"
+
+#~ msgid "Add an option to display application names"
+#~ msgstr "Adicionar uma opção para exibir nomes de aplicativos"
+
+#~ msgid "Add a menu button"
+#~ msgstr "Adicionar um botão de menu"
+
+#~ msgid "Improve keyboard usage"
+#~ msgstr "Melhorar o uso do teclado"
+
+#~ msgid "Improve CLI usage"
+#~ msgstr "Melhorar o uso da CLI"
+
+#~ msgid "Support opening multiple URIs"
+#~ msgstr "Suporte para abertura de vários URIs"
+
+#~ msgid "Support D-Bus activation"
+#~ msgstr "Suporte à ativação de D-Bus"
+
+#~ msgid "Use libadwaita"
+#~ msgstr "Usar libadwaita"
+
+#~ msgid "Fix for missing applications"
+#~ msgstr "Correção para aplicativos ausentes"
+
+#~ msgid "Add a Shortcuts window - accessible with &lt;Ctrl&gt;?"
+#~ msgstr "Adiciona uma janela de Atalhos – acessível com &lt;Ctrl&gt;?"
+
+#~ msgid "This is the first release of Junction. We hope you like it."
+#~ msgstr "Este é o primeiro lançamento do Junction. Esperamos que você goste."
+
+#~ msgid "Reveal"
+#~ msgstr "Revelar"
+
+#~ msgid "Reveal in Folder"
+#~ msgstr "Revelar na pasta"
+
+#~ msgid "All Applications"
+#~ msgstr "Todos os aplicativos"
+
+#~ msgid "View All"
+#~ msgstr "Ver todos"
 
 #~ msgid "Add Polish translation"
 #~ msgstr "Adicionar tradução para polonês"

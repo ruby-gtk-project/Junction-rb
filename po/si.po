@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: re.sonny.Junction\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-15 00:57+0200\n"
+"POT-Creation-Date: 2026-11-02 17:16+0000\n"
 "PO-Revision-Date: 2022-01-02 22:23+0000\n"
 "Last-Translator: Anuja Nimesh <anujanimesh@gmail.com>\n"
-"Language-Team: Sinhala <https://hosted.weblate.org/projects/junction/junction/si/>\n"
+"Language-Team: Sinhala <https://hosted.weblate.org/projects/junction/"
+"junction/si/>\n"
 "Language: si\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,246 +19,168 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 4.10.1\n"
 
-#. TRANSLATORS: Don't translate
-#: data/re.sonny.Junction.desktop:4
-msgid "Junction"
-msgstr "Junction"
-
-#: data/re.sonny.Junction.desktop:5 data/re.sonny.Junction.metainfo.xml:10
-msgid "Application chooser"
-msgstr ""
-
-#. TRANSLATORS: Don't translate
-#: data/re.sonny.Junction.desktop:13
-msgid "Choosy;BrowserChooser;Braus;Browserosaurus;Finicky;Buffet;OpenIn;BrowserSelect;"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:13
-msgid "Junction lets you choose the application to open files and links."
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:14
-msgid "After installing make sure to launch the application."
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:17
-msgid "Junction will pop up automatically when you open a link in a desktop application. Use the mouse or keyboard navigation to choose the application to open the link or file with."
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:22
-msgid "Features:"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:24
-msgid "Choose the application to open with"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:25
-msgid "Show the location before opening"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:26
-msgid "Edit the URL before opening"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:27
-msgid "Show a hint for insecure link"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:28
-msgid "Keyboard navigation"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:29
-msgid "Middle click to open in multiple applications"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:41
-msgid "Choose the browser to open the link with"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:47
-msgid "Choose the application to open the image with"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:53
-msgid "Junction features great support for keyboard"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:59
-msgid "Desktop actions are supported too"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:67
-msgid "Add an option \"Reveal in Folder\" for files"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:68
-msgid "Reveal document portal file paths"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:69
-msgid "Bug fix for desktop actions"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:70
-msgid "Bug fix when opening with Libreoffice"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:77
-msgid "Support desktop actions"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:78
-msgid "Support snap applications"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:85
-#: data/re.sonny.Junction.metainfo.xml:102
-msgid "Improve design"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:86
-msgid "New icon"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:87
-msgid "Add a x-junction:// protocol API"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:88
-msgid "Do not automatically set as default application"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:89
-msgid "Fix missing options"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:90
-msgid "Limit the number of options to 4"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:91
-msgid "Add an option to open with any application"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:92
-msgid "Add a System Information panel in the about dialog"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:99
-msgid "Fix for applications that do not support URIs"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:100
-msgid "Add an option to display application names"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:101
-msgid "Add a menu button"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:103
-msgid "Improve keyboard usage"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:104
-msgid "Improve CLI usage"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:105
-msgid "Support opening multiple URIs"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:107
-msgid "Support D-Bus activation"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:108
-msgid "Use libadwaita"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:115
-msgid "Fix for missing applications"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:116
-msgid "Add a Shortcuts window - accessible with &lt;Ctrl&gt;?"
-msgstr ""
-
-#: data/re.sonny.Junction.metainfo.xml:122
-msgid "This is the first release of Junction. We hope you like it."
-msgstr ""
-
-#: src/Entry.js:23
-msgid "This site has no security. An attacker could see any information you send, or control the content that you see."
-msgstr ""
-
-#: src/AppButton.js:158
-msgid "Reveal"
-msgstr ""
-
-#: src/AppButton.js:159
-msgid "Reveal in Folder"
-msgstr ""
-
-#: src/AppButton.js:202
-msgid "All Applications"
-msgstr ""
-
-#: src/AppButton.js:216
-msgid "View All"
-msgstr ""
-
-#: src/window.blp:64
-msgid "Show names"
-msgstr ""
-
-#: src/window.blp:69 src/ShortcutsWindow.blp:15
-msgid "Copy to Clipboard"
-msgstr ""
-
-#: src/window.blp:75 src/welcome.blp:56 src/ShortcutsWindow.blp:42
-msgid "Keyboard Shortcuts"
-msgstr ""
-
-#: src/window.blp:80 src/welcome.blp:61
-msgid "About Junction"
-msgstr ""
-
-#: src/welcome.blp:32
-msgid "Test Junction"
-msgstr ""
-
-#: src/welcome.blp:39
-msgid "Set Junction as default for Web"
-msgstr ""
-
-#. TRANSLATORS: eg. 'Translator Name <your.email@domain.com>' or 'Translator Name https://website.example'
-#: src/about.js:61
+#: ../lib/junction_rb/about_dialog.rb:26
 msgid "translator-credits"
 msgstr ""
 
-#: src/ShortcutsWindow.blp:10
+#: ../lib/junction_rb/host.rb:48
+msgid "Run Junction in the background."
+msgstr ""
+
+#: ../lib/junction_rb/menu_model.rb:31
+msgid "Show App Names"
+msgstr ""
+
+#: ../lib/junction_rb/menu_model.rb:32
+#: ../lib/junction_rb/shortcuts_dialog.rb:21
+msgid "Copy to Clipboard"
+msgstr ""
+
+#: ../lib/junction_rb/menu_model.rb:38
+#: ../lib/junction_rb/shortcuts_dialog.rb:28
+msgid "Keyboard Shortcuts"
+msgstr ""
+
+#: ../lib/junction_rb/menu_model.rb:39 ../lib/junction_rb/welcome_window.rb:135
+msgid "About Junction"
+msgstr ""
+
+#: ../lib/junction_rb/shortcuts_dialog.rb:20
 msgid "Discard and close"
 msgstr ""
 
-#: src/ShortcutsWindow.blp:20
+#: ../lib/junction_rb/shortcuts_dialog.rb:22
 msgid "Select next/previous application"
 msgstr ""
 
-#: src/ShortcutsWindow.blp:25
+#: ../lib/junction_rb/shortcuts_dialog.rb:23
 msgid "Open with selected application"
 msgstr ""
 
-#: src/ShortcutsWindow.blp:30
+#: ../lib/junction_rb/shortcuts_dialog.rb:24
 msgid "Open with selected application and stay active"
 msgstr ""
 
-#: src/ShortcutsWindow.blp:35
+#: ../lib/junction_rb/shortcuts_dialog.rb:25
 msgid "Open with application at position"
 msgstr ""
 
-#: src/ShortcutsWindow.blp:47
+#: ../lib/junction_rb/shortcuts_dialog.rb:29
 msgid "Quit"
+msgstr ""
+
+#: ../lib/junction_rb/show_in_folder_button.rb:15
+msgid "Open Location"
+msgstr ""
+
+#: ../lib/junction_rb/show_in_folder_button.rb:16
+msgid "View File in File Manager"
+msgstr ""
+
+#: ../lib/junction_rb/theme_switcher.rb:20
+msgid "Light Style"
+msgstr ""
+
+#: ../lib/junction_rb/theme_switcher.rb:21
+msgid "Follow System Style"
+msgstr ""
+
+#: ../lib/junction_rb/theme_switcher.rb:22
+msgid "Dark Style"
+msgstr ""
+
+#: ../lib/junction_rb/uri_entry.rb:15
+msgid ""
+"This site has no security. An attacker could see any information you send, "
+"or control the content that you see."
+msgstr ""
+
+#: ../lib/junction_rb/welcome_window.rb:158
+msgid "Test Junction"
+msgstr ""
+
+#: ../lib/junction_rb/welcome_window.rb:165
+msgid "Set Junction as default for Web"
+msgstr ""
+
+#: ../lib/junction_rb/window.rb:278
+msgid "Main Menu"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.desktop:3
+msgid "Junction"
+msgstr "Junction"
+
+#: data/re.sonny.Junction.Rb.desktop:9
+#: data/re.sonny.Junction.Rb.metainfo.xml:28
+msgid "Application chooser"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.desktop:21
+msgid "Choosy;BrowserChooser;Braus;Browserosaurus;Finicky;Buffet;OpenIn;BrowserSelect;"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:22
+#, fuzzy
+#| msgid "Junction"
+msgid "Junction (Ruby)"
+msgstr "Junction"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:24
+msgid "Sonny Piers"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:31
+msgid ""
+"Junction pops up automatically when you open a file or link in another app. "
+"Use the mouse or keyboard navigation to choose which app you want to open it "
+"with."
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:35
+msgid "Features:"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:37
+msgid "Choose the app to open with"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:38
+msgid "Show the location before opening"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:39
+msgid "Edit the URL before opening"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:40
+msgid "Show a hint for insecure links"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:41
+msgid "Keyboard navigation"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:42
+msgid "Supports desktop actions on right click"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:43
+msgid "Middle Click or Ctrl + Click to open in multiple applications"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:44
+msgid "Linux Mobile support"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:46
+msgid "This is a Ruby GTK4 / Libadwaita port of Junction."
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:64
+msgid "Choose the browser to open the link with"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:72
+msgid "First release of the Ruby GTK4 port"
 msgstr ""

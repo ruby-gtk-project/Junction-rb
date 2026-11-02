@@ -7,257 +7,299 @@ msgid ""
 msgstr ""
 "Project-Id-Version: re.sonny.Junction\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-15 00:57+0200\n"
+"POT-Creation-Date: 2026-11-02 17:16+0000\n"
 "PO-Revision-Date: 2022-08-24 03:22+0000\n"
 "Last-Translator: Ibrahim Muhammad <ebraheem010@gmail.com>\n"
-"Language-Team: Arabic <https://hosted.weblate.org/projects/junction/junction/ar/>\n"
+"Language-Team: Arabic <https://hosted.weblate.org/projects/junction/junction/"
+"ar/>\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
 "X-Generator: Weblate 4.14-dev\n"
 
-#. TRANSLATORS: Don't translate
-#: data/re.sonny.Junction.desktop:4
-msgid "Junction"
-msgstr "جانكشن"
-
-#: data/re.sonny.Junction.desktop:5 data/re.sonny.Junction.metainfo.xml:10
-msgid "Application chooser"
-msgstr "منتقي التطبيقات"
-
-#. TRANSLATORS: Don't translate
-#: data/re.sonny.Junction.desktop:13
-msgid "Choosy;BrowserChooser;Braus;Browserosaurus;Finicky;Buffet;OpenIn;BrowserSelect;"
-msgstr ";Choosy;BrowserChooser;Braus;Browserosaurus;Finicky;Buffet;OpenIn;BrowserSelect;"
-
-#: data/re.sonny.Junction.metainfo.xml:13
-msgid "Junction lets you choose the application to open files and links."
-msgstr "يتيح لك جانكشن اختيار التطبيق لفتح الملفات والروابط."
-
-#: data/re.sonny.Junction.metainfo.xml:14
-msgid "After installing make sure to launch the application."
-msgstr "بعد التثبيت تأكد من تشغيل التطبيق."
-
-#: data/re.sonny.Junction.metainfo.xml:17
-msgid "Junction will pop up automatically when you open a link in a desktop application. Use the mouse or keyboard navigation to choose the application to open the link or file with."
-msgstr "سينبثق منتقي التطبيقات تلقائيًا عند فتح ارتباط في تطبيق سطح المكتب. استخدم التنقل بالفأرة أو لوحة المفاتيح لاختيار التطبيق لفتح الرابط أو المِلَفّ به."
-
-#: data/re.sonny.Junction.metainfo.xml:22
-msgid "Features:"
-msgstr "المميزات:"
-
-#: data/re.sonny.Junction.metainfo.xml:24
-msgid "Choose the application to open with"
-msgstr "يرجى اختيار تطبيق للفتح"
-
-#: data/re.sonny.Junction.metainfo.xml:25
-msgid "Show the location before opening"
-msgstr "إظهار المكان قبل الفتح"
-
-#: data/re.sonny.Junction.metainfo.xml:26
-msgid "Edit the URL before opening"
-msgstr "تعديل الرابط قبل الفتح"
-
-#: data/re.sonny.Junction.metainfo.xml:27
-msgid "Show a hint for insecure link"
-msgstr "عرض ملاحظة للروابط غير الآمنة"
-
-#: data/re.sonny.Junction.metainfo.xml:28
-msgid "Keyboard navigation"
-msgstr "التحكم باستخدام لوحة المفاتيح"
-
-#: data/re.sonny.Junction.metainfo.xml:29
-msgid "Middle click to open in multiple applications"
-msgstr "النقر في المنتصف للفتح في تطبيقات عدة"
-
-#: data/re.sonny.Junction.metainfo.xml:41
-msgid "Choose the browser to open the link with"
-msgstr "يرجى اختيار متصفح لفتح الرابط"
-
-#: data/re.sonny.Junction.metainfo.xml:47
-msgid "Choose the application to open the image with"
-msgstr "يرجى اختيار تطبيق لفتح الصورة"
-
-#: data/re.sonny.Junction.metainfo.xml:53
-msgid "Junction features great support for keyboard"
-msgstr "جانكشن يقدم دعما كبيرا لاستخدام لوحة المفاتيح"
-
-#: data/re.sonny.Junction.metainfo.xml:59
-msgid "Desktop actions are supported too"
-msgstr "أوامر سطح المكتب مدعومة أيضا"
-
-#: data/re.sonny.Junction.metainfo.xml:67
-msgid "Add an option \"Reveal in Folder\" for files"
-msgstr "إضافة خيار \"عرض في المجلد\" للملفات"
-
-#: data/re.sonny.Junction.metainfo.xml:68
-msgid "Reveal document portal file paths"
-msgstr "إظهار مسارات الملفات لبوابة المستند"
-
-#: data/re.sonny.Junction.metainfo.xml:69
-msgid "Bug fix for desktop actions"
-msgstr "إصلاح خلل أوامر سطح المكتب"
-
-#: data/re.sonny.Junction.metainfo.xml:70
-msgid "Bug fix when opening with Libreoffice"
-msgstr "إصلاح خلل عند الفتح باستخدام ليبرا أوفيس"
-
-#: data/re.sonny.Junction.metainfo.xml:77
-msgid "Support desktop actions"
-msgstr "دعم أوامر سطح المكتب"
-
-#: data/re.sonny.Junction.metainfo.xml:78
-msgid "Support snap applications"
-msgstr "دعم تطبيقات سناب"
-
-#: data/re.sonny.Junction.metainfo.xml:85
-#: data/re.sonny.Junction.metainfo.xml:102
-msgid "Improve design"
-msgstr "تحسين التصميم"
-
-#: data/re.sonny.Junction.metainfo.xml:86
-msgid "New icon"
-msgstr "أيقونة جديدة"
-
-#: data/re.sonny.Junction.metainfo.xml:87
-msgid "Add a x-junction:// protocol API"
-msgstr "إضافة بروتوكول واجهة x-junction://"
-
-#: data/re.sonny.Junction.metainfo.xml:88
-msgid "Do not automatically set as default application"
-msgstr "عدم التحديد كتطبيق افتراضي"
-
-#: data/re.sonny.Junction.metainfo.xml:89
-msgid "Fix missing options"
-msgstr "إصلاح خيارات ناقصة"
-
-#: data/re.sonny.Junction.metainfo.xml:90
-msgid "Limit the number of options to 4"
-msgstr "تقييد الخيارات إلى 4"
-
-#: data/re.sonny.Junction.metainfo.xml:91
-msgid "Add an option to open with any application"
-msgstr "إضافة خيار للفتح باستخدام أي تطبيق"
-
-#: data/re.sonny.Junction.metainfo.xml:92
-msgid "Add a System Information panel in the about dialog"
-msgstr "إضافة لوحة معلومات النظام إلى معلومات التطبيق"
-
-#: data/re.sonny.Junction.metainfo.xml:99
-msgid "Fix for applications that do not support URIs"
-msgstr "إصلاح للتطبيقات التي لا تدعم الروابط"
-
-#: data/re.sonny.Junction.metainfo.xml:100
-msgid "Add an option to display application names"
-msgstr "إضافة خيار لعرض أسماء التطبيقات"
-
-#: data/re.sonny.Junction.metainfo.xml:101
-msgid "Add a menu button"
-msgstr "إضافة زر للقائمة"
-
-#: data/re.sonny.Junction.metainfo.xml:103
-msgid "Improve keyboard usage"
-msgstr "تحسين استخدام لوحة المفاتيح"
-
-#: data/re.sonny.Junction.metainfo.xml:104
-msgid "Improve CLI usage"
-msgstr "تحسين استخدام واجهة سطر الأوامر"
-
-#: data/re.sonny.Junction.metainfo.xml:105
-msgid "Support opening multiple URIs"
-msgstr "دعم فتح روابط متعددة"
-
-#: data/re.sonny.Junction.metainfo.xml:107
-msgid "Support D-Bus activation"
-msgstr "دعم تنشيط D-Bus"
-
-#: data/re.sonny.Junction.metainfo.xml:108
-msgid "Use libadwaita"
-msgstr "استخدام libadwaita"
-
-#: data/re.sonny.Junction.metainfo.xml:115
-msgid "Fix for missing applications"
-msgstr "إصلاح للتطبيقات الناقصة"
-
-#: data/re.sonny.Junction.metainfo.xml:116
-msgid "Add a Shortcuts window - accessible with &lt;Ctrl&gt;?"
-msgstr "إضافة نافذة للاختصارات – يمكن الوصول إليها باستخدام &lt;Ctrl&gt;?"
-
-#: data/re.sonny.Junction.metainfo.xml:122
-msgid "This is the first release of Junction. We hope you like it."
-msgstr "هذه هي أول نسخة من جانكشن. نأمل أن تنال إعجابك."
-
-#: src/Entry.js:23
-msgid "This site has no security. An attacker could see any information you send, or control the content that you see."
-msgstr "هذا الموقع ليس آمنا. يمكن للمهاجم رؤية أي معلومات يتم إرسالها أو التحكم بالمحتوى المعروض."
-
-#: src/AppButton.js:158
-msgid "Reveal"
-msgstr "عرض"
-
-#: src/AppButton.js:159
-msgid "Reveal in Folder"
-msgstr "عرض في المجلد"
-
-#: src/AppButton.js:202
-msgid "All Applications"
-msgstr "جميع التطبيقات"
-
-#: src/AppButton.js:216
-msgid "View All"
-msgstr "عرض الكل"
-
-#: src/window.blp:64
-msgid "Show names"
-msgstr "عرض الأسماء"
-
-#: src/window.blp:69 src/ShortcutsWindow.blp:15
-msgid "Copy to Clipboard"
-msgstr "نسخ إلى الحافظة"
-
-#: src/window.blp:75 src/welcome.blp:56 src/ShortcutsWindow.blp:42
-msgid "Keyboard Shortcuts"
-msgstr "اختصارات لوحة المفاتيح"
-
-#: src/window.blp:80 src/welcome.blp:61
-msgid "About Junction"
-msgstr "عن جانكشن"
-
-#: src/welcome.blp:32
-msgid "Test Junction"
-msgstr "اختبار جانكشن"
-
-#: src/welcome.blp:39
-msgid "Set Junction as default for Web"
-msgstr "تعيين جانكشن تطبيقا افتراضيا للويب"
-
-#. TRANSLATORS: eg. 'Translator Name <your.email@domain.com>' or 'Translator Name https://website.example'
-#: src/about.js:61
+#: ../lib/junction_rb/about_dialog.rb:26
 msgid "translator-credits"
 msgstr "Ibrahim Muhammad <ibrahim.muhammad.mu@outlook.com>"
 
-#: src/ShortcutsWindow.blp:10
+#: ../lib/junction_rb/host.rb:48
+msgid "Run Junction in the background."
+msgstr ""
+
+#: ../lib/junction_rb/menu_model.rb:31
+#, fuzzy
+#| msgid "Show names"
+msgid "Show App Names"
+msgstr "عرض الأسماء"
+
+#: ../lib/junction_rb/menu_model.rb:32
+#: ../lib/junction_rb/shortcuts_dialog.rb:21
+msgid "Copy to Clipboard"
+msgstr "نسخ إلى الحافظة"
+
+#: ../lib/junction_rb/menu_model.rb:38
+#: ../lib/junction_rb/shortcuts_dialog.rb:28
+msgid "Keyboard Shortcuts"
+msgstr "اختصارات لوحة المفاتيح"
+
+#: ../lib/junction_rb/menu_model.rb:39 ../lib/junction_rb/welcome_window.rb:135
+msgid "About Junction"
+msgstr "عن جانكشن"
+
+#: ../lib/junction_rb/shortcuts_dialog.rb:20
 msgid "Discard and close"
 msgstr "تجاهل وإغلاق"
 
-#: src/ShortcutsWindow.blp:20
+#: ../lib/junction_rb/shortcuts_dialog.rb:22
 msgid "Select next/previous application"
 msgstr "تحديد التطبيق التالي/السابق"
 
-#: src/ShortcutsWindow.blp:25
+#: ../lib/junction_rb/shortcuts_dialog.rb:23
 msgid "Open with selected application"
 msgstr "فتح باستخدام التطبيق الذي تم تحديده"
 
-#: src/ShortcutsWindow.blp:30
+#: ../lib/junction_rb/shortcuts_dialog.rb:24
 msgid "Open with selected application and stay active"
 msgstr "فتح باستخدام التطبيق الذي تم تحديده والبقاء نشطا"
 
-#: src/ShortcutsWindow.blp:35
+#: ../lib/junction_rb/shortcuts_dialog.rb:25
 msgid "Open with application at position"
 msgstr "فتح باستخدام التطبيق في الوضع"
 
-#: src/ShortcutsWindow.blp:47
+#: ../lib/junction_rb/shortcuts_dialog.rb:29
 msgid "Quit"
 msgstr "خروج"
+
+#: ../lib/junction_rb/show_in_folder_button.rb:15
+msgid "Open Location"
+msgstr ""
+
+#: ../lib/junction_rb/show_in_folder_button.rb:16
+msgid "View File in File Manager"
+msgstr ""
+
+#: ../lib/junction_rb/theme_switcher.rb:20
+msgid "Light Style"
+msgstr ""
+
+#: ../lib/junction_rb/theme_switcher.rb:21
+msgid "Follow System Style"
+msgstr ""
+
+#: ../lib/junction_rb/theme_switcher.rb:22
+msgid "Dark Style"
+msgstr ""
+
+#: ../lib/junction_rb/uri_entry.rb:15
+msgid ""
+"This site has no security. An attacker could see any information you send, "
+"or control the content that you see."
+msgstr ""
+"هذا الموقع ليس آمنا. يمكن للمهاجم رؤية أي معلومات يتم إرسالها أو التحكم "
+"بالمحتوى المعروض."
+
+#: ../lib/junction_rb/welcome_window.rb:158
+msgid "Test Junction"
+msgstr "اختبار جانكشن"
+
+#: ../lib/junction_rb/welcome_window.rb:165
+msgid "Set Junction as default for Web"
+msgstr "تعيين جانكشن تطبيقا افتراضيا للويب"
+
+#: ../lib/junction_rb/window.rb:278
+msgid "Main Menu"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.desktop:3
+msgid "Junction"
+msgstr "جانكشن"
+
+#: data/re.sonny.Junction.Rb.desktop:9
+#: data/re.sonny.Junction.Rb.metainfo.xml:28
+msgid "Application chooser"
+msgstr "منتقي التطبيقات"
+
+#: data/re.sonny.Junction.Rb.desktop:21
+msgid "Choosy;BrowserChooser;Braus;Browserosaurus;Finicky;Buffet;OpenIn;BrowserSelect;"
+msgstr ";Choosy;BrowserChooser;Braus;Browserosaurus;Finicky;Buffet;OpenIn;BrowserSelect;"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:22
+#, fuzzy
+#| msgid "Junction"
+msgid "Junction (Ruby)"
+msgstr "جانكشن"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:24
+msgid "Sonny Piers"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:31
+#, fuzzy
+#| msgid ""
+#| "Junction will pop up automatically when you open a link in a desktop "
+#| "application. Use the mouse or keyboard navigation to choose the "
+#| "application to open the link or file with."
+msgid ""
+"Junction pops up automatically when you open a file or link in another app. "
+"Use the mouse or keyboard navigation to choose which app you want to open it "
+"with."
+msgstr ""
+"سينبثق منتقي التطبيقات تلقائيًا عند فتح ارتباط في تطبيق سطح المكتب. استخدم "
+"التنقل بالفأرة أو لوحة المفاتيح لاختيار التطبيق لفتح الرابط أو المِلَفّ به."
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:35
+msgid "Features:"
+msgstr "المميزات:"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:37
+#, fuzzy
+#| msgid "Choose the application to open with"
+msgid "Choose the app to open with"
+msgstr "يرجى اختيار تطبيق للفتح"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:38
+msgid "Show the location before opening"
+msgstr "إظهار المكان قبل الفتح"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:39
+msgid "Edit the URL before opening"
+msgstr "تعديل الرابط قبل الفتح"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:40
+#, fuzzy
+#| msgid "Show a hint for insecure link"
+msgid "Show a hint for insecure links"
+msgstr "عرض ملاحظة للروابط غير الآمنة"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:41
+msgid "Keyboard navigation"
+msgstr "التحكم باستخدام لوحة المفاتيح"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:42
+#, fuzzy
+#| msgid "Support desktop actions"
+msgid "Supports desktop actions on right click"
+msgstr "دعم أوامر سطح المكتب"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:43
+#, fuzzy
+#| msgid "Middle click to open in multiple applications"
+msgid "Middle Click or Ctrl + Click to open in multiple applications"
+msgstr "النقر في المنتصف للفتح في تطبيقات عدة"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:44
+msgid "Linux Mobile support"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:46
+msgid "This is a Ruby GTK4 / Libadwaita port of Junction."
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:64
+msgid "Choose the browser to open the link with"
+msgstr "يرجى اختيار متصفح لفتح الرابط"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:72
+msgid "First release of the Ruby GTK4 port"
+msgstr ""
+
+#~ msgid "Junction lets you choose the application to open files and links."
+#~ msgstr "يتيح لك جانكشن اختيار التطبيق لفتح الملفات والروابط."
+
+#~ msgid "After installing make sure to launch the application."
+#~ msgstr "بعد التثبيت تأكد من تشغيل التطبيق."
+
+#~ msgid "Choose the application to open the image with"
+#~ msgstr "يرجى اختيار تطبيق لفتح الصورة"
+
+#~ msgid "Junction features great support for keyboard"
+#~ msgstr "جانكشن يقدم دعما كبيرا لاستخدام لوحة المفاتيح"
+
+#~ msgid "Desktop actions are supported too"
+#~ msgstr "أوامر سطح المكتب مدعومة أيضا"
+
+#~ msgid "Add an option \"Reveal in Folder\" for files"
+#~ msgstr "إضافة خيار \"عرض في المجلد\" للملفات"
+
+#~ msgid "Reveal document portal file paths"
+#~ msgstr "إظهار مسارات الملفات لبوابة المستند"
+
+#~ msgid "Bug fix for desktop actions"
+#~ msgstr "إصلاح خلل أوامر سطح المكتب"
+
+#~ msgid "Bug fix when opening with Libreoffice"
+#~ msgstr "إصلاح خلل عند الفتح باستخدام ليبرا أوفيس"
+
+#~ msgid "Support snap applications"
+#~ msgstr "دعم تطبيقات سناب"
+
+#~ msgid "Improve design"
+#~ msgstr "تحسين التصميم"
+
+#~ msgid "New icon"
+#~ msgstr "أيقونة جديدة"
+
+#~ msgid "Add a x-junction:// protocol API"
+#~ msgstr "إضافة بروتوكول واجهة x-junction://"
+
+#~ msgid "Do not automatically set as default application"
+#~ msgstr "عدم التحديد كتطبيق افتراضي"
+
+#~ msgid "Fix missing options"
+#~ msgstr "إصلاح خيارات ناقصة"
+
+#~ msgid "Limit the number of options to 4"
+#~ msgstr "تقييد الخيارات إلى 4"
+
+#~ msgid "Add an option to open with any application"
+#~ msgstr "إضافة خيار للفتح باستخدام أي تطبيق"
+
+#~ msgid "Add a System Information panel in the about dialog"
+#~ msgstr "إضافة لوحة معلومات النظام إلى معلومات التطبيق"
+
+#~ msgid "Fix for applications that do not support URIs"
+#~ msgstr "إصلاح للتطبيقات التي لا تدعم الروابط"
+
+#~ msgid "Add an option to display application names"
+#~ msgstr "إضافة خيار لعرض أسماء التطبيقات"
+
+#~ msgid "Add a menu button"
+#~ msgstr "إضافة زر للقائمة"
+
+#~ msgid "Improve keyboard usage"
+#~ msgstr "تحسين استخدام لوحة المفاتيح"
+
+#~ msgid "Improve CLI usage"
+#~ msgstr "تحسين استخدام واجهة سطر الأوامر"
+
+#~ msgid "Support opening multiple URIs"
+#~ msgstr "دعم فتح روابط متعددة"
+
+#~ msgid "Support D-Bus activation"
+#~ msgstr "دعم تنشيط D-Bus"
+
+#~ msgid "Use libadwaita"
+#~ msgstr "استخدام libadwaita"
+
+#~ msgid "Fix for missing applications"
+#~ msgstr "إصلاح للتطبيقات الناقصة"
+
+#~ msgid "Add a Shortcuts window - accessible with &lt;Ctrl&gt;?"
+#~ msgstr "إضافة نافذة للاختصارات – يمكن الوصول إليها باستخدام &lt;Ctrl&gt;?"
+
+#~ msgid "This is the first release of Junction. We hope you like it."
+#~ msgstr "هذه هي أول نسخة من جانكشن. نأمل أن تنال إعجابك."
+
+#~ msgid "Reveal"
+#~ msgstr "عرض"
+
+#~ msgid "Reveal in Folder"
+#~ msgstr "عرض في المجلد"
+
+#~ msgid "All Applications"
+#~ msgstr "جميع التطبيقات"
+
+#~ msgid "View All"
+#~ msgstr "عرض الكل"

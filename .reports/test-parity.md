@@ -1,5 +1,20 @@
 # Test parity — Junction-rb against `origin/main`
 
+> **Round 2 re-derivation (this commit).** The text below the line was derived
+> at `f9d0830` and is kept verbatim. This block is each gap's state now.
+>
+> | Gap | State on this commit |
+> |---|---|
+> | 1 `rake test` empties all 32 catalogues | **closed.** `task test` depends on `gettext:check` (`Rakefile:471-511`), which compiles each `po/<lang>.po` into a temporary directory and compares its entry count with the tracked `.mo`. It reads `po/` and `locale/` and writes neither. Verified: a full `rake test` leaves `git diff -- locale po` empty, and CI asserts that too. |
+> | 2 `gettext:mo:update` stubbed to a warning | **closed.** There is no warn-only stub left. `require_program` (`Rakefile:601-607`) raises when `msgfmt`, `rxgettext`, `msgmerge`, `appstreamcli`, `desktop-file-validate` or `glib-compile-schemas` is missing, naming where it comes from. `with_program`, which warned and returned, is gone; the two genuinely optional cache-refreshers (`update-desktop-database`, `gtk4-update-icon-cache`) use `if_program`, which says out loud that it skipped. |
+> | 3 nothing but a human runs any of it | **closed.** `.github/workflows/ci.yml` runs `rake gettext:check`, `xvfb-run -a rake test`, `rake validate`, `xvfb-run -a rake drive` and `rake lint` on every push and pull request to `ruby`, uploads the screenshots, and fails if the run dirtied `locale/`, `po/` or `data/`. `task default` (`Rakefile:781`) depends on the same five, so `rake` with no arguments does what `README.md` says it does. |
+> | 4 one file's failure hides the seven after it | **closed.** `task test` (`Rakefile:183-217`) runs all eight with `system`, collects the failures and raises at the end with the full list. |
+>
+> Observed this round, in the dev shell: 8 of 8 test files OK;
+> `test/drive_junction.rb` 246 of 246 checks, DRIVE OK;
+> `test/drive_locale.rb` 16 of 16 checks, DRIVE OK; `rake validate` all three
+> validators run and pass; `rubocop` 46 files, no offenses.
+
 | | |
 |---|---|
 | Upstream | `origin/main` @ `70560b6` |

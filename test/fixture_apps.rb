@@ -29,6 +29,13 @@ module FixtureApps
   # The two that should be offered, in the order their ids sort.
   OFFERED = ['fixture-editor.desktop', 'fixture-viewer.desktop'].freeze
 
+  # fixture-viewer.desktop carries `Name[de]` on its new-window action, so a
+  # run under LANGUAGE=de can tell GLib::KeyFile#get_locale_string (which
+  # returns this) from #get_string (which returns the English). That difference
+  # is what test/drive_locale.rb asserts: an installed application's own
+  # translated action labels are not the port's to discard.
+  LOCALISED_ACTION_LABEL = 'Neues Fixture-Fenster'
+
   def self.install
     ENV['XDG_DATA_HOME'] = DATA_HOME
     FileUtils.mkdir_p(APPLICATIONS)
@@ -71,6 +78,7 @@ module FixtureApps
 
       [Desktop Action new-window]
       Name=New Fixture Window
+      Name[de]=#{LOCALISED_ACTION_LABEL}
       Exec=#{RECORDER} new-window %U
 
       [Desktop Action about]

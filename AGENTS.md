@@ -4,9 +4,10 @@ The Ruby GTK4 / Libadwaita port of Junction lives on this branch. The original
 GJS implementation is on `main`; `PORTING.md` records where the two differ and
 why.
 
-The app is in `lib/junction_rb/`, the entry point is `bin/junction-rb`, and the
+The app is in `lib/junction_rb/`, the entry point is `exe/junction-rb`, and the
 data files (GSettings schema, stylesheet, icons, desktop file) are in `data/`.
-`rake` runs the schema build, the tests and rubocop.
+`rake` runs the schema build, the tests, the data-file validations, the two
+drive scripts and rubocop.
 
 ## Skills — use them
 

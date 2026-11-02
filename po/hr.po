@@ -7,257 +7,301 @@ msgid ""
 msgstr ""
 "Project-Id-Version: re.sonny.Junction\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-15 00:57+0200\n"
+"POT-Creation-Date: 2026-11-02 17:16+0000\n"
 "PO-Revision-Date: 2022-01-23 08:52+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
-"Language-Team: Croatian <https://hosted.weblate.org/projects/junction/junction/hr/>\n"
+"Language-Team: Croatian <https://hosted.weblate.org/projects/junction/"
+"junction/hr/>\n"
 "Language: hr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 4.11-dev\n"
 
-#. TRANSLATORS: Don't translate
-#: data/re.sonny.Junction.desktop:4
-msgid "Junction"
-msgstr "Junction"
-
-#: data/re.sonny.Junction.desktop:5 data/re.sonny.Junction.metainfo.xml:10
-msgid "Application chooser"
-msgstr "Birač programa"
-
-#. TRANSLATORS: Don't translate
-#: data/re.sonny.Junction.desktop:13
-msgid "Choosy;BrowserChooser;Braus;Browserosaurus;Finicky;Buffet;OpenIn;BrowserSelect;"
-msgstr "Choosy;BrowserChooser;Braus;Browserosaurus;Finicky;Buffet;OpenIn;BrowserSelect;"
-
-#: data/re.sonny.Junction.metainfo.xml:13
-msgid "Junction lets you choose the application to open files and links."
-msgstr "Junction omogućuje biranje programa za otvaranje datoteka i poveznica."
-
-#: data/re.sonny.Junction.metainfo.xml:14
-msgid "After installing make sure to launch the application."
-msgstr "Nakon instaliranja pokreni program."
-
-#: data/re.sonny.Junction.metainfo.xml:17
-msgid "Junction will pop up automatically when you open a link in a desktop application. Use the mouse or keyboard navigation to choose the application to open the link or file with."
-msgstr "Junction će se automatski pojaviti kad otvoriš poveznicu u desktop programu. Koristi navigaciju mišem ili tipkovnicom za biranje programa za otvaranje poveznice ili datoteke."
-
-#: data/re.sonny.Junction.metainfo.xml:22
-msgid "Features:"
-msgstr "Značajke:"
-
-#: data/re.sonny.Junction.metainfo.xml:24
-msgid "Choose the application to open with"
-msgstr "Odaberi program za otvaranje"
-
-#: data/re.sonny.Junction.metainfo.xml:25
-msgid "Show the location before opening"
-msgstr "Pokaži mjesto prije otvaranja"
-
-#: data/re.sonny.Junction.metainfo.xml:26
-msgid "Edit the URL before opening"
-msgstr "Uredi URL adresu prije otvaranja"
-
-#: data/re.sonny.Junction.metainfo.xml:27
-msgid "Show a hint for insecure link"
-msgstr "Pokaži savjet za nesigurnu poveznicu"
-
-#: data/re.sonny.Junction.metainfo.xml:28
-msgid "Keyboard navigation"
-msgstr "Navigacija tipkovnicom"
-
-#: data/re.sonny.Junction.metainfo.xml:29
-msgid "Middle click to open in multiple applications"
-msgstr "Pritiskanje srednjeg gumba miša za otvaranje u više programa"
-
-#: data/re.sonny.Junction.metainfo.xml:41
-msgid "Choose the browser to open the link with"
-msgstr "Odaberi preglednik za otvaranje poveznice"
-
-#: data/re.sonny.Junction.metainfo.xml:47
-msgid "Choose the application to open the image with"
-msgstr "Odaberi program za otvaranje slike"
-
-#: data/re.sonny.Junction.metainfo.xml:53
-msgid "Junction features great support for keyboard"
-msgstr "Junction nudi veliku podršku za tipkovnicu"
-
-#: data/re.sonny.Junction.metainfo.xml:59
-msgid "Desktop actions are supported too"
-msgstr "Desktop radnje su također podržane"
-
-#: data/re.sonny.Junction.metainfo.xml:67
-msgid "Add an option \"Reveal in Folder\" for files"
-msgstr "Dodaj opciju „Otkrij u mapi” za datoteke"
-
-#: data/re.sonny.Junction.metainfo.xml:68
-msgid "Reveal document portal file paths"
-msgstr "Otkrij putanje datoteka na portalu dokumenta"
-
-#: data/re.sonny.Junction.metainfo.xml:69
-msgid "Bug fix for desktop actions"
-msgstr "Ispravljena greška za radnje na radnoj površini"
-
-#: data/re.sonny.Junction.metainfo.xml:70
-msgid "Bug fix when opening with Libreoffice"
-msgstr "Ispravljena greška za otvaranje datoteke s Libreofficeom"
-
-#: data/re.sonny.Junction.metainfo.xml:77
-msgid "Support desktop actions"
-msgstr "Podrži radnje na radnoj površini"
-
-#: data/re.sonny.Junction.metainfo.xml:78
-msgid "Support snap applications"
-msgstr "Podrži snap programe"
-
-#: data/re.sonny.Junction.metainfo.xml:85
-#: data/re.sonny.Junction.metainfo.xml:102
-msgid "Improve design"
-msgstr "Poboljšaj dizajn"
-
-#: data/re.sonny.Junction.metainfo.xml:86
-msgid "New icon"
-msgstr "Nova ikona"
-
-#: data/re.sonny.Junction.metainfo.xml:87
-msgid "Add a x-junction:// protocol API"
-msgstr "Dodaj x-junction:// API protokol"
-
-#: data/re.sonny.Junction.metainfo.xml:88
-msgid "Do not automatically set as default application"
-msgstr "Nemoj automatski postaviti kao zadani program"
-
-#: data/re.sonny.Junction.metainfo.xml:89
-msgid "Fix missing options"
-msgstr "Ispravi nedostajuće opcije"
-
-#: data/re.sonny.Junction.metainfo.xml:90
-msgid "Limit the number of options to 4"
-msgstr "Ograniči broj opcija na četiri"
-
-#: data/re.sonny.Junction.metainfo.xml:91
-msgid "Add an option to open with any application"
-msgstr "Dodaj opciju za otvaranje s bilo kojim programom"
-
-#: data/re.sonny.Junction.metainfo.xml:92
-msgid "Add a System Information panel in the about dialog"
-msgstr "Dodaj ploču s informacijama o sustavu u prozoru o programu"
-
-#: data/re.sonny.Junction.metainfo.xml:99
-msgid "Fix for applications that do not support URIs"
-msgstr "Ispravak za programe koji ne podržavaju URI adrese"
-
-#: data/re.sonny.Junction.metainfo.xml:100
-msgid "Add an option to display application names"
-msgstr "Dodaj opciju za prikaz imena programa"
-
-#: data/re.sonny.Junction.metainfo.xml:101
-msgid "Add a menu button"
-msgstr "Dodaj u gumb za izbornik"
-
-#: data/re.sonny.Junction.metainfo.xml:103
-msgid "Improve keyboard usage"
-msgstr "Poboljšaj upotrebu tipkovnice"
-
-#: data/re.sonny.Junction.metainfo.xml:104
-msgid "Improve CLI usage"
-msgstr "Poboljšaj upotrebu sučelja naredbenog retka"
-
-#: data/re.sonny.Junction.metainfo.xml:105
-msgid "Support opening multiple URIs"
-msgstr "Podrži otvaranje više URI adresa"
-
-#: data/re.sonny.Junction.metainfo.xml:107
-msgid "Support D-Bus activation"
-msgstr "Podrži aktiviranje D-Busa"
-
-#: data/re.sonny.Junction.metainfo.xml:108
-msgid "Use libadwaita"
-msgstr "Koristi libadwaita"
-
-#: data/re.sonny.Junction.metainfo.xml:115
-msgid "Fix for missing applications"
-msgstr "Ispravak za nedostajuće programe"
-
-#: data/re.sonny.Junction.metainfo.xml:116
-msgid "Add a Shortcuts window - accessible with &lt;Ctrl&gt;?"
-msgstr "Dodaj prozor s prečacima – dostupan pomoću &lt;Ctrl&gt;?"
-
-#: data/re.sonny.Junction.metainfo.xml:122
-msgid "This is the first release of Junction. We hope you like it."
-msgstr "Ovo je prvo izdanje programa Junction. Nadamo se da ti se sviđa."
-
-#: src/Entry.js:23
-msgid "This site has no security. An attacker could see any information you send, or control the content that you see."
-msgstr "Ova stranica nema sigurnost. Napadač bi mogao vidjeti bilo koju informaciju koju šalješ ili upravljati sadržajem koji vidiš."
-
-#: src/AppButton.js:158
-msgid "Reveal"
-msgstr "Otkrij"
-
-#: src/AppButton.js:159
-msgid "Reveal in Folder"
-msgstr "Otkrij u mapi"
-
-#: src/AppButton.js:202
-msgid "All Applications"
-msgstr "Svi programi"
-
-#: src/AppButton.js:216
-msgid "View All"
-msgstr "Prikaži sve"
-
-#: src/window.blp:64
-msgid "Show names"
-msgstr "Pokaži imena"
-
-#: src/window.blp:69 src/ShortcutsWindow.blp:15
-msgid "Copy to Clipboard"
-msgstr "Kopiraj u međuspremnik"
-
-#: src/window.blp:75 src/welcome.blp:56 src/ShortcutsWindow.blp:42
-msgid "Keyboard Shortcuts"
-msgstr "Tipkovnički prečaci"
-
-#: src/window.blp:80 src/welcome.blp:61
-msgid "About Junction"
-msgstr "O programu Junction"
-
-#: src/welcome.blp:32
-msgid "Test Junction"
-msgstr "Isprobaj Junction"
-
-#: src/welcome.blp:39
-msgid "Set Junction as default for Web"
-msgstr "Postavi kao zadani program za web"
-
-#. TRANSLATORS: eg. 'Translator Name <your.email@domain.com>' or 'Translator Name https://website.example'
-#: src/about.js:61
+#: ../lib/junction_rb/about_dialog.rb:26
 msgid "translator-credits"
 msgstr "Milo Ivir <mail@milotype.de>"
 
-#: src/ShortcutsWindow.blp:10
+#: ../lib/junction_rb/host.rb:48
+msgid "Run Junction in the background."
+msgstr ""
+
+#: ../lib/junction_rb/menu_model.rb:31
+#, fuzzy
+#| msgid "Show names"
+msgid "Show App Names"
+msgstr "Pokaži imena"
+
+#: ../lib/junction_rb/menu_model.rb:32
+#: ../lib/junction_rb/shortcuts_dialog.rb:21
+msgid "Copy to Clipboard"
+msgstr "Kopiraj u međuspremnik"
+
+#: ../lib/junction_rb/menu_model.rb:38
+#: ../lib/junction_rb/shortcuts_dialog.rb:28
+msgid "Keyboard Shortcuts"
+msgstr "Tipkovnički prečaci"
+
+#: ../lib/junction_rb/menu_model.rb:39 ../lib/junction_rb/welcome_window.rb:135
+msgid "About Junction"
+msgstr "O programu Junction"
+
+#: ../lib/junction_rb/shortcuts_dialog.rb:20
 msgid "Discard and close"
 msgstr "Odbaci i zatvori"
 
-#: src/ShortcutsWindow.blp:20
+#: ../lib/junction_rb/shortcuts_dialog.rb:22
 msgid "Select next/previous application"
 msgstr "Odaberi sljedeći/prethodni program"
 
-#: src/ShortcutsWindow.blp:25
+#: ../lib/junction_rb/shortcuts_dialog.rb:23
 msgid "Open with selected application"
 msgstr "Otvori s odabranim programom"
 
-#: src/ShortcutsWindow.blp:30
+#: ../lib/junction_rb/shortcuts_dialog.rb:24
 msgid "Open with selected application and stay active"
 msgstr "Otvori s odabranim programom i ostavi Junction aktivnim"
 
-#: src/ShortcutsWindow.blp:35
+#: ../lib/junction_rb/shortcuts_dialog.rb:25
 msgid "Open with application at position"
 msgstr "Otvori s programom na poziciji"
 
-#: src/ShortcutsWindow.blp:47
+#: ../lib/junction_rb/shortcuts_dialog.rb:29
 msgid "Quit"
 msgstr "Zatvori program"
+
+#: ../lib/junction_rb/show_in_folder_button.rb:15
+msgid "Open Location"
+msgstr ""
+
+#: ../lib/junction_rb/show_in_folder_button.rb:16
+msgid "View File in File Manager"
+msgstr ""
+
+#: ../lib/junction_rb/theme_switcher.rb:20
+msgid "Light Style"
+msgstr ""
+
+#: ../lib/junction_rb/theme_switcher.rb:21
+msgid "Follow System Style"
+msgstr ""
+
+#: ../lib/junction_rb/theme_switcher.rb:22
+msgid "Dark Style"
+msgstr ""
+
+#: ../lib/junction_rb/uri_entry.rb:15
+msgid ""
+"This site has no security. An attacker could see any information you send, "
+"or control the content that you see."
+msgstr ""
+"Ova stranica nema sigurnost. Napadač bi mogao vidjeti bilo koju informaciju "
+"koju šalješ ili upravljati sadržajem koji vidiš."
+
+#: ../lib/junction_rb/welcome_window.rb:158
+msgid "Test Junction"
+msgstr "Isprobaj Junction"
+
+#: ../lib/junction_rb/welcome_window.rb:165
+msgid "Set Junction as default for Web"
+msgstr "Postavi kao zadani program za web"
+
+#: ../lib/junction_rb/window.rb:278
+msgid "Main Menu"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.desktop:3
+msgid "Junction"
+msgstr "Junction"
+
+#: data/re.sonny.Junction.Rb.desktop:9
+#: data/re.sonny.Junction.Rb.metainfo.xml:28
+msgid "Application chooser"
+msgstr "Birač programa"
+
+#: data/re.sonny.Junction.Rb.desktop:21
+msgid "Choosy;BrowserChooser;Braus;Browserosaurus;Finicky;Buffet;OpenIn;BrowserSelect;"
+msgstr "Choosy;BrowserChooser;Braus;Browserosaurus;Finicky;Buffet;OpenIn;BrowserSelect;"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:22
+#, fuzzy
+#| msgid "Junction"
+msgid "Junction (Ruby)"
+msgstr "Junction"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:24
+msgid "Sonny Piers"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:31
+#, fuzzy
+#| msgid ""
+#| "Junction will pop up automatically when you open a link in a desktop "
+#| "application. Use the mouse or keyboard navigation to choose the "
+#| "application to open the link or file with."
+msgid ""
+"Junction pops up automatically when you open a file or link in another app. "
+"Use the mouse or keyboard navigation to choose which app you want to open it "
+"with."
+msgstr ""
+"Junction će se automatski pojaviti kad otvoriš poveznicu u desktop programu. "
+"Koristi navigaciju mišem ili tipkovnicom za biranje programa za otvaranje "
+"poveznice ili datoteke."
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:35
+msgid "Features:"
+msgstr "Značajke:"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:37
+#, fuzzy
+#| msgid "Choose the application to open with"
+msgid "Choose the app to open with"
+msgstr "Odaberi program za otvaranje"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:38
+msgid "Show the location before opening"
+msgstr "Pokaži mjesto prije otvaranja"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:39
+msgid "Edit the URL before opening"
+msgstr "Uredi URL adresu prije otvaranja"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:40
+#, fuzzy
+#| msgid "Show a hint for insecure link"
+msgid "Show a hint for insecure links"
+msgstr "Pokaži savjet za nesigurnu poveznicu"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:41
+msgid "Keyboard navigation"
+msgstr "Navigacija tipkovnicom"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:42
+#, fuzzy
+#| msgid "Support desktop actions"
+msgid "Supports desktop actions on right click"
+msgstr "Podrži radnje na radnoj površini"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:43
+#, fuzzy
+#| msgid "Middle click to open in multiple applications"
+msgid "Middle Click or Ctrl + Click to open in multiple applications"
+msgstr "Pritiskanje srednjeg gumba miša za otvaranje u više programa"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:44
+msgid "Linux Mobile support"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:46
+msgid "This is a Ruby GTK4 / Libadwaita port of Junction."
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:64
+msgid "Choose the browser to open the link with"
+msgstr "Odaberi preglednik za otvaranje poveznice"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:72
+msgid "First release of the Ruby GTK4 port"
+msgstr ""
+
+#~ msgid "Junction lets you choose the application to open files and links."
+#~ msgstr ""
+#~ "Junction omogućuje biranje programa za otvaranje datoteka i poveznica."
+
+#~ msgid "After installing make sure to launch the application."
+#~ msgstr "Nakon instaliranja pokreni program."
+
+#~ msgid "Choose the application to open the image with"
+#~ msgstr "Odaberi program za otvaranje slike"
+
+#~ msgid "Junction features great support for keyboard"
+#~ msgstr "Junction nudi veliku podršku za tipkovnicu"
+
+#~ msgid "Desktop actions are supported too"
+#~ msgstr "Desktop radnje su također podržane"
+
+#~ msgid "Add an option \"Reveal in Folder\" for files"
+#~ msgstr "Dodaj opciju „Otkrij u mapi” za datoteke"
+
+#~ msgid "Reveal document portal file paths"
+#~ msgstr "Otkrij putanje datoteka na portalu dokumenta"
+
+#~ msgid "Bug fix for desktop actions"
+#~ msgstr "Ispravljena greška za radnje na radnoj površini"
+
+#~ msgid "Bug fix when opening with Libreoffice"
+#~ msgstr "Ispravljena greška za otvaranje datoteke s Libreofficeom"
+
+#~ msgid "Support snap applications"
+#~ msgstr "Podrži snap programe"
+
+#~ msgid "Improve design"
+#~ msgstr "Poboljšaj dizajn"
+
+#~ msgid "New icon"
+#~ msgstr "Nova ikona"
+
+#~ msgid "Add a x-junction:// protocol API"
+#~ msgstr "Dodaj x-junction:// API protokol"
+
+#~ msgid "Do not automatically set as default application"
+#~ msgstr "Nemoj automatski postaviti kao zadani program"
+
+#~ msgid "Fix missing options"
+#~ msgstr "Ispravi nedostajuće opcije"
+
+#~ msgid "Limit the number of options to 4"
+#~ msgstr "Ograniči broj opcija na četiri"
+
+#~ msgid "Add an option to open with any application"
+#~ msgstr "Dodaj opciju za otvaranje s bilo kojim programom"
+
+#~ msgid "Add a System Information panel in the about dialog"
+#~ msgstr "Dodaj ploču s informacijama o sustavu u prozoru o programu"
+
+#~ msgid "Fix for applications that do not support URIs"
+#~ msgstr "Ispravak za programe koji ne podržavaju URI adrese"
+
+#~ msgid "Add an option to display application names"
+#~ msgstr "Dodaj opciju za prikaz imena programa"
+
+#~ msgid "Add a menu button"
+#~ msgstr "Dodaj u gumb za izbornik"
+
+#~ msgid "Improve keyboard usage"
+#~ msgstr "Poboljšaj upotrebu tipkovnice"
+
+#~ msgid "Improve CLI usage"
+#~ msgstr "Poboljšaj upotrebu sučelja naredbenog retka"
+
+#~ msgid "Support opening multiple URIs"
+#~ msgstr "Podrži otvaranje više URI adresa"
+
+#~ msgid "Support D-Bus activation"
+#~ msgstr "Podrži aktiviranje D-Busa"
+
+#~ msgid "Use libadwaita"
+#~ msgstr "Koristi libadwaita"
+
+#~ msgid "Fix for missing applications"
+#~ msgstr "Ispravak za nedostajuće programe"
+
+#~ msgid "Add a Shortcuts window - accessible with &lt;Ctrl&gt;?"
+#~ msgstr "Dodaj prozor s prečacima – dostupan pomoću &lt;Ctrl&gt;?"
+
+#~ msgid "This is the first release of Junction. We hope you like it."
+#~ msgstr "Ovo je prvo izdanje programa Junction. Nadamo se da ti se sviđa."
+
+#~ msgid "Reveal"
+#~ msgstr "Otkrij"
+
+#~ msgid "Reveal in Folder"
+#~ msgstr "Otkrij u mapi"
+
+#~ msgid "All Applications"
+#~ msgstr "Svi programi"
+
+#~ msgid "View All"
+#~ msgstr "Prikaži sve"

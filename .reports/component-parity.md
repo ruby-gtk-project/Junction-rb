@@ -1,5 +1,15 @@
 # Component parity — Junction-rb against `origin/main`
 
+> **Round 2 re-derivation (this commit).** The text below the line was derived
+> at `f9d0830` and is kept verbatim. This block is each gap's state now.
+>
+> | Gap | State on this commit |
+> |---|---|
+> | C1 desktop-action labels shown untranslated | **closed.** `lib/junction_rb/desktop_entry.rb:73-87` and `:110`. `test/drive_locale.rb` asserts, under `LANGUAGE=de` and against a fixture entry carrying `Name[de]`, that the action label is the German one and the `Exec` line is not. |
+> | C2 two of three screenshots and their captions not built | **open.** The XML is four lines; the images are the blocker, and this machine has no browser or image-viewer desktop entry, so any grid captured here is empty. `PORTING.md` states it in full, in the first person, rather than as "not started". |
+> | C3 no Flatpak manifest | **open.** Needs `flatpak-builder` and a Ruby/gem base-app story, neither available here. Writing the manifest without building from it would ship a file that has never been run. |
+> | C4 the documented way to launch the port does not work, and `rake` checks nothing | **closed.** `README.md:21` is `exe/junction-rb`; `CLAUDE.md:7` likewise. `task default` depends on schema, test, validate, drive and lint. `README.md` has an Installing section covering `rake install:all` and saying in so many words that the welcome window's button is a no-op until `install:desktop` has run. |
+
 | | |
 |---|---|
 | Upstream | `origin/main` @ `70560b6` |

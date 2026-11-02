@@ -74,6 +74,65 @@ WRAPPED_MANGLED = 'x-junction://file:0//etc/os-release'
 
 def launches = FixtureApps.launches
 
+# A compiled catalogue's entry count, read out of the .mo header: bytes 0..3
+# are the magic 0x950412de in the producing machine's byte order, which is how
+# the rest of the file's order is known, and bytes 8..11 are the number of
+# strings. A header-only stub reads 1 — the empty msgid carrying Content-Type
+# and Plural-Forms — so "carries entries" means strictly more than 1.
+MO_MAGIC = 0x950412de
+
+# Every msgid => msgstr pair in a compiled catalogue. A .mo is the count and
+# two table offsets in the header, then a (length, offset) pair per string in
+# each table; the two tables are in the same order, so zipping them is the
+# whole format. Reading it here rather than shelling out to msgunfmt keeps the
+# drive script runnable with nothing but Ruby.
+def mo_messages(path)
+  File.binread(path).then do |blob|
+    mo_header(blob).then do |(order, count, originals, translations)|
+      [originals, translations]
+        .map { |table| mo_table(
+          blob,
+          order,
+          count,
+          table,
+        ) }
+        .then { |(ids, strings)| ids.zip(strings).to_h }
+    end
+  end
+end
+
+def mo_header(blob)
+  blob.unpack('N3').then do |(magic, _revision, _count)|
+    (magic == MO_MAGIC ? 'N' : 'V').then do |order|
+      [order, *blob.unpack("@8#{order}3")]
+    end
+  end
+end
+
+def mo_table(blob, order, count, offset)
+  blob.unpack("@#{offset}#{order}#{count * 2}")
+      .each_slice(2)
+      .map { |(length, at)| blob.byteslice(at, length).force_encoding(Encoding::UTF_8) }
+end
+
+def mo_entry_count(path)
+  File.binread(path, 12).then do |head|
+    if head.nil? || head.bytesize < 12
+      0
+    else
+      head.unpack('N3').then do |(magic, _revision, big_endian_count)|
+        if magic == MO_MAGIC
+          big_endian_count
+        elsif magic == [MO_MAGIC].pack('V').unpack1('N')
+          head.unpack('V3')[2]
+        else
+          0
+        end
+      end
+    end
+  end
+end
+
 # Stands in for Xdp::Portal, which would otherwise put a real file manager
 # window on the desktop. The real call answers through the block it is handed;
 # so does this, immediately.
@@ -1006,7 +1065,9 @@ GtkDriver.drive(app, shots: SHOTS, timeout: 300) do |d, _app|
   # The portal answers over DBus, which needs a few turns of the loop.
   d.step('waiting for the portal to answer') do
     100.times do
-      break unless background_answer.nil?
+      unless background_answer.nil?
+        break
+      end
 
       GLib::MainContext.default.iteration(false)
     end
@@ -1182,20 +1243,84 @@ GtkDriver.drive(app, shots: SHOTS, timeout: 300) do |d, _app|
 
   # --- Translation wiring --------------------------------------------------
 
+  # What used to be here was the only localisation check in this file and it
+  # could not fail. One assertion was `Dir.glob(".../*.mo").length.positive?`,
+  # which a 361-byte header-only stub satisfies, and the other was named "a
+  # marked string comes back translated or unchanged, never empty" — the "or
+  # unchanged" clause disarmed it, and the run was under the default locale so
+  # no catalogue was ever consulted. Both passed while `rake test` was emptying
+  # all 32 catalogues on every run, and this file reported 242/242.
+  #
+  # So the checks now name a language and a string in it. test/drive_locale.rb
+  # does the same thing for a whole process started under LANGUAGE=de, which is
+  # the only way to exercise what GLib (rather than the Ruby gem) localises.
   d.step('the catalogues are bound to upstream\'s text domain') do
     d.check('the domain is upstream\'s app id, so the .mo files are found') do
       JunctionRb::TEXT_DOMAIN == 're.sonny.Junction'
     end
-    d.check('the compiled catalogues are on disk') do
-      Dir.glob(File.join(JunctionRb::LOCALE_DIR, '*', 'LC_MESSAGES', '*.mo'))
-         .length.positive?
+
+    # Every catalogue must hold what its po file holds. A per-language "carries
+    # entries" rule would be a lie about sk, which genuinely has nothing
+    # translated yet; a locale/ with no entries at all between its 32 files is
+    # the state the old gettext task actually produced.
+    JunctionRb::LOCALE_DIR.then do |dir|
+      Dir.glob(
+        File.join(
+          dir,
+          '*',
+          'LC_MESSAGES',
+          "#{JunctionRb::TEXT_DOMAIN}.mo",
+        ),
+      )
+         .sort
+         .then do |catalogues|
+        d.check('all 32 languages have a compiled catalogue') do
+          catalogues.length == 32
+        end
+        d.check('and between them they carry translated entries, not just headers') do
+          catalogues.sum { |path| mo_entry_count(path) - 1 }.positive?
+        end
+        d.check("de's catalogue on its own carries entries") do
+          mo_entry_count(
+            File.join(
+              dir,
+              'de',
+              'LC_MESSAGES',
+              "#{JunctionRb::TEXT_DOMAIN}.mo",
+            ),
+          ) > 1
+        end
+      end
     end
-    d.check('a marked string comes back translated or unchanged, never empty') do
-      !JunctionRb::Window.new(
-        application: app.application,
-        settings:    settings,
-        file:        Gio::File.new_for_path(PAGE),
-      ).top_menu_button.tooltip_text.to_s.empty?
+
+    # Named strings in a named language, read out of the shipped catalogue
+    # itself. A stub satisfies none of these.
+    #
+    # The German is asserted against real widgets in test/drive_locale.rb and
+    # not here, because the locale has to be in the environment before GLib
+    # loads anything for the *other* half of the port's localisation (an
+    # application's own `Name[de]` action labels) to exist at all — and because
+    # building a second, unparented Adwaita::ShortcutsDialog inside this
+    # already-running application segfaults ruby-gnome on teardown. The split
+    # is deliberate: this file checks the catalogues, drive_locale.rb checks
+    # the widgets.
+    File.join(
+      JunctionRb::LOCALE_DIR,
+      'de',
+      'LC_MESSAGES',
+      "#{JunctionRb::TEXT_DOMAIN}.mo",
+    )
+        .then { |path| mo_messages(path) }
+        .then do |german|
+      d.check('de maps Quit to Beenden') do
+        german['Quit'] == 'Beenden'
+      end
+      d.check('and Copy to Clipboard to Kopiere in die Zwischenablage') do
+        german['Copy to Clipboard'] == 'Kopiere in die Zwischenablage'
+      end
+      d.check('and About Junction to Über Junction') do
+        german['About Junction'] == 'Über Junction'
+      end
     end
   end
 

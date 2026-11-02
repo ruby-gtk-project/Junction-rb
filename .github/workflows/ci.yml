@@ -1,0 +1,88 @@
+# The port's only automated check.
+#
+# Before this file there was none: .gitlab-ci.yml is the unmodified kettle
+# template whose script blocks end in `bin/rake --tasks`, which lists task
+# names and runs none of them, and `rake default` was a `puts`. Every green
+# signal this repository has ever shown came from a person running something by
+# hand and saying so.
+#
+# Upstream runs its suite from .husky/pre-push and its data-file validations
+# from `meson test`; this is the same two things, plus the two drive scripts,
+# in the one place that runs on every push.
+#
+# Everything goes through `nix develop`, because GTK4, Libadwaita, the
+# introspection typelibs, GNU gettext and the three validators all come from
+# flake.nix — and because the rake tasks now fail rather than skip when a
+# validator is missing, a runner without the dev shell fails loudly instead of
+# reporting a green run that checked nothing.
+name: CI
+
+on:
+  push:
+    branches: [ruby]
+  pull_request:
+    branches: [ruby]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: tests, validations and drives
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v27
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
+      # The dev shell is several GB of GNOME; without this every job pays for
+      # it again.
+      - name: Cache the dev shell
+        uses: DeterminateSystems/magic-nix-cache-action@v7
+
+      - name: Build the dev shell
+        run: nix develop --command ruby -e 'puts "ruby #{RUBY_VERSION}, GTK #{Gtk::Version::STRING}"' -r gtk4
+
+      # The catalogue checks are a dependency of `rake test`, but running them
+      # first means a broken po/ is named on its own line rather than buried
+      # under the suite's output.
+      - name: Catalogues and POTFILES
+        run: nix develop --command rake gettext:check
+
+      - name: Tests
+        run: nix develop --command xvfb-run -a rake test
+
+      - name: Data-file validations
+        run: nix develop --command rake validate
+
+      - name: Drive the app
+        run: nix develop --command xvfb-run -a rake drive
+
+      - name: Lint
+        run: nix develop --command rake lint
+
+      # The drives write a PNG per step. They are the only record of what the
+      # app actually looked like on a machine nobody was watching, and they are
+      # what a failure is diagnosed from.
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: tmp/shots*/
+          if-no-files-found: error
+
+      # `rake test` and `rake drive` must not write the tracked catalogues.
+      # That rule is the whole point of splitting gettext:check from
+      # gettext:mo:compile, so it is checked rather than trusted.
+      - name: The run left the tree clean
+        run: |
+          nix develop --command git diff --exit-code -- locale po data

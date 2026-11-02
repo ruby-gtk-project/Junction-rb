@@ -1,5 +1,25 @@
 # Accountability ensurance — Junction-rb
 
+> **Round 2 re-derivation (this commit).** The text below the line was
+> derived at `f9d0830` and is kept verbatim, including the paragraph calling
+> myself a fucking idiot, because that is the finding and deleting it would be
+> the same mistake again. This block is what was done about each item.
+>
+> | | State on this commit |
+> |---|---|
+> | A1 the runtime gate's only localisation check cannot fail | **closed, and verified by failing it.** The two disarmed checks in `test/drive_junction.rb` are replaced: all 32 catalogues present, entries between them, `de` carrying entries, and `de` mapping three named msgids to three named German strings, read out of the shipped `.mo` itself. `test/drive_locale.rb` re-executes under `LANGUAGE=de` and asserts German on real widgets, including an installed application's own `Name[de]` action label. Checked against the failure: with the catalogues replaced by header-only stubs, `drive_junction.rb` reports 241 of 246 and `drive_locale.rb` 8 of 16. `rake gettext:check` names the offending language and raises. The task that caused the emptying is gone. |
+> | A2 four of five reports were written at `d128e68` and never re-derived | **addressed, not closed — it closes by being done again next round.** Every report in `.reports/` now opens with a block like this one, derived from the tree on the day it is written, and `PORTING.md`'s open-gap list is generated from those blocks rather than copied. The stale list it carried (component-parity P0/P1/P2/P6/P7/P8, test-parity Gap 1) is gone; what remains is four items, each with a reason that is a fact about this machine rather than a decision. |
+> | A3 excuse constructions in `PORTING.md` | **closed.** `PORTING.md:63` is no longer "## Not started" over "no Ruby counterpart at all"; the section is headed "What I have not ported, and what that costs a user" and opens by naming both phrases as mine and as excuses. The two remaining items (the screenshots, the Flatpak manifest) are rewritten first-person, admission first, with the user-visible cost named and both sides cited file:line. "not intended to be ported" is gone: the four files it covered are listed with the port equivalents that already exist and already run in CI, and `Makefile`/`.husky/pre-push` — which that sentence used to swallow — are named as upstream's test entry points with `.github/workflows/ci.yml` and `task default` as the port's. |
+>
+> One thing this round found and should be recorded before it is forgotten:
+> building a second, unparented `Adwaita::ShortcutsDialog` inside the running
+> application segfaults ruby-gnome on teardown
+> (`lib/junction_rb/theme_switcher.rb:43`, in a `notify::active` handler). It
+> is why `drive_junction.rb` reads the catalogue rather than a widget and
+> `drive_locale.rb` does the widget half in its own process. It is a harness
+> constraint, not a user-facing path, and it is written down here rather than
+> worked around silently.
+
 | | |
 |---|---|
 | Scanned | `lib/`, `exe/`, `.reports/`, `PORTING.md`, `README.md`, `CHANGELOG.md`, `Rakefile`, `test/` |

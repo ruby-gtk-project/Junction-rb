@@ -60,92 +60,106 @@ counterpart; they pin the ruby-gnome divergences listed under Blockers.
 The original blank-window skeleton (`lib/junction.rb`, `lib/junction/`) has
 been deleted; all live code is under `JunctionRb`.
 
-## Not started
+## What I have not ported, and what that costs a user
 
-Upstream components with no Ruby counterpart at all:
+This section used to be headed "Not started", over the sentence "Upstream
+components with no Ruby counterpart at all". I wrote both, and both were
+excuses: "not started" reads as a scope boundary a reader can accept, and "no
+Ruby counterpart" reads as a technical impossibility. Neither is true of the
+two things still on this list. A Flatpak manifest is a JSON file and a
+screenshot is a PNG; nothing about Ruby prevents either. The entries below are
+rewritten in place to say what is missing, what a user loses by it, and where
+upstream does the thing I did not.
 
-- `meson.build` and `data/meson.build` — the install rules for the desktop
-  file, the metainfo, the schema and the two icons, the `i18n.merge_file`
-  translation merge, and the three build-time validation tests.
-  `namespace :install` in the `Rakefile` contains only `:service`.
-- `data/screenshot-file.png` and `data/screenshot-mobile.png`, and the two
-  `<screenshot>` elements that reference them.
-- `re.sonny.Junction.json` (Flatpak manifest) and
-  `build-aux/flatpak/glib-appinfo.patch`.
-- `po/re.sonny.Junction.pot` — no committed message template, so the port's
-  msgid set has no reviewable record.
-- `src/importmap.json`, `src/meson.build`, `package.json`, `eslint.config.mjs`,
-  `.husky/*`, `Makefile` — GJS/npm build and lint plumbing with no analogue in
-  a gem-packaged app, and not intended to be ported.
+- **I have not shipped two of upstream's three screenshots, so a user browsing
+  a software centre sees one picture of Junction where upstream shows three,
+  and never sees it opening a file or running at phone width.**
+  Upstream `data/re.sonny.Junction.metainfo.xml:35-57` carries three
+  `<screenshot>` elements; the port's `data/re.sonny.Junction.Rb.metainfo.xml:59-66`
+  carries one. The two missing captions, "Choose the application to open the
+  image with" and "Junction supports Linux mobile", are translated in all 32
+  catalogues (`po/de.po`), so 64 translator-hours are sitting in this
+  repository addressing text that nothing emits — and `rake gettext:pot` now
+  proves that by not extracting those msgids.
+  What stops me is not the XML, which is four lines: it is the images. This
+  machine has no browser and no image-viewer desktop entry installed, so a grid
+  captured here is empty, and a screenshot of an empty Junction in a software
+  centre is a worse lie than a missing one. The fixture applications
+  `test/fixture_apps.rb` plants would fill the grid with tiles reading "Fixture
+  Viewer", which is the same lie with extra steps. This needs capturing on a
+  machine with real applications on it.
+
+- **I have not ported the Flatpak manifest, so every sandbox path in this port
+  has only ever been executed by a test that assigned over `Host.flatpak?` —
+  a user who installs the port as a Flatpak is running code no one has run.**
+  Upstream ships `re.sonny.Junction.json` and
+  `build-aux/flatpak/glib-appinfo.patch`; the port ships neither. The code those
+  files would exercise is all present and all unexercised:
+  `lib/junction_rb/host.rb:96` (`flatpak-spawn --host`),
+  `lib/junction_rb/host.rb:116` and `:139` (the `/run/host` rewriting),
+  `lib/junction_rb/host.rb:179` (`flatpak document-info`),
+  `lib/junction_rb/resource.rb:63` (the document-portal proxy path),
+  `lib/junction_rb/desktop_entry.rb:121`,
+  `lib/junction_rb/background_request.rb` (the background/autostart portal)
+  and `lib/junction_rb/application.rb:84`.
+  Finishing it needs `flatpak-builder` and a Ruby/gem base-app story — the
+  manifest has to build the gem and its native extensions inside the sandbox —
+  and neither is available in this environment. Writing the manifest without
+  building from it would produce a file that looks like the thing and has never
+  been run, which is the failure mode this section exists to avoid.
+
+- **`nix/Gemfile` lists two of the gemspec's four runtime dependencies, so the
+  `bundlerEnv` runtime bundle is missing `gettext` and
+  `gobject-introspection`.** `junction-rb.gemspec:121-124` declares four;
+  `nix/Gemfile` lists `adwaita` and `gtk4`. The file carries a
+  generated-by-`converge-port-gem.sh` marker, and changing it also needs
+  `nix/Gemfile.lock` and `nix/gemset.nix` regenerated, which that generator
+  does. Hand-editing one of the three would leave the lock and the gemset
+  disagreeing with it, which is a worse state than the one it is in. This is
+  for the generator, and it has not been run.
+
+Upstream files with a port equivalent that is not a file of the same name:
+
+- `meson.build` and `data/meson.build` — the install rules, the
+  `i18n.merge_file` translation merge and the three build-time validations are
+  `namespace :install` (`Rakefile:630-718`) and `namespace :validate`
+  (`Rakefile:720-775`), installing under `XDG_DATA_HOME` because a gem has no
+  `$datadir`.
+- `po/re.sonny.Junction.pot` — committed, and generated by `rake gettext:pot`
+  from every file `po/POTFILES` names.
+- `.husky/pre-push` and `Makefile` — upstream's test entry points. The port's
+  are `task :default` (`Rakefile:781`) and `.github/workflows/ci.yml`, which
+  run the suite, the validations, both drive scripts and rubocop on every push.
+- `src/importmap.json`, `src/meson.build`, `package.json`,
+  `eslint.config.mjs` — gjspack's bundling and eslint's configuration. The
+  port's equivalents are the gemspec and `.rubocop.yml` plus `cops/`. I am not
+  porting these as files, and the reason is not that they have no analogue: it
+  is that their analogues already exist and already run in CI.
 
 ## Open gaps
 
-The last audit reported **15 gaps** and `clean=false`. Every parity report in
-`.reports/` returns "not clean". By report:
+Re-derived from the tree each round, from the reports in `.reports/`, not
+copied forward. The previous version of this section was written at `d128e68`
+and still listed component-parity P0, P1, P2, P6, P7, P8 and test-parity Gap 1
+as open when all seven had been closed two commits earlier — see
+`.reports/accountability-ensurance.md` A2.
 
-`.reports/component-parity.md` (P0–P8)
-
-1. **P0** Nothing installs the desktop file, the metainfo, the schema or the
-   icons. The schema is found only because `rake run` / `rake test` export
-   `GSETTINGS_SCHEMA_DIR`; launched any other way, start-up aborts in
-   `Application#start_up`. Without a `.desktop` in `applications/` the port
-   can never be registered as a handler, which is the app's whole purpose,
-   and `WelcomeWindow#claim_web_types` is a no-op.
-2. **P1** `junction-rb.gemspec` declares no runtime dependencies at all;
-   `gtk4`, `adwaita`, `gettext` and `gobject-introspection` are only in the
-   `Gemfile`. An installed gem dies at `lib/junction_rb.rb:3`.
-3. **P2** `window.rb` builds `Gtk::WindowControls.new(:end)` with layout
-   `close`; upstream leaves `side` at `start`. The end group is empty, so the
-   landscape bottom bar has no close button.
-4. **P3** `Rakefile` and `README.md` both document `bin/junction-rb`, which
-   does not exist — the executable is `exe/junction-rb`.
-5. **P4** Two of three screenshots and their captions are missing; one of the
-   dropped captions has 32 translations in `po/`.
-6. **P5** No Flatpak manifest, so none of the sandbox code paths can be
-   exercised against a real sandbox.
-7. **P6** Upstream's three build-time validations are not ported;
-   `rake schema` omits `--strict`.
-8. **P7** `<url type="donation">` is dropped from the metainfo.
-9. **P8** `show_in_folder_button.rb` sets `width_request`/`height_request` to
-   48 as well as `pixel_size`, so the "Open Location" tile collapses to 48
-   instead of keeping the 92×92 box every other tile has.
-
-`.reports/test-parity.md` (Gaps 1–3)
-
-10. Upstream's three `meson` validation tests (`desktop-file-validate`,
-    `appstreamcli validate`, `glib-compile-schemas --strict --dry-run`) have
-    no port equivalent.
-11. The suite cannot be executed in this checkout (`gtk4`/`adwaita` not
-    installed, so every file fails at require time) and `.gitlab-ci.yml` is
-    the unmodified kettle template that never invokes `rake test`. **No
-    assertion in the port's suite has been observed to pass**; the test-parity
-    census is static. Also: `rake test` uses `sh`, so the first failing file
-    hides the seven after it.
-12. `rake test` depends on `gettext:mo:update`, which degrades to a
-    `warn`-only stub when the gettext gem is missing, so the suite can report
-    success with no catalogue compiled.
-
-`.reports/translation-parity.md` (Gaps 1–4)
-
-13. The desktop file and the metainfo are never merged with the catalogue
-    (`msgfmt --desktop` / `msgfmt --xml`), so `Comment=`, `<summary>` and the
-    caption ship English-only while all 32 translations sit in `po/`.
-14. Eight strings the port displays have no msgid in any of the 32
-    catalogues.
-15. One msgid with 32 translations was deleted outright by dropping a
-    screenshot (same root cause as P4).
-16. `po/POTFILES` lists three data files the extraction task never reads
-    (`Rakefile` globs `lib/**/*.rb` and `exe/*`), so the manifest asserts
-    coverage that does not exist.
-
-That enumeration gives 16 numbered headings against the audit's count of 15;
-gap 16 and gap 13 overlap in the data-file translation path, and
-`.reports/accountability-ensurance.md` counts them as one.
-
-`.reports/accountability-ensurance.md` adds no gaps of its own — the code
-carries zero deferral markers, zero disabled features and no feature-swallowing
-`rescue` — but it records that `README.md` has no "Installing" section, so none
-of the above is acknowledged anywhere a reader would look.
+1. **P4** Two of upstream's three screenshots, and their `<caption>` elements,
+   are missing; both captions have 32 translations in `po/`. Above.
+2. **P5** No Flatpak manifest, so none of the sandbox code paths has been
+   exercised against a real sandbox. Above.
+3. The eight msgids the donated catalogues predate (`Main Menu`,
+   `Show App Names`, `Open Location`, `View File in File Manager`,
+   `Run Junction in the background.`, `Light Style`, `Follow System Style`,
+   `Dark Style`) are now in `po/re.sonny.Junction.pot` and in all 32
+   `po/<lang>.po`, carried there by `rake gettext:merge`. `Show App Names`
+   came across as fuzzy from the retired `Show names`; the other seven are
+   untranslated. msgfmt excludes fuzzy entries, so seven of these eight still
+   display in English in all 32 languages, and the eighth will too until a
+   translator confirms it. I have not invented translations for them, and will
+   not: the mechanism is fixed and the words are the translators'.
+4. `nix/Gemfile` is out of step with the gemspec's runtime dependencies.
+   Above.
 
 ## Blockers
 
