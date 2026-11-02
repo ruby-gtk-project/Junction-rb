@@ -15,8 +15,8 @@ because that pair is one component and one port file.
 
 | | Count |
 |---|---:|
-| Components identified | 20 |
-| Already present in `lib/` | 20 |
+| Components identified | 22 |
+| Already present in `lib/` or `data/` | 22 |
 | Missing | 0 |
 | Blockers | 0 (3 recorded deviations, all deliberate) |
 
@@ -45,11 +45,15 @@ because that pair is one component and one port file.
 | 19 | `src/util.js` — `spawn_sync`, `getOSRelease`, `getFlatpakInfo`, `getIconFilename`, `getRealPath`; portal use in `application.js`/`AppButton.js` | `lib/junction_rb/host.rb`, `lib/junction_rb/portal.rb`, `lib/junction_rb/background_request.rb` | host / Flatpak / portal layer | yes |
 | 20 | `src/main.js` dev block | `Application#register_restart_action` | development-only restart action | yes |
 
+| 21 | `data/re.sonny.Junction.desktop`, `.metainfo.xml`, `.service`, `data/icons/*` | `data/re.sonny.Junction.Rb.*`, `data/icons/**` | install surface: launcher entry, MIME claims, AppStream, D-Bus activation, icons | yes |
+| 22 | `src/junction` (launcher wrapper widening `XDG_DATA_DIRS`/`GI_TYPELIB_PATH`) | `exe/junction-rb` + the `makeWrapper` block in `flake.nix` | launcher wrapper | yes |
+
 Not components: `src/meson.build`, `data/meson.build`, `meson.build`,
 `eslint.config.mjs`, `package.json`, `.husky/*`, `test/util.test.js`,
-`re.sonny.Junction.json`, `build-aux/flatpak/glib-appinfo.patch`, `notes.md` —
-build, lint and packaging plumbing, which the port replaces with its own
-(`Rakefile`, `nix/`, `flake.nix`, `junction-rb.gemspec`).
+`re.sonny.Junction.json`, `build-aux/flatpak/glib-appinfo.patch`,
+`src/importmap.json`, `notes.md` — build, lint and packaging plumbing, which the
+port replaces with its own (`Rakefile`, `nix/`, `flake.nix`,
+`junction-rb.gemspec`).
 
 ## Chooser window — widget tree
 
