@@ -280,8 +280,13 @@ module JunctionRb
       end
     end
 
+    # Upstream's .blp never sets `side`, so the widget keeps the default
+    # GTK_PACK_START. GtkWindowControls splits decoration-layout on ':' and
+    # renders only its own half: a start-side widget shows the tokens before
+    # the colon, an end-side one the tokens after it. 'close' has no colon, so
+    # an end-side widget would have nothing at all to draw.
     def window_controls
-      @window_controls ||= Gtk::WindowControls.new(:end).tap do |controls|
+      @window_controls ||= Gtk::WindowControls.new(:start).tap do |controls|
         controls.decoration_layout = 'close'
       end
     end

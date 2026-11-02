@@ -11,7 +11,21 @@
       in
       {
         devShells.default = pkgs.mkShell {
-          nativeBuildInputs = with pkgs; [ pkg-config wrapGAppsHook4 gettext ];
+          nativeBuildInputs = with pkgs; [
+            pkg-config
+            wrapGAppsHook4
+            # msgfmt --desktop / --xml, which is what `rake install:desktop`
+            # and `rake install:metainfo` merge the catalogues with.
+            gettext
+            # The three validators upstream's data/meson.build registers as
+            # tests, plus update-desktop-database for the install tasks.
+            desktop-file-utils
+            appstream
+            shared-mime-info
+            # A headless X server, so the window can be built and driven on a
+            # machine with no display: `xvfb-run -a ruby exe/junction-rb ...`.
+            xvfb-run
+          ];
           buildInputs = with pkgs; [
             ruby_3_4
             bundler

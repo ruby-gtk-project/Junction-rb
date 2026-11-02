@@ -113,6 +113,16 @@ Gem::Specification.new do |spec|
   #       Development dependencies that require strictly newer Ruby versions should be in a "gemfile",
   #       and preferably a modular one (see gemfiles/modular/*.gemfile).
 
+  # Runtime: the toolkit and the translation runtime. These are what the app
+  # requires at load time (lib/junction_rb.rb), so an installed gem that lacks
+  # any one of them cannot start. Upstream pins the same four things through
+  # meson.build and re.sonny.Junction.json; the port pins them here, because an
+  # installed gem never reads the Gemfile.
+  spec.add_dependency("adwaita", "~> 4.3")                                          # libadwaita bindings
+  spec.add_dependency("gettext", "~> 3.5")                                          # pure-Ruby .mo reader for the app's own strings
+  spec.add_dependency("gobject-introspection", "~> 4.3")                            # Xdp/XdpGtk4 typelibs, loaded by name
+  spec.add_dependency("gtk4", "~> 4.3")                                             # GTK4 bindings
+
   # Dev, Test, & Release Tasks
   spec.add_development_dependency("kettle-dev", "~> 3.1", ">= 3.1.22")             # ruby >= 3.4
 

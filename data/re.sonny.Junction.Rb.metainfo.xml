@@ -47,6 +47,14 @@
   </description>
   <url type="homepage">https://junction.sonny.re</url>
   <url type="bugtracker">https://github.com/ruby-gtk-project/Junction-rb/issues</url>
+  <!--
+    Upstream's donation link, kept verbatim: Junction is donation-funded, the
+    port is a port of Junction, and a software centre that drops the link is
+    the one place a user would have looked for it. The bugtracker and
+    vcs-browser urls are the port's, because those are the port's to answer
+    for; this one is not.
+  -->
+  <url type="donation">https://junction.sonny.re/donate</url>
   <url type="vcs-browser">https://github.com/ruby-gtk-project/Junction-rb</url>
   <screenshots>
     <screenshot type="default">

@@ -21,12 +21,14 @@ module JunctionRb
       @on_clicked = -> { open_containing_folder }
     end
 
+    # Only the pixel size shrinks: upstream's TileButton({icon_size: 48}) calls
+    # set_pixel_size and nothing else, so the image keeps the 92x92 size
+    # requests the shared tile sets and this tile stays the same box as its
+    # neighbours, with a smaller icon centred in it.
     def build
       super.tap do
         image.icon_name = 'folder-symbolic'
         image.pixel_size = ICON_SIZE
-        image.width_request = ICON_SIZE
-        image.height_request = ICON_SIZE
       end
     end
 

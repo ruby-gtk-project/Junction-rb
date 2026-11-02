@@ -7,10 +7,10 @@ module JunctionRb
   # introspection.
   #
   # xdp_portal_request_background takes the autostart command as a GPtrArray of
-  # strings, and ruby-gnome cannot marshal a GPtrArray in-argument — it raises
-  # "TODO: in Ruby -> GIArgument(array/GPtrArray)". Everything else about the
-  # portal goes through the typelib as normal; only this one call needs the
-  # array built by hand.
+  # strings, and ruby-gnome cannot marshal a GPtrArray in-argument: the
+  # conversion is simply absent from rb-gi, which raises an unconverted-argument
+  # error naming array/GPtrArray. Everything else about the portal goes through
+  # the typelib as normal; only this one call needs the array built by hand.
   #
   # The symbols resolve out of the already-loaded process image: requiring the
   # Xdp typelib dlopens libportal, so by the time this runs the functions are
