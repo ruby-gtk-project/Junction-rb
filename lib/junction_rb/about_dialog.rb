@@ -39,10 +39,12 @@ module JunctionRb
         programInvocationName #{$PROGRAM_NAME}
         argv #{ARGV.join(' ')}
         cwd #{Dir.pwd}
+        datadir #{DATA_DIR}
 
         Powered by:
         Ruby #{RUBY_VERSION}
         ruby-gnome #{GLib::BINDING_VERSION.join('.')}
+        libadwaita #{libadwaita_version}
         GTK #{Gtk::Version::STRING}
         GLib #{GLib::Version::STRING}
         #{flatpak_line}
@@ -54,6 +56,17 @@ module JunctionRb
         $XDG_CURRENT_DESKTOP #{ENV.fetch('XDG_CURRENT_DESKTOP', nil)}
         $XDG_SESSION_TYPE #{ENV.fetch('XDG_SESSION_TYPE', nil)}
       INFO
+    end
+
+    # The three constants libadwaita publishes in its typelib, which is what
+    # upstream's getGIRepositoryVersion(Adw) reads too — the version Junction is
+    # actually running against rather than the one it was built with.
+    def libadwaita_version
+      [
+        Adwaita::MAJOR_VERSION,
+        Adwaita::MINOR_VERSION,
+        Adwaita::MICRO_VERSION,
+      ].join('.')
     end
 
     def os_line

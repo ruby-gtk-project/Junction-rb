@@ -6,12 +6,17 @@ module JunctionRb
   class ShortcutsDialog
     include Translations
 
-    # Two groups, matching the original: what you can do to the resource in
-    # front of you, and what you can do to Junction. The labels are marked
-    # here and translated in #item_for, because the table is frozen at load
-    # time and the locale is not settled until the application starts up.
-    SECTIONS = {
-      nil           => [
+    # Two untitled groups, matching the original's two ShortcutsGroups
+    # (src/ShortcutsWindow.blp): what you can do to the resource in front of
+    # you, and what you can do to Junction. Neither carries a title upstream, so
+    # neither carries one here — a title invented by the port would be a
+    # user-visible string with no msgid in any of the 32 catalogues.
+    #
+    # The labels are marked here and translated in #item_for, because the table
+    # is frozen at load time and the locale is not settled until the
+    # application starts up.
+    SECTIONS = [
+      [
         [N_('Discard and close'), 'Escape <Primary>W'],
         [N_('Copy to Clipboard'), '<Primary>C'],
         [N_('Select next/previous application'), 'Left Right'],
@@ -19,11 +24,11 @@ module JunctionRb
         [N_('Open with selected application and stay active'), '<Primary>Return <Primary>space'],
         [N_('Open with application at position'), '1...9'],
       ],
-      'Application' => [
+      [
         [N_('Keyboard Shortcuts'), '<Primary>question'],
         [N_('Quit'), '<Primary>Q'],
       ],
-    }.freeze
+    ].freeze
 
     def build
       dialog.tap do |d|
@@ -36,9 +41,8 @@ module JunctionRb
     def dialog = @dialog ||= Adwaita::ShortcutsDialog.new
 
     def sections
-      @sections ||= SECTIONS.map do |title, shortcuts|
+      @sections ||= SECTIONS.map do |shortcuts|
         Adwaita::ShortcutsSection.new.tap do |section|
-          section.title = title
           shortcuts.each { |(label, accelerator)| section.add(item_for(label, accelerator)) }
         end
       end

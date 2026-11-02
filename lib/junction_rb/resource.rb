@@ -21,9 +21,13 @@ module JunctionRb
       end
     end
 
+    # A bare "~" takes the parse_name branch as well as "~/…": a wrapper that
+    # hands over the home directory means the home directory, not a file
+    # called "~" in whatever directory Junction happens to have been started
+    # from. Upstream pins both (test/util.test.js, `readResource`).
     def self.parse_wrapped(uri)
       uri.sub('file:0//', 'file:///').sub(':0//', '://').then do |unmangled|
-        if unmangled.start_with?('~/')
+        if unmangled == '~' || unmangled.start_with?('~/')
           Gio::File.parse_name(unmangled)
         else
           Gio::File.new_for_commandline_arg(unmangled)
@@ -99,9 +103,22 @@ module JunctionRb
       if text == '~' || text.start_with?('~/')
         Gio::File.parse_name(text).uri
       elsif text.start_with?('/')
-        Gio::File.new_for_path(text).uri
+        keep_trailing_slash(text, Gio::File.new_for_path(text).uri)
       else
         text
+      end
+    end
+
+    # Gio normalises a path and drops its trailing slash; the original builds
+    # the URI by concatenating "file://" onto the text and so keeps it. The
+    # slash is worth keeping — it is what tells the application being launched
+    # that it was handed a directory — so it is put back, while Gio still does
+    # the percent-escaping the concatenation would skip.
+    def self.keep_trailing_slash(text, uri)
+      if text.end_with?('/') && !uri.end_with?('/')
+        "#{uri}/"
+      else
+        uri
       end
     end
   end

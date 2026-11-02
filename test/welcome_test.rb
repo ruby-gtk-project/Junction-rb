@@ -73,6 +73,25 @@ GtkDriver.drive(app, shots: 'tmp/shots') do |d, _app|
     end
   end
 
+  # The install button routes to /success or /error depending on whether the
+  # registration actually took. GLib::Spawn.command_line_sync reports a
+  # refusal in the exit status rather than by raising, so that status is the
+  # only thing that can tell the two pages apart.
+  d.step('a registration that fails is reported as a failure') do
+    d.check('a non-zero exit status is not success') do
+      JunctionRb::Host.spawn_sync('false').then { |(_out, _err, status)| !status.to_i.zero? }
+    end
+    d.check('a zero one is') do
+      JunctionRb::Host.spawn_sync('true').then { |(_out, _err, status)| status.to_i.zero? }
+    end
+    # Whether `gio mime` succeeds depends on the session the suite runs in,
+    # so what is pinned is the reading of the status rather than the verdict:
+    # claiming a type answers with a boolean instead of always saying yes.
+    d.check('claiming a type answers with the status, not with true') do
+      [true, false].include?(app.welcome_window.claim('x-scheme-handler/https'))
+    end
+  end
+
   # Junction lives as a background service, so closing the welcome window must
   # not take the process with it — the next link still has to be dispatched.
   d.step('closing it hides rather than destroys') do

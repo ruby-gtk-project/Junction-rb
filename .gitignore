@@ -5,11 +5,17 @@ Gemfile.lock
 /tmp/
 /data/schemas/gschemas.compiled
 
-# Build output of `rake gettext:mo:update` and `rake gettext:po:update`: the
-# compiled catalogues and the extracted template. po/*.po themselves are the
-# donated translations and are tracked.
-/locale/
-/po/*.pot
+# `rake gettext:mo:update` writes locale/<lang>/LC_MESSAGES/<domain>.mo there.
+# The compiled catalogues ARE tracked and packaged (junction-rb.gemspec lists
+# locale/**/*.mo): the gem has no build step, so an untracked locale/ would
+# ship a gem in which every _() returns its msgid in all 32 languages.
+# Everything else under locale/ is scratch.
+/locale/*
+!/locale/*/
+/locale/*/*
+!/locale/*/LC_MESSAGES/
+/locale/*/LC_MESSAGES/*
+!/locale/*/LC_MESSAGES/*.mo
 
 # Build Artifacts
 /pkg/

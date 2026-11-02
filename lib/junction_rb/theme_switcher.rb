@@ -1,21 +1,28 @@
 # frozen_string_literal: true
 
 module JunctionRb
-  # The light / system / dark selector at the top of the main menu. The values
-  # are Adwaita::ColorScheme's own, because that is what gets stored and handed
-  # straight to the style manager.
+  # The light / system / dark selector at the top of the main menu, ported from
+  # troll's ThemeSelector widget (the submodule upstream's menu embeds in its
+  # custom "themeswitcher" slot). The values are Adwaita::ColorScheme's own,
+  # because that is what gets stored and handed straight to the style manager.
+  #
+  # The three buttons target the stateful `app.color-scheme` action, which
+  # Settings#create_action binds to the GSettings key. That is the whole of the
+  # wiring: GTK sets a button active when the action's state equals its target
+  # and writes the target into the action when it is clicked, so the stored
+  # value and the buttons cannot disagree and nothing here writes GSettings.
   class ThemeSwitcher
+    include Translations
+
     SCHEMES = { light: 1, system: 0, dark: 4 }.freeze
 
     TOOLTIPS = {
-      light:  'Light Style',
-      system: 'Follow System Style',
-      dark:   'Dark Style',
+      light:  N_('Light Style'),
+      system: N_('Follow System Style'),
+      dark:   N_('Dark Style'),
     }.freeze
 
-    def initialize(settings:)
-      @settings = settings
-    end
+    ACTION_NAME = 'app.color-scheme'
 
     def build
       box.tap do |b|
@@ -26,31 +33,18 @@ module JunctionRb
       # follow.
       system_overlay.visible = Adwaita::StyleManager.default.system_supports_color_schemes?
 
-      sync_from_settings
-      @settings.on_color_scheme_change { sync_from_settings }
-
+      # The checkmark over the active button. Blueprint binds `visible` to the
+      # button's own `active` property; ruby-gnome reaches the same place
+      # through the notify signal, and the handler does nothing else — the
+      # colour scheme itself belongs to the action.
       selectors.each do |name, selector|
-        selector.signal_connect('notify::active') { update(name, selector) }
         checks.fetch(name).visible = selector.active?
+        selector.signal_connect('notify::active') do
+          checks.fetch(name).visible = selector.active?
+        end
       end
 
       box
-    end
-
-    def update(name, selector)
-      checks.fetch(name).visible = selector.active?
-
-      if selector.active? && !@syncing
-        @settings.color_scheme = SCHEMES.fetch(name)
-      end
-    end
-
-    # Guarded, so reflecting the stored value back into the buttons does not
-    # look like the user clicking them and write it out again.
-    def sync_from_settings
-      @syncing = true
-      SCHEMES.each { |name, scheme| selectors.fetch(name).active = (@settings.color_scheme == scheme) }
-      @syncing = false
     end
 
     def system_overlay = overlays.fetch(:system)
@@ -75,12 +69,18 @@ module JunctionRb
 
     # One group, so the three behave as radio buttons. The first is the group
     # leader — grouping a check button with itself trips a GTK assertion.
+    #
+    # The target is built with an explicit 'i' variant type: the action's state
+    # comes from an integer GSettings key, and an int64 target would never
+    # compare equal to it, leaving all three buttons permanently inactive.
     def selectors
-      @selectors ||= SCHEMES.each_key.to_h do |name|
+      @selectors ||= SCHEMES.to_h do |name, scheme|
         [name, Gtk::CheckButton.new.tap do |button|
-          button.tooltip_text = TOOLTIPS.fetch(name)
+          button.tooltip_text = _(TOOLTIPS.fetch(name))
           button.halign = :center
           button.add_css_class(name.to_s)
+          button.action_name = ACTION_NAME
+          button.action_target = GLib::Variant.new(scheme, GLib::VariantType.new('i'))
         end
 ]
       end.tap do |buttons|

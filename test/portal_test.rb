@@ -7,9 +7,12 @@
 # user's existing settings rather than a change to them, so it is safe to make
 # here. The autostart command it names is Junction's own service invocation.
 #
-# open_directory is NOT exercised: it would put a file manager window on the
-# desktop. The part that could plausibly break in a Ruby port — building the
-# XdpParent handle out of a Gtk::Window — is checked on its own.
+# open_directory is driven through the `Host.portal` seam rather than against
+# the real portal, which would put a file manager window on the desktop. Both
+# outcomes matter: "Open Location" closes Junction only once the file manager
+# has actually come up, so a refusal has to leave the window standing. The
+# part that could plausibly break in a Ruby port — building the XdpParent
+# handle out of a Gtk::Window — is still checked against the real libportal.
 
 $stdout.sync = true
 
@@ -86,7 +89,28 @@ end
 check('the portal answered the background request') { !answered.nil? }
 check('the answer is a boolean, not a stub') { [true, false].include?(answered) }
 
-# --- The parent handle -------------------------------------------------------
+# --- The parent handle, and showing a file in its folder ---------------------
+
+# Stands in for Xdp::Portal. The real call is asynchronous and answers through
+# the block it is handed; so does this, immediately.
+StubPortal = Struct.new(:source) do
+  def open_directory(_parent, _uri, _flags, _cancellable, &block)
+    block.call(source, :result)
+  end
+end
+
+# Host.open_directory_finish asks the source how it went. libportal raises on
+# a refusal, which is the case that used to be untested — and the case that
+# decides whether Junction closes.
+class OpenedFolder
+  def open_directory_finish(_result) = true
+end
+
+class RefusedFolder
+  def open_directory_finish(_result)
+    raise 'the portal refused to show the folder'
+  end
+end
 
 Gtk::Application.new('re.sonny.Junction.Rb.PortalTest', :default_flags).tap do |app|
   app.signal_connect('activate') do
@@ -94,6 +118,48 @@ Gtk::Application.new('re.sonny.Junction.Rb.PortalTest', :default_flags).tap do |
       check('a Gtk window converts to an XdpParent') do
         !XdpGtk4.parent_new_gtk(window).nil?
       end
+
+      JunctionRb::Host.portal = StubPortal.new(OpenedFolder.new)
+
+      check('the folder coming up is reported to the caller') do
+        opened = nil
+        JunctionRb::Host.open_directory(window, 'file:///tmp') { |ok| opened = ok }
+        opened == true
+      end
+
+      JunctionRb::Host.portal = StubPortal.new(RefusedFolder.new)
+
+      check('a refusal is reported too, rather than raising') do
+        refused = nil
+        JunctionRb::Host.open_directory(window, 'file:///tmp') { |ok| refused = ok }
+        refused == false
+      end
+
+      # And the same two outcomes as the button sees them: Junction steps out
+      # of the way only when the file manager is really there.
+      closed = 0
+
+      JunctionRb::ShowInFolderButton.new(
+        file:      Gio::File.new_for_path('/tmp'),
+        settings:  JunctionRb::Settings.new,
+        parent:    window,
+        on_opened: -> { closed += 1 },
+      ).tap do |button|
+        JunctionRb::Host.portal = StubPortal.new(OpenedFolder.new)
+        button.open_containing_folder
+
+        check('Open Location closes Junction once the file manager is up') do
+          closed == 1
+        end
+
+        JunctionRb::Host.portal = StubPortal.new(RefusedFolder.new)
+        button.open_containing_folder
+
+        check('and leaves the window standing when it is not') { closed == 1 }
+      end
+
+      # Back to the real portal for anything that follows.
+      JunctionRb::Host.portal = nil
     end
     app.quit
   end

@@ -82,11 +82,23 @@ module JunctionRb
     SCHEMES = ['x-scheme-handler/https', 'x-scheme-handler/http'].freeze
 
     def set_as_default_for_web
-      SCHEMES.each { |type| Host.spawn_sync("gio mime #{type} #{DESKTOP_ID}") }
-      true
+      SCHEMES.all? { |type| claim(type) }
     rescue StandardError => e
       warn "junction-rb: could not register as the default handler: #{e.message}"
       false
+    end
+
+    # `gio mime` reports a refusal in its exit status, and
+    # GLib::Spawn.command_line_sync hands that back as the third element rather
+    # than raising — so without looking at it every install would land on
+    # /success and the /error page the original routes to would be unreachable.
+    #
+    # Short-circuiting as the original's `!spawn_sync(a) || !spawn_sync(b)`
+    # does: a failure on https means http is never attempted.
+    def claim(type)
+      Host.spawn_sync("gio mime #{type} #{DESKTOP_ID}").then do |(_stdout, _stderr, status)|
+        status.to_i.zero?
+      end
     end
 
     # Hidden rather than destroyed on close, so the application can present the

@@ -177,10 +177,14 @@ task :schema do
   sh 'glib-compile-schemas', SCHEMA_DIR
 end
 
+# The compiled catalogues are a build product the app loads at run time, so the
+# suite depends on them: a po/ change that does not compile, or a gettext task
+# that has stopped working, fails here rather than in a user's locale.
 desc 'Run the test suite'
-task test: :schema do
+task test: ['schema', 'gettext:mo:update'] do
   %w[
     test/resource_test.rb
+    test/settings_test.rb
     test/cli_test.rb
     test/desktop_entry_test.rb
     test/portal_test.rb

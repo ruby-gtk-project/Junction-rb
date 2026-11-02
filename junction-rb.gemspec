@@ -78,7 +78,11 @@ Gem::Specification.new do |spec|
     *enumerate_package_files.call("exe"),
     # Extra package files configured by .structuredmerge/kettle-jem.yml
     *enumerate_package_glob.call(File.join(gemspec_root, "data/**/*")),
-    *enumerate_package_glob.call(File.join(gemspec_root, "po/**/*"))
+    *enumerate_package_glob.call(File.join(gemspec_root, "po/**/*")),
+    # The compiled catalogues. Without these the gem ships 32 .po files that
+    # nothing reads and every _() returns its msgid; JunctionRb::LOCALE_DIR
+    # points at <gem>/locale.
+    *enumerate_package_glob.call(File.join(gemspec_root, "locale/**/*.mo"))
   ]
   spec.rdoc_options += [
     "--title",

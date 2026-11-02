@@ -276,7 +276,7 @@ module JunctionRb
         button.primary = true
         button.add_css_class('circular')
         button.add_css_class('flat')
-        button.popover.add_child(ThemeSwitcher.new(settings: @settings).build, 'themeswitcher')
+        button.popover.add_child(ThemeSwitcher.new.build, 'themeswitcher')
       end
     end
 

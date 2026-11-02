@@ -164,6 +164,13 @@ GtkDriver.drive(app, shots: 'tmp/shots') do |d, _app|
     d.check('the report names the GTK version') do
       JunctionRb::AboutDialog.new.debug_info.include?('GTK ')
     end
+    # The two lines upstream prints that the port used to drop.
+    d.check('the report names the libadwaita version') do
+      JunctionRb::AboutDialog.new.debug_info.match?(/^libadwaita \d+\.\d+\.\d+$/)
+    end
+    d.check('the report names the data directory') do
+      JunctionRb::AboutDialog.new.debug_info.include?("datadir #{JunctionRb::DATA_DIR}")
+    end
   end
 
   # A dialog needs a turn of the loop after it is presented before it has a

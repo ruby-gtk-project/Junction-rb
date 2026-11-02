@@ -21,10 +21,23 @@ module JunctionRb
 
   DESKTOP_ID = "#{APPLICATION_ID}.desktop"
 
+  # Passed explicitly alongside the schema id, exactly as upstream's
+  # src/common.js does (`new Gio.Settings({schema_id: "re.sonny.Junction",
+  # path: "/re/sonny/Junction/"})`), and it has to agree with `path=` in
+  # data/schemas/re.sonny.Junction.Rb.gschema.xml or GSettings aborts the
+  # process. The trailing slash is part of the path, not decoration.
+  SETTINGS_PATH = '/re/sonny/Junction/Rb/'
+
   # Upstream's site, not the port's: the welcome window's "Test Junction" link
   # and the success/error pages it opens after registering as the web handler
   # are pages that live there.
   WEBSITE = 'https://junction.sonny.re'
+
+  # Upstream's `pkg.datadir` — where the style sheet, the icons and the schema
+  # are read from. In a checkout that is the repository's own data/, and it is
+  # the line in the debug report that explains an about dialog with a missing
+  # icon or a window with no CSS.
+  DATA_DIR = File.expand_path('../data', __dir__)
 
   # The gettext domain is upstream's app id — `i18n.gettext(app_id)` in
   # po/meson.build — and NOT the port's. A compiled catalogue is found at
@@ -67,9 +80,13 @@ module JunctionRb
   # — and the variable turns on the same two things: the restart action on
   # Ctrl+Shift+Q, and the `devel` style class and icon that mark a window as
   # not the installed copy.
-  DEV = !ENV.fetch('JUNCTION_RB_DEV', '').empty?
+  # Read on every call rather than frozen into a constant at load: the
+  # variable is what a checkout sets, and freezing it would make the setting
+  # unobservable to anything that sets it after lib/junction_rb.rb is
+  # required — test/portal_test.rb among them.
+  DEV_VARIABLE = 'JUNCTION_RB_DEV'
 
-  def self.dev? = DEV
+  def self.dev? = !ENV.fetch(DEV_VARIABLE, '').empty?
 
   def self.icon_name = dev? ? DEVEL_APPLICATION_ID : APPLICATION_ID
 end

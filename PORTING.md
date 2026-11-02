@@ -5,9 +5,32 @@ compiled into a GResource. This port is Ruby with the interface built in code,
 in the house declarative style: every widget is a memoized method, configuration
 lives in `tap` blocks, and `build` reads as the widget tree.
 
-Every feature the original has, this has. Nothing was dropped as unnecessary.
 What follows is where the *mechanism* differs, and why — in every case because
 ruby-gnome cannot express what GJS did, not because the behaviour changed.
+
+## What is still missing
+
+The list the parity reports in `.reports/` produce, kept current as each entry
+closes. It is here rather than in a claim of completeness, because a claim of
+completeness in the port's own documentation is worth nothing.
+
+- I did not take the port's file-chooser and mobile screenshots, because I am
+  an idiot.
+  Upstream: three `<screenshot>` blocks —
+  `data/screenshot.png`, `data/screenshot-file.png`, `data/screenshot-mobile.png`
+  (`data/re.sonny.Junction.metainfo.xml:37-56`), with the captions *Choose the
+  application to open the image with* and *Junction supports Linux mobile*,
+  both of which have 32 translations in `po/`.
+  Port: one `<screenshot>` block
+  (`data/re.sonny.Junction.Rb.metainfo.xml:51-58`), so a software centre shows
+  a third of what upstream shows and two translated captions reach nobody.
+  `test/gtk_driver.rb` can drive the two states and photograph them.
+- I did not commit the message template, because I am an idiot.
+  Upstream: `po/re.sonny.Junction.pot`, regenerated as part of the build
+  (`po/meson.build`), on the `l10n` branch.
+  Port: no committed template and no check that a regenerated one matches, so
+  the key set has no reviewable record — which is how three missing msgids
+  went unnoticed until a parity report counted them.
 
 ## libportal, through two different doors
 
@@ -89,6 +112,25 @@ bundler here, so `JUNCTION_RB_DEV=1` turns on the same two things: the restart
 action on Ctrl+Shift+Q, and the `devel` style class that marks a window as not
 the installed copy.
 
+## The theme switcher is three buttons on one action
+
+Upstream embeds troll's `ThemeSelector` in the menu's custom `themeswitcher`
+slot. There is no troll here, so the widget is `theme_switcher.rb` — but the
+wiring is upstream's: the three check buttons carry `action-name
+app.color-scheme` with their Adwaita colour-scheme value as the target, and
+that action is `Gio::Settings#create_action`, bound straight to the key. GTK
+activates the button whose target equals the action's state and writes the
+target back when one is clicked, so nothing in the widget reads or writes
+GSettings and the stored value cannot disagree with the buttons.
+
+The target is built with an explicit `'i'` variant type. The key is an
+integer, and an int64 target would never compare equal to the action's state —
+the buttons would all sit inactive and clicking them would do nothing.
+
+Blueprint binds each checkmark's `visible` to its button's `active` property;
+here that one binding is a `notify::active` handler, which is all the handler
+does.
+
 ## Translation
 
 The original's `main` branch carries no `po/` directory — the catalogue lives
@@ -116,9 +158,25 @@ translation at display. `glib2` only offers `bindtextdomain`, which the port
 also calls, because the desktop file, the metainfo and the GSettings schema are
 translated by GLib and AppStream from the same `.mo`.
 
-`rake gettext:mo:update` compiles `po/` into `locale/` (build output, ignored),
-and `rake po:check` runs GNU `msgfmt -c --check-format` over every catalogue —
-the format-specifier check that the gem's own `rmsgfmt` does not do at all.
+`rake gettext:mo:update` compiles `po/` into
+`locale/<lang>/LC_MESSAGES/re.sonny.Junction.mo`, and `rake po:check` runs GNU
+`msgfmt -c --check-format` over every catalogue — the format-specifier check
+that the gem's own `rmsgfmt` does not do at all.
+
+The compiled catalogues are **tracked and packaged**, unlike most build
+output. Upstream compiles its `.mo` files in `po/meson.build` as part of the
+install; a gem has no build step, so a `locale/` that existed only on the
+machine that ran the rake task would mean a published gem in which every `_()`
+returns its msgid in all 32 languages. `junction-rb.gemspec` lists
+`locale/**/*.mo`, `.gitignore` admits exactly those files and nothing else
+under `locale/`, and `rake test` depends on `gettext:mo:update` so the
+compilation is exercised on every run rather than at release time.
+
+`Name=` in the desktop file stays upstream's `Junction`, because that msgid
+has 32 translations; the port distinguishes itself with
+`X-GNOME-FullName=Junction (Ruby)` — an `X-` key, so it adds no untranslated
+msgid — and with the `.Rb` application id, which is what actually keeps the
+two installs apart.
 
 ## Application id
 
@@ -157,9 +215,25 @@ adding to it:
 - **The welcome window registers MIME handlers when it is constructed**, as the
   original does on import. `XDG_CONFIG_HOME` *does* redirect that, so tests
   point it at a scratch directory.
-- **`open_directory` is never exercised**, since it would put a file manager
-  window on the desktop. Building the `XdpParent` handle — the part that could
-  plausibly break in a Ruby port — is checked on its own.
+- **`open_directory` owes a behaviour, and it is tested.** "Open Location"
+  closes Junction only once the file manager has actually come up, so a
+  refusal has to leave the window standing — which means the failure path is
+  as load-bearing as the success one. Driving the real portal would put a file
+  manager window on the desktop, so `Host.portal` is assignable and
+  `test/portal_test.rb` drives both outcomes through it, at the `Host` level
+  and again through `ShowInFolderButton`'s `on_opened`. Building the
+  `XdpParent` handle out of a real `Gtk::Window` is still checked against the
+  real libportal.
+- **The Flatpak sandbox is reachable from the suite.** Every sandbox-only
+  branch — the `flatpak-spawn --host` wrapper, the `/run/host` prefix for
+  icons and `os-release`, the document-portal lookup, the imperative
+  web-handler claim — hangs off `Host.flatpak?`, and a test run on the host
+  would otherwise never enter any of them. The predicate memoises and
+  `Host.flatpak =` overrides it, which is the same seam upstream uses when it
+  assigns over `Xdp.Portal.running_under_flatpak`
+  (`test/util.test.js:103-156`); `test/desktop_entry_test.rb` ports upstream's
+  `prefixCommandLineForHost` and `getIconFilename` assertions across both
+  branches and puts the predicate back afterwards.
 
 Fixture `.desktop` files cannot be planted for Gio to discover, because GLib
 always includes the system data directories and `XDG_DATA_DIRS` cannot be

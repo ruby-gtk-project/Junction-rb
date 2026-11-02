@@ -211,6 +211,94 @@ check('a spawned command comes back') do
   JunctionRb::Host.spawn_sync('echo junction').first.strip == 'junction'
 end
 
+# --- Both sides of the sandbox ----------------------------------------------
+
+# Upstream drives these branches by assigning over
+# Xdp.Portal.running_under_flatpak (test/util.test.js:103-156). Host.flatpak?
+# memoises, so assigning it does the same job here: without a seam every
+# sandbox path in host.rb, desktop_entry.rb and application.rb is unreachable
+# from a test run on the host, which is every test run there has ever been.
+COMMAND_LINE = %(foo --bar hello='world' something="wow")
+
+JunctionRb::Host.flatpak = false
+
+check('on the host the command line is handed over as written') do
+  JunctionRb::Host.prefix_command_line(COMMAND_LINE) == COMMAND_LINE
+end
+
+check('and a flatpak-spawn command is left alone') do
+  JunctionRb::Host.prefix_command_line('flatpak-spawn foo') == 'flatpak-spawn foo'
+end
+
+JunctionRb::Host.flatpak = true
+
+check('in the sandbox the command line is sent to the host') do
+  JunctionRb::Host.prefix_command_line(COMMAND_LINE) ==
+    %(flatpak-spawn --host foo --bar hello='world' something="wow")
+end
+
+check('and a command already going to the host is not wrapped twice') do
+  JunctionRb::Host.prefix_command_line('flatpak-spawn foo') == 'flatpak-spawn foo'
+end
+
+# An icon under /usr or /etc means the host's copy, which is mounted at
+# /run/host inside the sandbox; anywhere else means exactly what it says.
+# https://github.com/flatpak/flatpak/issues/2538
+JunctionRb::Host.flatpak = false
+check('on the host /usr is itself') do
+  JunctionRb::Host.host_path('/usr/share/hello.png') == '/usr/share/hello.png'
+end
+
+JunctionRb::Host.flatpak = true
+check('in the sandbox /usr is the host mount') do
+  JunctionRb::Host.host_path('/usr/share/hello.png') == '/run/host/usr/share/hello.png'
+end
+
+JunctionRb::Host.flatpak = false
+check('on the host /etc is itself') do
+  JunctionRb::Host.host_path('/etc/foo/hello.png') == '/etc/foo/hello.png'
+end
+
+JunctionRb::Host.flatpak = true
+check('in the sandbox /etc is the host mount') do
+  JunctionRb::Host.host_path('/etc/foo/hello.png') == '/run/host/etc/foo/hello.png'
+end
+
+JunctionRb::Host.flatpak = false
+check('a home path is never rewritten on the host') do
+  JunctionRb::Host.host_path('/home/foo/bar.png') == '/home/foo/bar.png'
+end
+
+JunctionRb::Host.flatpak = true
+check('nor in the sandbox') do
+  JunctionRb::Host.host_path('/home/foo/bar.png') == '/home/foo/bar.png'
+end
+
+JunctionRb::Host.flatpak = false
+check('and neither is /opt on the host') do
+  JunctionRb::Host.host_path('/opt/foo/bar.png') == '/opt/foo/bar.png'
+end
+
+JunctionRb::Host.flatpak = true
+check('nor /opt in the sandbox') do
+  JunctionRb::Host.host_path('/opt/foo/bar.png') == '/opt/foo/bar.png'
+end
+
+# The sandbox-only read path: os-release is looked for under /run/host. That
+# mount is not there on a host run, so this exercises the prefix and the
+# fall-back to the built-in defaults rather than a distribution's real file.
+check('os-release still names something when read through /run/host') do
+  !JunctionRb::Host.os_release['NAME'].to_s.empty?
+end
+
+# Back to whatever libportal says, so nothing after this runs under a pretend
+# sandbox.
+JunctionRb::Host.flatpak = nil
+
+check('the seam hands the question back to libportal') do
+  JunctionRb::Host.flatpak? == Xdp::Portal.running_under_flatpak
+end
+
 puts
 puts(FAILURES.empty? ? 'DESKTOP ENTRY OK' : "DESKTOP ENTRY FAILED (#{FAILURES.length})")
 exit(FAILURES.empty? ? 0 : 1)

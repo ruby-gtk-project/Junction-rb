@@ -97,6 +97,62 @@ check('a mangled file URL is restored') do
   resource_for('x-junction://file:0//tmp/x').text == '/tmp/x'
 end
 
+# --- The x-junction wrapper, the rest of upstream's readResource table -------
+
+check('a wrapped bare path is unwrapped') { resource_for('x-junction:///').text == '/' }
+
+check('and is still a directory') do
+  resource_for('x-junction:///').content_type == 'inode/directory'
+end
+
+check('a file URL is read as a path') do
+  resource_for('file:///etc/os-release').text == '/etc/os-release'
+end
+
+check('and is sniffed as text') do
+  resource_for('file:///etc/os-release').content_type == 'text/plain'
+end
+
+check('a wrapped file path is read the same way') do
+  resource_for('x-junction:///etc/os-release').text == '/etc/os-release'
+end
+
+check('a wrapped file URL is read the same way') do
+  resource_for('x-junction://file:///etc/os-release').text == '/etc/os-release'
+end
+
+# The parse_name branch of Resource.parse_wrapped: a wrapper that hands over a
+# home-relative path means the home directory, not a file called "~" in
+# whatever directory Junction was started from.
+check('a wrapped bare tilde is the home directory') do
+  resource_for('x-junction://~').text == Dir.home
+end
+
+check('and it is a directory') do
+  resource_for('x-junction://~').content_type == 'inode/directory'
+end
+
+check('a wrapped tilde path is expanded') do
+  resource_for('x-junction://~/.config').text == File.join(Dir.home, '.config')
+end
+
+# query_content_type's rescue: nothing to sniff, so Junction offers whatever
+# handles arbitrary bytes rather than crashing on the way to the grid.
+NOT_FOUND = "/tmp/junction-rb-does-not-exist-#{Process.pid}-#{rand(1_000_000)}"
+
+check('a path that does not exist falls back to octet-stream') do
+  JunctionRb::Resource.new(Gio::File.new_for_path(NOT_FOUND)).content_type ==
+    'application/octet-stream'
+end
+
+check('and it is still reported as a file') do
+  JunctionRb::Resource.new(Gio::File.new_for_path(NOT_FOUND)).scheme == 'file'
+end
+
+check('and the entry shows the path it was given') do
+  JunctionRb::Resource.new(Gio::File.new_for_path(NOT_FOUND)).text == NOT_FOUND
+end
+
 # --- Entry text back out as a URI --------------------------------------------
 
 check('an absolute path becomes a file URI') do
@@ -108,7 +164,37 @@ check('a path with a space is escaped') do
 end
 
 check('a tilde is expanded') do
-  JunctionRb::Resource.parse_location('~').start_with?('file:///')
+  JunctionRb::Resource.parse_location('~') == "file://#{Dir.home}"
+end
+
+check('a tilde with a trailing slash is the home directory too') do
+  JunctionRb::Resource.parse_location('~/') == "file://#{Dir.home}"
+end
+
+check('the root directory survives') do
+  JunctionRb::Resource.parse_location('/') == 'file:///'
+end
+
+# Gio normalises a trailing slash away; it is what tells the application being
+# launched that it was handed a directory, so parse_location puts it back.
+check('a trailing slash survives') do
+  JunctionRb::Resource.parse_location('/foo/') == 'file:///foo/'
+end
+
+check('a path without one does not grow one') do
+  JunctionRb::Resource.parse_location('/foo') == 'file:///foo'
+end
+
+check('a nested path is unchanged') do
+  JunctionRb::Resource.parse_location('/foo/bar') == 'file:///foo/bar'
+end
+
+check('mailto is passed through') do
+  JunctionRb::Resource.parse_location('mailto:foo@bar.com') == 'mailto:foo@bar.com'
+end
+
+check('and so is a plain URL') do
+  JunctionRb::Resource.parse_location('http://example.com') == 'http://example.com'
 end
 
 check('a tilde path is expanded') do

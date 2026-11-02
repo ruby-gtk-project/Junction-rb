@@ -10,7 +10,32 @@ module JunctionRb
 
     def self.portal = @portal ||= Xdp::Portal.new
 
-    def self.flatpak? = Xdp::Portal.running_under_flatpak
+    # Replaceable so the suite can drive #open_directory's two outcomes without
+    # putting a file manager window on the desktop. Nothing in the application
+    # assigns it.
+    def self.portal=(replacement)
+      @portal = replacement
+    end
+
+    # Memoised rather than asked each time, which also gives the suite the seam
+    # upstream has: its tests assign over `Xdp.Portal.running_under_flatpak`
+    # (test/util.test.js:103-156) to reach the sandbox branches, and a test run
+    # on the host can reach them here the same way, by assigning
+    # `Host.flatpak = true`. Every sandbox-only path — the /run/host prefixes,
+    # the flatpak-spawn wrapper, the document-portal lookup, the imperative
+    # web-handler claim — hangs off this one predicate.
+    def self.flatpak?
+      if @flatpak.nil?
+        @flatpak = Xdp::Portal.running_under_flatpak
+      else
+        @flatpak
+      end
+    end
+
+    # Assigning nil puts the question back to libportal.
+    def self.flatpak=(value)
+      @flatpak = value
+    end
 
     # Asks to keep running when no window is open, and to be started with the
     # session. Junction is a dispatcher: it is worth having ready before the
@@ -39,9 +64,14 @@ module JunctionRb
 
     # Reveal a file in the file manager. Inside a sandbox this is the only way
     # to reach the host's file manager at all.
+    #
+    # The block is called with whether the folder actually came up, and is
+    # called either way: Junction closes only once the file manager is there,
+    # so a refusal has to leave the window standing. Both outcomes are driven
+    # in test/portal_test.rb through the `portal` seam above.
     def self.open_directory(window, uri, &block)
       portal.open_directory(
-        XdpGtk4.parent_new_gtk(window),
+        parent_for(window),
         uri,
         Xdp::OpenUriFlags::NONE,
         nil,
@@ -50,6 +80,8 @@ module JunctionRb
       warn "junction-rb: could not show #{uri} in its folder: #{e.message}"
       block.call(false)
     end
+
+    def self.parent_for(window) = XdpGtk4.parent_new_gtk(window)
 
     def self.open_directory_finish(source, result)
       source.open_directory_finish(result)

@@ -203,6 +203,6 @@ module JunctionRb
       end
     end
 
-    def data_path(name) = File.expand_path("../../data/#{name}", __dir__)
+    def data_path(name) = File.join(DATA_DIR, name)
   end
 end

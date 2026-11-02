@@ -1,13 +1,22 @@
 [Desktop Entry]
 # TRANSLATORS: Do NOT translate
-Name=Junction (Ruby)
+Name=Junction
+# The port's own name, so a desktop that shows the full name can tell the two
+# copies apart. Name= stays upstream's msgid, which has 32 translations; the
+# .Rb application id is what keeps the two installs from clashing. X- keys are
+# not extracted, so this adds no untranslated msgid.
+X-GNOME-FullName=Junction (Ruby)
 Comment=Application chooser
 Exec=junction-rb %U
 Icon=re.sonny.Junction.Rb
 Terminal=false
 Type=Application
 Categories=Settings;System;Utility;GNOME;GTK;
-MimeType=x-scheme-handler/x-junction;x-scheme-handler/https;x-scheme-handler/http;text/html;text/xml;application/xhtml+xml;
+# Upstream's three and no more: text/html, text/xml and application/xhtml+xml
+# are claimed imperatively, from the welcome window, when the user asks for it
+# — listing them here would make the port the offered handler for every local
+# HTML file the moment it is installed.
+MimeType=x-scheme-handler/x-junction;x-scheme-handler/https;x-scheme-handler/http
 # TRANSLATORS: Do NOT translate
 Keywords=Choosy;BrowserChooser;Braus;Browserosaurus;Finicky;Buffet;OpenIn;BrowserSelect;
 DBusActivatable=true
