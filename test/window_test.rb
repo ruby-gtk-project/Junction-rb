@@ -15,6 +15,10 @@ ENV['XDG_CONFIG_HOME'] = Dir.mktmpdir('junction-rb-config')
 # would both scribble on them and lose writes to the round trip.
 ENV['GSETTINGS_BACKEND'] = 'memory'
 
+# Plants applications Junction can discover, so the grid is the same on
+# every machine and a launch leaves a trace on disk.
+require_relative 'fixture_apps'
+
 require_relative '../lib/junction_rb'
 require_relative 'gtk_driver'
 

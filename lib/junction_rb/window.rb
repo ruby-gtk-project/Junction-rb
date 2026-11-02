@@ -65,7 +65,11 @@ module JunctionRb
       end
     end
 
-    def present = build.present
+    # Assembled once: #build appends the tiles and the bottom bar's children,
+    # all of which assert they have no parent yet.
+    def present = assembled.present
+
+    def assembled = @assembled ||= build
 
     # --- Contents ------------------------------------------------------------
 

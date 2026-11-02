@@ -151,13 +151,24 @@ module JunctionRb
       false
     end
 
+    # Always g_app_info_launch, never g_app_info_launch_uris.
+    #
+    # launch_uris takes the URIs as a GList of strings, and ruby-gnome has no
+    # in-argument conversion for one: the call dies with "TODO: [uris] in Ruby
+    # -> GIArgument(glist)[utf8][nothing]". That is a NotImplementedError and
+    # not a StandardError, so it went straight past every rescue in this file
+    # and took the process down — which is to say launching an application, the
+    # one thing Junction exists to do, could never have worked through that
+    # branch. g_app_info_launch takes a GList of GFile, which ruby-gnome does
+    # convert.
+    #
+    # Nothing is lost by dropping the supports_uris split: GIO expands %u/%U
+    # from the file's URI and %f/%F from its path, so one call serves both
+    # kinds of entry, and a GFile built from a non-file URI (mailto:, https:)
+    # hands that URI straight back.
     def launch_uri(target, uri)
       Gdk::Display.default&.app_launch_context.then do |context|
-        if target.supports_uris
-          target.launch_uris([uri], context)
-        else
-          target.launch([Gio::File.new_for_uri(uri)], context)
-        end
+        target.launch([Gio::File.new_for_uri(uri)], context)
       end
     end
 

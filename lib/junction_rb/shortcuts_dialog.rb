@@ -36,7 +36,11 @@ module JunctionRb
       end
     end
 
-    def present(parent) = build.present(parent)
+    # Assembled once, so presenting the same dialog again does not add its
+    # sections a second time.
+    def present(parent) = assembled.present(parent)
+
+    def assembled = @assembled ||= build
 
     def dialog = @dialog ||= Adwaita::ShortcutsDialog.new
 

@@ -74,6 +74,15 @@ module JunctionRb
   # catalogue — so libintl needs the same binding.
   GLib::GetText.bindtextdomain(TEXT_DOMAIN, LOCALE_DIR)
 
+  # `GLib.set_application_name("Junction")`, which both src/bin.js and
+  # src/local.js do before anything else. It is what GTK titles a window with
+  # when the window sets no title of its own, and src/window.blp sets none —
+  # so without this the chooser's header bar reads "ruby" the moment the
+  # portrait breakpoint reveals it.
+  APPLICATION_NAME = 'Junction'
+
+  GLib.application_name = APPLICATION_NAME
+
   # Upstream compiles __DEV__ in with its gjspack bundler: src/local.js (a
   # checkout) sets it true and src/bin.js (installed) sets it false. There is
   # no bundler here, so the port reads the environment instead — see PORTING.md

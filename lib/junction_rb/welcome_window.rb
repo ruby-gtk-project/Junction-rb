@@ -60,7 +60,16 @@ module JunctionRb
       end
     end
 
-    def present = build.present
+    # Assembled once, however many times the window is presented. The
+    # application keeps this one window and presents it again on every
+    # activation, and a second trip through #build would re-append the same
+    # children — gtk_box_append, adw_toolbar_view_add_top_bar and
+    # adw_header_bar_pack_start all assert the child has no parent yet, so the
+    # second activation printed three GTK criticals and left the window
+    # half-assembled.
+    def present = assembled.present
+
+    def assembled = @assembled ||= build
 
     # The result page doubles as the confirmation: it is opened with whatever
     # now handles https, so seeing Junction ask which browser to use is itself

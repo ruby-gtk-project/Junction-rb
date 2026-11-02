@@ -3,12 +3,13 @@
 # Reading a candidate application's desktop actions, and the host/sandbox
 # helpers around launching.
 #
-# The action reading is checked against fixture .desktop files rather than
-# installed ones. Planting an application for Gio to discover is not possible
-# here — GLib always includes the system data directories, so XDG_DATA_DIRS
-# cannot be narrowed to a fixture directory — so discovery is checked against
-# whatever the machine really has installed, and the parsing is checked against
-# files written for the purpose.
+# The action reading is checked against fixture .desktop files written here;
+# discovery is checked against the applications test/fixture_apps.rb plants in
+# a scratch XDG_DATA_HOME. It used to be checked against whatever the machine
+# really had installed, on the belief that an application could not be planted
+# because XDG_DATA_DIRS always includes the system directories — but
+# XDG_DATA_HOME can be moved, and GIO reads the two the same way, so on a
+# machine with no browser installed those checks were simply failing.
 
 $stdout.sync = true
 
@@ -16,6 +17,10 @@ ENV['GSETTINGS_BACKEND'] = 'memory'
 
 require 'tmpdir'
 require 'fileutils'
+
+# Plants applications Junction can discover, so the grid is the same on
+# every machine and a launch leaves a trace on disk.
+require_relative 'fixture_apps'
 
 require_relative '../lib/junction_rb'
 
