@@ -5,13 +5,15 @@ module JunctionRb
   # This goes through the OpenURI portal, which is what reaches the host's file
   # manager from inside a sandbox.
   class ShowInFolderButton < TileButton
+    include Translations
+
     ICON_SIZE = 48
 
     def initialize(file:, settings:, parent:, on_opened:)
       super(
         settings: settings,
-        label:    'Open Location',
-        tooltip:  'View File in File Manager',
+        label:    _('Open Location'),
+        tooltip:  _('View File in File Manager'),
       )
       @file = file
       @parent = parent

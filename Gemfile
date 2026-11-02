@@ -62,6 +62,12 @@ gem "irb", "~> 1.17" # ruby >= 2.7
 gem 'adwaita', '~> 4.3'
 gem 'gtk4', '~> 4.3'
 
+# Translations: the app's own strings go through the gettext gem, which is pure
+# Ruby — it parses the compiled .mo files itself, so nothing from the system
+# gettext package is needed at runtime. glib2 only exposes bindtextdomain, for
+# GTK's own strings.
+gem 'gettext', '~> 3.5'
+
 group :development do
   gem 'rake', '~> 13.0'
   gem 'rubocop', '~> 1.80'

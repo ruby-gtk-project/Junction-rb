@@ -1,0 +1,265 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the re.sonny.Junction package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: re.sonny.Junction\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-10-15 00:57+0200\n"
+"PO-Revision-Date: 2022-01-01 14:53+0000\n"
+"Last-Translator: Fran Diéguez <fran.dieguez@mabishu.com>\n"
+"Language-Team: Galician <https://hosted.weblate.org/projects/junction/junction/gl/>\n"
+"Language: gl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.10.1\n"
+
+#. TRANSLATORS: Don't translate
+#: data/re.sonny.Junction.desktop:4
+msgid "Junction"
+msgstr "Junction"
+
+#: data/re.sonny.Junction.desktop:5 data/re.sonny.Junction.metainfo.xml:10
+msgid "Application chooser"
+msgstr "Selector de aplicacións"
+
+#. TRANSLATORS: Don't translate
+#: data/re.sonny.Junction.desktop:13
+msgid "Choosy;BrowserChooser;Braus;Browserosaurus;Finicky;Buffet;OpenIn;BrowserSelect;"
+msgstr "Choosy;BrowserChooser;Braus;Browserosaurus;Finicky;Buffet;OpenIn;BrowserSelect;"
+
+#: data/re.sonny.Junction.metainfo.xml:13
+msgid "Junction lets you choose the application to open files and links."
+msgstr "Junction permítelle elexir a aplicación para abrir ficheiros e ligazóns."
+
+#: data/re.sonny.Junction.metainfo.xml:14
+msgid "After installing make sure to launch the application."
+msgstr "Despois da instalación, asegúrese de iniciar a aplicación."
+
+#: data/re.sonny.Junction.metainfo.xml:17
+msgid "Junction will pop up automatically when you open a link in a desktop application. Use the mouse or keyboard navigation to choose the application to open the link or file with."
+msgstr "Junction aparecerá automaticamente cando abra unha ligazón nunha aplicación de escritorio. Use o rato ou a navegación por teclado para elexir a aplicación coa que abrir a ligazón ou o ficheiro."
+
+#: data/re.sonny.Junction.metainfo.xml:22
+msgid "Features:"
+msgstr "Características:"
+
+#: data/re.sonny.Junction.metainfo.xml:24
+msgid "Choose the application to open with"
+msgstr "Elixa a aplicación para abrir con"
+
+#: data/re.sonny.Junction.metainfo.xml:25
+msgid "Show the location before opening"
+msgstr "Mostrar a localización antes de abrir"
+
+#: data/re.sonny.Junction.metainfo.xml:26
+msgid "Edit the URL before opening"
+msgstr "Editar o URL antes de abrilo"
+
+#: data/re.sonny.Junction.metainfo.xml:27
+msgid "Show a hint for insecure link"
+msgstr "Mostrar unha advertencia para as ligazóns inseguras"
+
+#: data/re.sonny.Junction.metainfo.xml:28
+msgid "Keyboard navigation"
+msgstr "Navegación por teclado"
+
+#: data/re.sonny.Junction.metainfo.xml:29
+msgid "Middle click to open in multiple applications"
+msgstr "Clic central para abrir en varias aplicacións"
+
+#: data/re.sonny.Junction.metainfo.xml:41
+msgid "Choose the browser to open the link with"
+msgstr "elixa o navegador co que desexa abrir a ligazón"
+
+#: data/re.sonny.Junction.metainfo.xml:47
+msgid "Choose the application to open the image with"
+msgstr "Elixa a aplicación coa que desexa abrir a imaxe"
+
+#: data/re.sonny.Junction.metainfo.xml:53
+msgid "Junction features great support for keyboard"
+msgstr "Junction conta con un gran soporte para o teclado"
+
+#: data/re.sonny.Junction.metainfo.xml:59
+msgid "Desktop actions are supported too"
+msgstr "As accións de escritorio tamén son compatíbeis"
+
+#: data/re.sonny.Junction.metainfo.xml:67
+msgid "Add an option \"Reveal in Folder\" for files"
+msgstr ""
+
+#: data/re.sonny.Junction.metainfo.xml:68
+msgid "Reveal document portal file paths"
+msgstr ""
+
+#: data/re.sonny.Junction.metainfo.xml:69
+#, fuzzy
+msgid "Bug fix for desktop actions"
+msgstr "Soporte de accións de escritorio"
+
+#: data/re.sonny.Junction.metainfo.xml:70
+msgid "Bug fix when opening with Libreoffice"
+msgstr ""
+
+#: data/re.sonny.Junction.metainfo.xml:77
+msgid "Support desktop actions"
+msgstr "Soporte de accións de escritorio"
+
+#: data/re.sonny.Junction.metainfo.xml:78
+msgid "Support snap applications"
+msgstr "Soporte de aplicacións snap"
+
+#: data/re.sonny.Junction.metainfo.xml:85
+#: data/re.sonny.Junction.metainfo.xml:102
+msgid "Improve design"
+msgstr "Mellora do deseño"
+
+#: data/re.sonny.Junction.metainfo.xml:86
+msgid "New icon"
+msgstr "Nova icona"
+
+#: data/re.sonny.Junction.metainfo.xml:87
+msgid "Add a x-junction:// protocol API"
+msgstr "Engade unha API de protocolo x-junction://"
+
+#: data/re.sonny.Junction.metainfo.xml:88
+msgid "Do not automatically set as default application"
+msgstr "Non estabelece automaticamente como predeterminado para a Web"
+
+#: data/re.sonny.Junction.metainfo.xml:89
+msgid "Fix missing options"
+msgstr "Corrección das opcións que faltan"
+
+#: data/re.sonny.Junction.metainfo.xml:90
+msgid "Limit the number of options to 4"
+msgstr "Limita o número de opcións a 4"
+
+#: data/re.sonny.Junction.metainfo.xml:91
+msgid "Add an option to open with any application"
+msgstr "Engade unha opción para abrir con calquera aplicación"
+
+#: data/re.sonny.Junction.metainfo.xml:92
+msgid "Add a System Information panel in the about dialog"
+msgstr "Engade un panel de información do sistema no diálogo de información"
+
+#: data/re.sonny.Junction.metainfo.xml:99
+msgid "Fix for applications that do not support URIs"
+msgstr "Corrección para aplicacións que non soporta URIs"
+
+#: data/re.sonny.Junction.metainfo.xml:100
+msgid "Add an option to display application names"
+msgstr "Engade unha opción para mostrar os nomes das aplicacións"
+
+#: data/re.sonny.Junction.metainfo.xml:101
+msgid "Add a menu button"
+msgstr "Engade un botón de menú"
+
+#: data/re.sonny.Junction.metainfo.xml:103
+msgid "Improve keyboard usage"
+msgstr "Mellora o uso do teclado"
+
+#: data/re.sonny.Junction.metainfo.xml:104
+msgid "Improve CLI usage"
+msgstr "Mellora o uso da CLI"
+
+#: data/re.sonny.Junction.metainfo.xml:105
+msgid "Support opening multiple URIs"
+msgstr "Compatibilidade coa apertura de múltiples URIs"
+
+#: data/re.sonny.Junction.metainfo.xml:107
+msgid "Support D-Bus activation"
+msgstr "Soporte da activación do D-Bus"
+
+#: data/re.sonny.Junction.metainfo.xml:108
+msgid "Use libadwaita"
+msgstr "Usa libadwaita"
+
+#: data/re.sonny.Junction.metainfo.xml:115
+msgid "Fix for missing applications"
+msgstr "Correción das aplicacións que faltan"
+
+#: data/re.sonny.Junction.metainfo.xml:116
+msgid "Add a Shortcuts window - accessible with &lt;Ctrl&gt;?"
+msgstr "Engade unha xanela de atallos - accesíbel con &lt;Ctrl&gt;?"
+
+#: data/re.sonny.Junction.metainfo.xml:122
+msgid "This is the first release of Junction. We hope you like it."
+msgstr "Esta é a primeira versión de Junction. Esperamos que lle guste."
+
+#: src/Entry.js:23
+msgid "This site has no security. An attacker could see any information you send, or control the content that you see."
+msgstr "Este sitio non ten seguridade. Un atacante podería ver calquera información que envíe, ou controlar o contido que ve."
+
+#: src/AppButton.js:158
+msgid "Reveal"
+msgstr ""
+
+#: src/AppButton.js:159
+msgid "Reveal in Folder"
+msgstr ""
+
+#: src/AppButton.js:202
+msgid "All Applications"
+msgstr "Todas as apliaccións"
+
+#: src/AppButton.js:216
+msgid "View All"
+msgstr "Ver todo"
+
+#: src/window.blp:64
+msgid "Show names"
+msgstr "Mostrar nomes"
+
+#: src/window.blp:69 src/ShortcutsWindow.blp:15
+msgid "Copy to Clipboard"
+msgstr "Copiar ao portapapeis"
+
+#: src/window.blp:75 src/welcome.blp:56 src/ShortcutsWindow.blp:42
+msgid "Keyboard Shortcuts"
+msgstr "Atallos de teclado"
+
+#: src/window.blp:80 src/welcome.blp:61
+msgid "About Junction"
+msgstr "Sobre Junction"
+
+#: src/welcome.blp:32
+msgid "Test Junction"
+msgstr "Probar Junction"
+
+#: src/welcome.blp:39
+msgid "Set Junction as default for Web"
+msgstr "Estabelecer Junction como predeterminado para a Web"
+
+#. TRANSLATORS: eg. 'Translator Name <your.email@domain.com>' or 'Translator Name https://website.example'
+#: src/about.js:61
+msgid "translator-credits"
+msgstr "Fran Diéguez <fran.dieguez@gnome.org>, 2021"
+
+#: src/ShortcutsWindow.blp:10
+msgid "Discard and close"
+msgstr ""
+
+#: src/ShortcutsWindow.blp:20
+msgid "Select next/previous application"
+msgstr ""
+
+#: src/ShortcutsWindow.blp:25
+msgid "Open with selected application"
+msgstr ""
+
+#: src/ShortcutsWindow.blp:30
+msgid "Open with selected application and stay active"
+msgstr ""
+
+#: src/ShortcutsWindow.blp:35
+#, fuzzy
+msgid "Open with application at position"
+msgstr "Elixa a aplicación para abrir con"
+
+#: src/ShortcutsWindow.blp:47
+msgid "Quit"
+msgstr ""

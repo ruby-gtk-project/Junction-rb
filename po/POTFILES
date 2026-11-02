@@ -1,0 +1,12 @@
+data/re.sonny.Junction.Rb.desktop
+data/schemas/re.sonny.Junction.Rb.gschema.xml
+data/re.sonny.Junction.Rb.metainfo.xml
+
+lib/junction_rb/about_dialog.rb
+lib/junction_rb/host.rb
+lib/junction_rb/menu_model.rb
+lib/junction_rb/shortcuts_dialog.rb
+lib/junction_rb/show_in_folder_button.rb
+lib/junction_rb/uri_entry.rb
+lib/junction_rb/welcome_window.rb
+lib/junction_rb/window.rb

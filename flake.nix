@@ -11,7 +11,7 @@
       in
       {
         devShells.default = pkgs.mkShell {
-          nativeBuildInputs = with pkgs; [ pkg-config wrapGAppsHook4 ];
+          nativeBuildInputs = with pkgs; [ pkg-config wrapGAppsHook4 gettext ];
           buildInputs = with pkgs; [
             ruby_3_4
             bundler

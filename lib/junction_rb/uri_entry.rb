@@ -5,10 +5,14 @@ module JunctionRb
   # trim a tracking parameter before handing the link on — but not for files,
   # where there is nothing useful to change.
   class UriEntry
+    include Translations
+
     # The wording GNOME uses for the same warning, so it reads as part of the
-    # desktop rather than as Junction's own invention.
-    INSECURE_TOOLTIP = 'This site has no security. An attacker could see any ' \
-                       'information you send, or control the content that you see.'
+    # desktop rather than as Junction's own invention. Marked with N_ and
+    # translated at display: a constant is built once, before the locale is
+    # necessarily settled, and it has to stay one unbroken literal or
+    # rxgettext cannot see the msgid.
+    INSECURE_TOOLTIP = N_('This site has no security. An attacker could see any information you send, or control the content that you see.')
 
     def initialize(resource:)
       @resource = resource
@@ -45,7 +49,7 @@ module JunctionRb
 
     def mark_insecure(target)
       target.set_icon_from_icon_name(:primary, 'channel-insecure-symbolic')
-      target.set_icon_tooltip_text(:primary, INSECURE_TOOLTIP)
+      target.set_icon_tooltip_text(:primary, _(INSECURE_TOOLTIP))
       target.set_icon_sensitive(:primary, false)
       target.set_icon_activatable(:primary, false)
     end

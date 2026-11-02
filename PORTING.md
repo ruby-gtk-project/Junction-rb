@@ -91,17 +91,42 @@ the installed copy.
 
 ## Translation
 
-The original's `main` branch carries no `po/` directory, so there is no
-catalogue to reuse and every string is a plain Ruby literal. Adding gettext
-later is a matter of wrapping them.
+The original's `main` branch carries no `po/` directory — the catalogue lives
+on its `l10n` branch, and that is where `po/` came from: 32 languages, copied
+across untouched. `po/*.po` is donated work and is never edited here; only
+`rmsgmerge` touches it, and only when the message set genuinely changes.
+
+Two consequences worth knowing:
+
+- **The gettext domain stays `re.sonny.Junction`,** not the port's app id. A
+  compiled catalogue is found at `<path>/<lang>/LC_MESSAGES/<domain>.mo`, so the
+  domain *is* the filename; renaming it would orphan all 32 translations. It is
+  `JunctionRb::TEXT_DOMAIN`.
+- **The msgids are byte-identical to the original's,** mnemonics and wording
+  included, because a msgid is a hash key and not a description of a sentence.
+  Where the original's current string differs from the 2022 catalogue snapshot
+  — `Show App Names` for the old `Show names`, and the four strings added since
+  — the port follows the original and the translation arrives when Weblate
+  catches up.
+
+The markers come from the pure-Ruby `gettext` gem, bound once on the
+`JunctionRb` module and mixed into each class as `include Translations`:
+`_()` translates now, `N_()` marks a literal in a frozen constant for
+translation at display. `glib2` only offers `bindtextdomain`, which the port
+also calls, because the desktop file, the metainfo and the GSettings schema are
+translated by GLib and AppStream from the same `.mo`.
+
+`rake gettext:mo:update` compiles `po/` into `locale/` (build output, ignored),
+and `rake po:check` runs GNU `msgfmt -c --check-format` over every catalogue —
+the format-specifier check that the gem's own `rmsgfmt` does not do at all.
 
 ## Application id
 
 `re.sonny.Junction.Rb`, so the port installs alongside the original rather than
 fighting it for the handler registration. The GSettings path, desktop file,
-icon, and self-exclusion from the application grid all follow from that one
-constant in `version.rb`. Both Junctions are in the exclusion list, so neither
-offers to open a link in the other.
+icon, D-Bus service name and self-exclusion from the application grid all
+follow from that one constant in `lib/junction_rb.rb`. Both Junctions are in
+the exclusion list, so neither offers to open a link in the other.
 
 ## Three bugs the tests caught
 

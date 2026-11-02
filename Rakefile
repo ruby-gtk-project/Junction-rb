@@ -207,3 +207,83 @@ desc 'Lint'
 task :lint do
   sh 'rubocop'
 end
+
+### TRANSLATION TASKS
+# The port reuses upstream's donated catalogue: po/ came across from Junction's
+# l10n branch untouched, and the domain stays upstream's app id, because a .mo
+# is found by domain name (see JunctionRb::TEXT_DOMAIN). po/*.po are the
+# translators' work and are never edited here — only rmsgmerge touches them,
+# and only when the message set genuinely changes.
+require "fileutils"
+
+TEXT_DOMAIN = "re.sonny.Junction"
+PO_DIR = File.expand_path("po", __dir__)
+LOCALE_DIR = File.expand_path("locale", __dir__)
+
+begin
+  require "gettext/tools/task"
+
+  GetText::Tools::Task.define do |task|
+    task.domain = TEXT_DOMAIN
+    task.package_name = "Junction"
+    task.files = Dir.glob(File.expand_path("lib/**/*.rb", __dir__)) +
+      Dir.glob(File.expand_path("exe/*", __dir__))
+    task.po_base_directory = PO_DIR
+    task.mo_base_directory = LOCALE_DIR
+    # Read from LINGUAS rather than globbed from po/*.po, so a language that
+    # loses its file loses it loudly instead of silently.
+    task.locales = File.read(File.join(PO_DIR, "LINGUAS")).split
+    # The gem's Ruby parser drops translator comments unless asked; every one
+    # of them exists to prevent a specific mistranslation.
+    task.xgettext_options = ["--add-comments=TRANSLATORS"]
+  end
+rescue LoadError
+  desc("(stub) gettext tasks are unavailable")
+  task("gettext:mo:update") do
+    warn("NOTE: the gettext gem isn't installed, or is disabled for #{RUBY_VERSION} in the current environment")
+  end
+end
+
+namespace :po do
+  # rmsgfmt does not handle `#, c-format` flags at all — it neither writes nor
+  # validates them — so without GNU msgfmt the port would ship 32 catalogues
+  # whose format specifiers nobody ever checked against their msgids. This is
+  # the check that stops a translator's stray %s crashing the app in one
+  # language only.
+  desc "Check every catalogue's format specifiers with GNU msgfmt"
+  task :check do
+    Dir.glob(File.join(PO_DIR, "*.po")).sort.each do |po|
+      sh(
+        "msgfmt",
+        "-c",
+        "--check-format",
+        "-o",
+        File::NULL,
+        po,
+      )
+    end
+  end
+end
+
+### DESKTOP INTEGRATION TASKS
+# dbus-daemon needs an absolute Exec, which is why the service file ships with
+# an @bindir@ placeholder; upstream fills it from meson's bindir and the port
+# fills it here.
+DBUS_SERVICES_DIR = File.join(
+  ENV.fetch("XDG_DATA_HOME", File.join(Dir.home, ".local", "share")),
+  "dbus-1",
+  "services",
+)
+
+namespace :install do
+  desc "Install the D-Bus activation service file for the current user (BINDIR= to override)"
+  task :service do
+    bindir = ENV.fetch("BINDIR") { File.expand_path("exe", __dir__) }
+    target = File.join(DBUS_SERVICES_DIR, "re.sonny.Junction.Rb.service")
+    template = File.read(File.expand_path("data/re.sonny.Junction.Rb.service", __dir__))
+
+    FileUtils.mkdir_p(DBUS_SERVICES_DIR)
+    File.write(target, template.gsub("@bindir@", bindir))
+    puts("installed #{target} with Exec=#{bindir}/junction-rb")
+  end
+end

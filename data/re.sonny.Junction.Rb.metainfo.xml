@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  Ported from data/re.sonny.Junction.metainfo.xml.
+
+  Three things differ from upstream and all three are deliberate:
+
+  * The component id, and the desktop id it launches, carry the .Rb suffix so
+    the port installs alongside the original rather than replacing it.
+  * <translation> keeps upstream's gettext domain, re.sonny.Junction, because
+    the port reuses upstream's donated message catalogue — a .mo is looked up
+    by domain name, so renaming the domain would orphan all 32 languages.
+    The summary and the screenshot captions below are byte-identical to
+    upstream's msgids for exactly that reason.
+  * <releases> describes the port's own releases, not Junction's. AppStream
+    matches a release against the installed component's version, and this
+    component is 0.1.0; carrying upstream's 1.x history here would tell
+    software centres about updates that this component never shipped.
+-->
+<component type="desktop">
+  <id>re.sonny.Junction.Rb</id>
+  <launchable type="desktop-id">re.sonny.Junction.Rb.desktop</launchable>
+  <name translatable="no">Junction (Ruby)</name>
+  <developer id="re.sonny">
+    <name translatable="no">Sonny Piers</name>
+  </developer>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0</project_license>
+  <summary>Application chooser</summary>
+  <translation type="gettext">re.sonny.Junction</translation>
+  <description translatable="no">
+    <p>
+      Junction pops up automatically when you open a file or link in another app.
+      Use the mouse or keyboard navigation to choose which app you want to open it with.
+    </p>
+    <p>Features:</p>
+    <ul>
+      <li>Choose the app to open with</li>
+      <li>Show the location before opening</li>
+      <li>Edit the URL before opening</li>
+      <li>Show a hint for insecure links</li>
+      <li>Keyboard navigation</li>
+      <li>Supports desktop actions on right click</li>
+      <li>Middle Click or Ctrl + Click to open in multiple applications</li>
+      <li>Linux Mobile support</li>
+    </ul>
+    <p>This is a Ruby GTK4 / Libadwaita port of Junction.</p>
+  </description>
+  <url type="homepage">https://junction.sonny.re</url>
+  <url type="bugtracker">https://github.com/ruby-gtk-project/Junction-rb/issues</url>
+  <url type="vcs-browser">https://github.com/ruby-gtk-project/Junction-rb</url>
+  <screenshots>
+    <screenshot type="default">
+      <image>
+        https://raw.githubusercontent.com/ruby-gtk-project/Junction-rb/ruby/docs/window.png
+      </image>
+      <caption>Choose the browser to open the link with</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1" />
+  <releases>
+    <release version="0.1.0" date="2026-11-02">
+      <description translatable="no">
+        <ul>
+          <li>First release of the Ruby GTK4 port</li>
+        </ul>
+      </description>
+    </release>
+  </releases>
+  <kudos>
+    <kudo>HiDpiIcon</kudo>
+    <kudo>HighContrast</kudo>
+    <kudo>ModernToolkit</kudo>
+  </kudos>
+
+  <requires>
+    <display_length compare="ge">360</display_length>
+  </requires>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+    <control>touch</control>
+  </recommends>
+
+  <branding>
+    <color type="primary" scheme_preference="light">#F8ED9E</color>
+    <color type="primary" scheme_preference="dark">#AA7B07</color>
+  </branding>
+</component>

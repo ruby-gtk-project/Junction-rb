@@ -1,0 +1,16 @@
+# Ported from data/re.sonny.Junction.service.
+#
+# D-Bus activation is what makes Junction feel instant: the desktop file is
+# DBusActivatable, so clicking a link starts the service over the bus instead
+# of spawning a fresh interpreter, and the application holds itself alive after
+# dispatching so the next link costs nothing.
+#
+# Name must equal the GApplication id (JunctionRb::APPLICATION_ID), or the bus
+# starts a service that never claims the name it was asked for.
+#
+# dbus-daemon requires an absolute Exec, so @bindir@ is a placeholder the
+# installer substitutes — upstream fills it from meson's bindir; `rake
+# install:service` fills it from the directory junction-rb was installed into.
+[D-BUS Service]
+Name=re.sonny.Junction.Rb
+Exec=@bindir@/junction-rb --gapplication-service

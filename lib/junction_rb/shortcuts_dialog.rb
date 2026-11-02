@@ -4,20 +4,24 @@ module JunctionRb
   # The keyboard shortcuts reference. Adwaita's shortcuts dialog replaces
   # Gtk::ShortcutsWindow, which GTK deprecated in 4.18.
   class ShortcutsDialog
+    include Translations
+
     # Two groups, matching the original: what you can do to the resource in
-    # front of you, and what you can do to Junction.
+    # front of you, and what you can do to Junction. The labels are marked
+    # here and translated in #item_for, because the table is frozen at load
+    # time and the locale is not settled until the application starts up.
     SECTIONS = {
       nil           => [
-        ['Discard and close', 'Escape <Primary>W'],
-        ['Copy to Clipboard', '<Primary>C'],
-        ['Select next/previous application', 'Left Right'],
-        ['Open with selected application', 'Return space'],
-        ['Open with selected application and stay active', '<Primary>Return <Primary>space'],
-        ['Open with application at position', '1...9'],
+        [N_('Discard and close'), 'Escape <Primary>W'],
+        [N_('Copy to Clipboard'), '<Primary>C'],
+        [N_('Select next/previous application'), 'Left Right'],
+        [N_('Open with selected application'), 'Return space'],
+        [N_('Open with selected application and stay active'), '<Primary>Return <Primary>space'],
+        [N_('Open with application at position'), '1...9'],
       ],
       'Application' => [
-        ['Keyboard Shortcuts', '<Primary>question'],
-        ['Quit', '<Primary>Q'],
+        [N_('Keyboard Shortcuts'), '<Primary>question'],
+        [N_('Quit'), '<Primary>Q'],
       ],
     }.freeze
 
@@ -40,6 +44,6 @@ module JunctionRb
       end
     end
 
-    def item_for(label, accelerator) = Adwaita::ShortcutsItem.new(label, accelerator)
+    def item_for(label, accelerator) = Adwaita::ShortcutsItem.new(_(label), accelerator)
   end
 end

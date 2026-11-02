@@ -5,6 +5,12 @@ Gemfile.lock
 /tmp/
 /data/schemas/gschemas.compiled
 
+# Build output of `rake gettext:mo:update` and `rake gettext:po:update`: the
+# compiled catalogues and the extracted template. po/*.po themselves are the
+# donated translations and are tracked.
+/locale/
+/po/*.pot
+
 # Build Artifacts
 /pkg/
 /tmp/*

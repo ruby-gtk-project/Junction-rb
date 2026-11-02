@@ -4,6 +4,8 @@ module JunctionRb
   # One window per resource Junction is asked to open: the grid of applications
   # that can handle it, with the resource itself editable along the bottom.
   class Window
+    include Translations
+
     DEFAULT_WIDTH = 772
     DEFAULT_HEIGHT = 218
 
@@ -269,7 +271,7 @@ module JunctionRb
       Gtk::MenuButton.new.tap do |button|
         button.menu_model = MenuModel.build
         button.icon_name = 'open-menu-symbolic'
-        button.tooltip_text = 'Main Menu'
+        button.tooltip_text = _('Main Menu')
         button.valign = :center
         button.primary = true
         button.add_css_class('circular')

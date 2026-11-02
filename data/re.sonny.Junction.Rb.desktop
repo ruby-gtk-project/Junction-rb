@@ -1,10 +1,16 @@
 [Desktop Entry]
+# TRANSLATORS: Do NOT translate
 Name=Junction (Ruby)
-Comment=Choose the application to open a link or file with
+Comment=Application chooser
 Exec=junction-rb %U
 Icon=re.sonny.Junction.Rb
 Terminal=false
 Type=Application
-Categories=GTK;Utility;
+Categories=Settings;System;Utility;GNOME;GTK;
+MimeType=x-scheme-handler/x-junction;x-scheme-handler/https;x-scheme-handler/http;text/html;text/xml;application/xhtml+xml;
+# TRANSLATORS: Do NOT translate
+Keywords=Choosy;BrowserChooser;Braus;Browserosaurus;Finicky;Buffet;OpenIn;BrowserSelect;
+DBusActivatable=true
 StartupNotify=true
-MimeType=x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/x-junction;text/html;text/xml;application/xhtml+xml;
+# TRANSLATORS: Do NOT translate
+X-Purism-FormFactor=Workstation;Mobile;

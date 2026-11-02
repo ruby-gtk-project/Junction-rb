@@ -5,6 +5,8 @@ module JunctionRb
   # theme switcher widget — a widget can only live in one place — so the model
   # is built per button rather than shared as one object.
   class MenuModel
+    extend Translations
+
     def self.build
       Gio::Menu.new.tap do |menu|
         menu.append_section(nil, theme_section)
@@ -26,15 +28,15 @@ module JunctionRb
 
     def self.window_section
       Gio::Menu.new.tap do |section|
-        section.append('Show App Names', 'win.show-app-names')
-        section.append('Copy to Clipboard', 'win.copy')
+        section.append(_('Show App Names'), 'win.show-app-names')
+        section.append(_('Copy to Clipboard'), 'win.copy')
       end
     end
 
     def self.application_section
       Gio::Menu.new.tap do |section|
-        section.append('Keyboard Shortcuts', 'app.shortcuts')
-        section.append('About Junction', 'app.about')
+        section.append(_('Keyboard Shortcuts'), 'app.shortcuts')
+        section.append(_('About Junction'), 'app.about')
       end
     end
   end

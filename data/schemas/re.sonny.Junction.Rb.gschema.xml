@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<schemalist>
+<schemalist gettext-domain="re.sonny.Junction">
   <schema id="re.sonny.Junction.Rb" path="/re/sonny/Junction/Rb/">
     <key name="show-app-names" type="b">
       <default>false</default>

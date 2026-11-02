@@ -4,6 +4,8 @@ module JunctionRb
   # Everything that differs between running on the host and running inside a
   # Flatpak sandbox, plus the portal requests that go with it.
   module Host
+    extend Translations
+
     FLATPAK_INFO = '/.flatpak-info'
 
     def self.portal = @portal ||= Xdp::Portal.new
@@ -18,11 +20,11 @@ module JunctionRb
     # comes up on DBus without showing a window.
     AUTOSTART_COMMAND = ['junction-rb', '--gapplication-service'].freeze
 
-    BACKGROUND_REASON = 'Run Junction in the background.'
+    BACKGROUND_REASON = N_('Run Junction in the background.')
 
     def self.request_background(_parent)
       BackgroundRequest.call(
-        reason:  BACKGROUND_REASON,
+        reason:  _(BACKGROUND_REASON),
         command: AUTOSTART_COMMAND,
       ) { |granted| report_background(granted) }
     rescue StandardError => e

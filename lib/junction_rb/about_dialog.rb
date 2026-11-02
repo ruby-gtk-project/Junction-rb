@@ -6,19 +6,24 @@ module JunctionRb
   # applications Junction can even see — XDG_DATA_DIRS above all, since an
   # empty app grid is nearly always that.
   class AboutDialog
+    include Translations
+
     def present(parent) = dialog.present(parent)
 
     def dialog
       @dialog ||= Adwaita::AboutDialog.new.tap do |d|
         d.application_name = 'Junction'
-        d.application_icon = APPLICATION_ID
+        d.application_icon = JunctionRb.icon_name
         d.developer_name = 'Sonny Piers'
         d.copyright = '© 2021-2024 Sonny Piers'
         d.license_type = Gtk::License::GPL_3_0_ONLY
         d.version = VERSION
         d.website = WEBSITE
         d.issue_url = 'https://github.com/sonnyp/Junction/issues'
-        d.translator_credits = 'translator-credits'
+        # Not a sentence to translate but the hook every catalogue fills in
+        # with its own translators' names; Adwaita hides the credits section
+        # when the lookup comes back unchanged.
+        d.translator_credits = _('translator-credits')
         d.debug_info = debug_info
         d.developers = ['Sonny Piers https://sonny.re']
         d.designers = ['Sonny Piers https://sonny.re', 'Tobias Bernard <tbernard@gnome.org>']

@@ -5,6 +5,8 @@ module JunctionRb
   # link. Junction is only useful once the desktop routes links to it, so the
   # window exists to offer exactly that, plus a link to try it with.
   class WelcomeWindow
+    include Translations
+
     DEMO_URI = "#{WEBSITE}/demo"
 
     # The types worth claiming: web links, and the local files a browser would
@@ -109,7 +111,7 @@ module JunctionRb
       @about_button ||= Gtk::Button.new.tap do |button|
         button.action_name = 'app.about'
         button.icon_name = 'help-about-symbolic'
-        button.tooltip_text = 'About Junction'
+        button.tooltip_text = _('About Junction')
       end
     end
 
@@ -125,21 +127,21 @@ module JunctionRb
 
     def icon
       @icon ||= Gtk::Image.new.tap do |image|
-        image.icon_name = APPLICATION_ID
+        image.icon_name = JunctionRb.icon_name
         image.pixel_size = 128
       end
     end
 
     def demo_button
       @demo_button ||= Gtk::LinkButton.new(DEMO_URI).tap do |button|
-        button.label = 'Test Junction'
+        button.label = _('Test Junction')
         button.valign = :center
         button.halign = :center
       end
     end
 
     def install_button
-      @install_button ||= Gtk::Button.new(label: 'Set Junction as default for Web').tap do |button|
+      @install_button ||= Gtk::Button.new(label: _('Set Junction as default for Web')).tap do |button|
         button.valign = :center
         button.halign = :center
       end
