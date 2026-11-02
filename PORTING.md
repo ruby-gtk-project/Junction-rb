@@ -65,29 +65,23 @@ been deleted; all live code is under `JunctionRb`.
 This section used to be headed "Not started", over the sentence "Upstream
 components with no Ruby counterpart at all". I wrote both, and both were
 excuses: "not started" reads as a scope boundary a reader can accept, and "no
-Ruby counterpart" reads as a technical impossibility. Neither is true of the
-two things still on this list. A Flatpak manifest is a JSON file and a
-screenshot is a PNG; nothing about Ruby prevents either. The entries below are
-rewritten in place to say what is missing, what a user loses by it, and where
-upstream does the thing I did not.
+Ruby counterpart" reads as a technical impossibility. Neither was true of the
+things on this list. A Flatpak manifest is a JSON file and a screenshot is a
+PNG; nothing about Ruby prevents either. The entries below say what is
+missing, what a user loses by it, and where upstream does the thing I did not.
 
-- **I have not shipped two of upstream's three screenshots, so a user browsing
-  a software centre sees one picture of Junction where upstream shows three,
-  and never sees it opening a file or running at phone width.**
-  Upstream `data/re.sonny.Junction.metainfo.xml:35-57` carries three
-  `<screenshot>` elements; the port's `data/re.sonny.Junction.Rb.metainfo.xml:59-66`
-  carries one. The two missing captions, "Choose the application to open the
-  image with" and "Junction supports Linux mobile", are translated in all 32
-  catalogues (`po/de.po`), so 64 translator-hours are sitting in this
-  repository addressing text that nothing emits — and `rake gettext:pot` now
-  proves that by not extracting those msgids.
-  What stops me is not the XML, which is four lines: it is the images. This
-  machine has no browser and no image-viewer desktop entry installed, so a grid
-  captured here is empty, and a screenshot of an empty Junction in a software
-  centre is a worse lie than a missing one. The fixture applications
-  `test/fixture_apps.rb` plants would fill the grid with tiles reading "Fixture
-  Viewer", which is the same lie with extra steps. This needs capturing on a
-  machine with real applications on it.
+The screenshots used to be the first entry here, under the claim that this
+machine has no browser and no image viewer installed so any grid captured on
+it would be empty. That was true of the machine and false as a reason: the
+drive script had already been planting its own applications in a scratch
+`XDG_DATA_HOME` for months, and I had read that file. `test/screenshot_apps.rb`
+plants a presentation set the same way and `test/capture_screenshots.rb`
+(`rake screenshots`) photographs all three of upstream's views — the link, the
+image file and the phone-width window — into `docs/`, with a check on each one
+so an empty grid fails the run instead of being published. All three
+`<screenshot>` elements and their captions are in the metainfo, and
+`rake gettext:merge` has put both restored msgids back in front of the
+translators who had already translated one of them.
 
 - **I have not ported the Flatpak manifest, so every sandbox path in this port
   has only ever been executed by a test that assigned over `Host.flatpak?` —
@@ -144,10 +138,14 @@ and still listed component-parity P0, P1, P2, P6, P7, P8 and test-parity Gap 1
 as open when all seven had been closed two commits earlier — see
 `.reports/accountability-ensurance.md` A2.
 
-1. **P4** Two of upstream's three screenshots, and their `<caption>` elements,
-   are missing; both captions have 32 translations in `po/`. Above.
-2. **P5** No Flatpak manifest, so none of the sandbox code paths has been
+1. **P5** No Flatpak manifest, so none of the sandbox code paths has been
    exercised against a real sandbox. Above.
+2. The two restored screenshot captions are extractable again, and one of them
+   ("Choose the application to open the image with") came back with its 31
+   existing translations attached. "Junction supports Linux mobile" is new to
+   this catalogue — upstream added it after the last translation round, so it
+   is untranslated in all 32 languages. I have not invented those translations
+   either.
 3. The eight msgids the donated catalogues predate (`Main Menu`,
    `Show App Names`, `Open Location`, `View File in File Manager`,
    `Run Junction in the background.`, `Light Style`, `Follow System Style`,

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: re.sonny.Junction\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-02 17:16+0000\n"
+"POT-Creation-Date: 2026-11-02 22:09+0000\n"
 "PO-Revision-Date: 2022-04-03 07:12+0000\n"
 "Last-Translator: buralien <github@lty.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/junction/junction/"
@@ -204,7 +204,15 @@ msgstr ""
 msgid "Choose the browser to open the link with"
 msgstr "Výběr prohlížeče pro otevření odkazu"
 
-#: data/re.sonny.Junction.Rb.metainfo.xml:72
+#: data/re.sonny.Junction.Rb.metainfo.xml:70
+msgid "Choose the application to open the image with"
+msgstr "Výběr aplikace, pomocí které otevřít obrázek"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:76
+msgid "Junction supports Linux mobile"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:84
 msgid "First release of the Ruby GTK4 port"
 msgstr ""
 
@@ -213,9 +221,6 @@ msgstr ""
 
 #~ msgid "After installing make sure to launch the application."
 #~ msgstr "Po instalaci nezapomeňte aplikaci spustit."
-
-#~ msgid "Choose the application to open the image with"
-#~ msgstr "Výběr aplikace, pomocí které otevřít obrázek"
 
 #~ msgid "Junction features great support for keyboard"
 #~ msgstr "Junction nabízí skvělou podporu pro ovládání klávesnicí"

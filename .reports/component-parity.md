@@ -6,7 +6,7 @@
 > | Gap | State on this commit |
 > |---|---|
 > | C1 desktop-action labels shown untranslated | **closed.** `lib/junction_rb/desktop_entry.rb:73-87` and `:110`. `test/drive_locale.rb` asserts, under `LANGUAGE=de` and against a fixture entry carrying `Name[de]`, that the action label is the German one and the `Exec` line is not. |
-> | C2 two of three screenshots and their captions not built | **open.** The XML is four lines; the images are the blocker, and this machine has no browser or image-viewer desktop entry, so any grid captured here is empty. `PORTING.md` states it in full, in the first person, rather than as "not started". |
+> | C2 two of three screenshots and their captions not built | **closed.** `data/re.sonny.Junction.Rb.metainfo.xml:59-80` carries all three `<screenshot>` elements with upstream's captions. The images are built by `test/capture_screenshots.rb` (`rake screenshots`) against the presentation applications `test/screenshot_apps.rb` plants in a scratch `XDG_DATA_HOME`, so the blocker named here — no browser or image viewer on the machine — was never a blocker; the drive script had been planting applications the same way all along. Each image is checked before it is written, so an empty grid fails the run. `rake gettext:merge` restored "Choose the application to open the image with" with its 31 translations. |
 > | C3 no Flatpak manifest | **open.** Needs `flatpak-builder` and a Ruby/gem base-app story, neither available here. Writing the manifest without building from it would ship a file that has never been run. |
 > | C4 the documented way to launch the port does not work, and `rake` checks nothing | **closed.** `README.md:21` is `exe/junction-rb`; `CLAUDE.md:7` likewise. `task default` depends on schema, test, validate, drive and lint. `README.md` has an Installing section covering `rake install:all` and saying in so many words that the welcome window's button is a no-op until `install:desktop` has run. |
 
@@ -18,7 +18,7 @@
 | Stylesheet | `src/style.css` ≡ `data/style.css:1-77`; `:78-123` is troll's theme-switcher CSS |
 | Validations | `rake validate` → desktop-file-validate clean (2 hints), `appstreamcli validate` successful, `glib-compile-schemas --strict` clean |
 
-Verdict: **not clean.** Four gaps.
+Verdict: **not clean.** One gap (C3); C1, C2 and C4 are closed.
 
 Six of the previous pass's nine gaps are genuinely closed and I re-ran each
 one rather than taking the last report's word: `namespace :install` now has

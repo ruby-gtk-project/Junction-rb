@@ -255,6 +255,15 @@ task drive: ['schema', 'gettext:check'] do
   end
 end
 
+# Not a dependency of `default`: this one *writes* the three tracked PNGs in
+# docs/, and a suite that rewrote committed binaries on every green run is the
+# same mistake `gettext:mo:compile` is kept out of `test` for. Run it when the
+# chooser changes, and look at what it produced.
+desc 'Recapture the three AppStream screenshots into docs/'
+task screenshots: :schema do
+  sh({ 'GSETTINGS_SCHEMA_DIR' => SCHEMA_DIR }, 'ruby', 'test/capture_screenshots.rb')
+end
+
 desc 'Run the app'
 task run: :schema do
   sh(
@@ -267,7 +276,17 @@ end
 
 desc 'Lint'
 task :lint do
-  sh 'rubocop'
+  # `rubocop` on PATH here is the fork's own wrapper, carrying its own gemset.
+  # Invoked from inside this project's bundle it resolves the name against
+  # *this* Gemfile instead and dies with "can't find executable rubocop for
+  # gem rubocop" — so `rake`, which was made to depend on :lint precisely so
+  # that a green run meant something, could never reach the end. Shedding the
+  # bundler environment is what the wrapper needs and all it needs.
+  if defined?(Bundler)
+    Bundler.with_unbundled_env { sh 'rubocop' }
+  else
+    sh 'rubocop'
+  end
 end
 
 ### TRANSLATION TASKS

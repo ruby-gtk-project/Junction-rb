@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: re.sonny.Junction\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-02 17:16+0000\n"
+"POT-Creation-Date: 2026-11-02 22:09+0000\n"
 "PO-Revision-Date: 2023-08-22 06:39+0000\n"
 "Last-Translator: FdelS <fdshg@outlook.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/junction/"
@@ -195,7 +195,15 @@ msgstr ""
 msgid "Choose the browser to open the link with"
 msgstr "Escull el navegador amb el qual obrir l'enllaç"
 
-#: data/re.sonny.Junction.Rb.metainfo.xml:72
+#: data/re.sonny.Junction.Rb.metainfo.xml:70
+msgid "Choose the application to open the image with"
+msgstr "Escull l'aplicació amb la qual obrir la imatge"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:76
+msgid "Junction supports Linux mobile"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:84
 msgid "First release of the Ruby GTK4 port"
 msgstr ""
 
@@ -205,9 +213,6 @@ msgstr ""
 
 #~ msgid "After installing make sure to launch the application."
 #~ msgstr "Després d'instal·lar, assegura't d'executar l'aplicació."
-
-#~ msgid "Choose the application to open the image with"
-#~ msgstr "Escull l'aplicació amb la qual obrir la imatge"
 
 #~ msgid "Junction features great support for keyboard"
 #~ msgstr "Junction ofereix gran compatibilitat amb el teclat"

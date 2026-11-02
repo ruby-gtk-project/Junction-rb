@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: re.sonny.Junction\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-02 17:16+0000\n"
+"POT-Creation-Date: 2026-11-02 22:09+0000\n"
 "PO-Revision-Date: 2022-06-28 19:20+0000\n"
 "Last-Translator: Javad Miraftabzadeh <javad.miraftabzadeh@gmail.com>\n"
 "Language-Team: Persian <https://hosted.weblate.org/projects/junction/"
@@ -196,7 +196,15 @@ msgstr ""
 msgid "Choose the browser to open the link with"
 msgstr "مرورگر را برای باز کردن پیوند انتخاب کنید"
 
-#: data/re.sonny.Junction.Rb.metainfo.xml:72
+#: data/re.sonny.Junction.Rb.metainfo.xml:70
+msgid "Choose the application to open the image with"
+msgstr "برنامه را برای باز کردن تصویر انتخاب کنید"
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:76
+msgid "Junction supports Linux mobile"
+msgstr ""
+
+#: data/re.sonny.Junction.Rb.metainfo.xml:84
 msgid "First release of the Ruby GTK4 port"
 msgstr ""
 
@@ -207,9 +215,6 @@ msgstr ""
 
 #~ msgid "After installing make sure to launch the application."
 #~ msgstr "بعد از نصب، از راه‌اندازی برنامه مطمئن شوید."
-
-#~ msgid "Choose the application to open the image with"
-#~ msgstr "برنامه را برای باز کردن تصویر انتخاب کنید"
 
 #~ msgid "Junction features great support for keyboard"
 #~ msgstr "تقاطع پشتیبانی خوبی برای استفاده از کیبورد دارد"

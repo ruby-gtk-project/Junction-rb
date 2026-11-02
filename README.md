@@ -8,7 +8,7 @@ handler for `http` and `https` and every link you click puts up a row of the
 browsers and apps that can take it, with the URL editable underneath, instead of
 silently going to whichever one you set as default a year ago.
 
-![Junction opening a local HTML file](docs/window.png)
+![Junction choosing a browser for a link](docs/window.png)
 
 ## Running
 
@@ -113,6 +113,16 @@ window styling.
 The tests drive the real app with no display server. GTK4 renders offscreen, so
 the screenshots under `tmp/shots` are worth looking at — they show what the
 assertions do not think to ask about.
+
+```sh
+rake screenshots        # recapture the three docs/ images the metainfo uses
+```
+
+`rake screenshots` is deliberately not part of `rake`: it writes the three
+tracked PNGs a software centre shows, and a suite that rewrote committed
+binaries on every green run would make them unreviewable. Run it when the
+chooser changes. It plants its own applications, so the grid is the same on
+any machine, and it refuses to write a picture of an empty grid.
 
 `PORTING.md` records what changed on the way over from GJS.
 

@@ -63,6 +63,18 @@
       </image>
       <caption>Choose the browser to open the link with</caption>
     </screenshot>
+    <screenshot>
+      <image>
+        https://raw.githubusercontent.com/ruby-gtk-project/Junction-rb/ruby/docs/window-image.png
+      </image>
+      <caption>Choose the application to open the image with</caption>
+    </screenshot>
+    <screenshot>
+      <image>
+        https://raw.githubusercontent.com/ruby-gtk-project/Junction-rb/ruby/docs/window-mobile.png
+      </image>
+      <caption>Junction supports Linux mobile</caption>
+    </screenshot>
   </screenshots>
   <content_rating type="oars-1.1" />
   <releases>
