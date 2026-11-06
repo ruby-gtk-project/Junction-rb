@@ -30,8 +30,14 @@ module JunctionRb
       end
 
       # Following a system preference is only meaningful where there is one to
-      # follow.
+      # follow. Upstream's ThemeSelector reconnects this on the style
+      # manager's own notify signal so the button's visibility tracks a
+      # desktop whose portal support changes while the app is running, not
+      # just its value at build time.
       system_overlay.visible = Adwaita::StyleManager.default.system_supports_color_schemes?
+      Adwaita::StyleManager.default.signal_connect('notify::system-supports-color-schemes') do
+        system_overlay.visible = Adwaita::StyleManager.default.system_supports_color_schemes?
+      end
 
       # The checkmark over the active button. Blueprint binds `visible` to the
       # button's own `active` property; ruby-gnome reaches the same place

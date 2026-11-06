@@ -605,6 +605,19 @@ GtkDriver.drive(app, shots: SHOTS, timeout: 300) do |d, _app|
       switcher.system_overlay.visible? ==
         Adwaita::StyleManager.default.system_supports_color_schemes?
     end
+    # Upstream's ThemeSelector reconnects on the style manager's own notify
+    # signal, so a desktop whose portal support changes while the app is
+    # running still hides or shows the system button. There is no sandbox
+    # here to flip the real value, so the check forces the notify signal
+    # itself and asserts the handler re-read the property rather than that
+    # the visible value changed (which it may not, if nothing actually
+    # changed on this machine).
+    d.check('the system choice stays live if the desktop\'s support changes') do
+      reads = 0
+      switcher.system_overlay.define_singleton_method(:visible=) { |_| reads += 1 }
+      Adwaita::StyleManager.default.notify('system-supports-color-schemes')
+      reads == 1
+    end
     # Gtk::CheckButton has no `group` reader in ruby-gnome, so the grouping is
     # checked by what it is for: ticking one unticks the rest.
     d.check('they behave as one radio group') do
