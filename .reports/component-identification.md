@@ -1,5 +1,34 @@
 # Component identification — Junction-rb vs `origin/main`
 
+> **Round 3 re-derivation (this commit, `3faff07`).** Re-ran the scan on both
+> sides from scratch rather than trusting the round-2 counts. Two things
+> changed how this round could read upstream: `origin/main` HEAD moved to
+> `70560b6` (same as round 2 — no upstream drift), and the `troll` gitlink
+> (pinned `37b53b291`) was cloned into a scratch directory at that exact
+> commit and merged into the scan tree, which neither round 1 nor round 2
+> did — both recorded the submodule as unreadable. `gjspack`'s own demo and
+> test fixtures under `troll/` were scanned incidentally; they are troll's
+> tooling, not anything Junction imports, and are excluded from the counts
+> below by hand after reading what `src/window.js`/`AppButton.js`/etc.
+> actually `import` from the submodule (only `src/main.js`, confirming the
+> builder helper, and `src/widgets/ThemeSelector.js`, confirming the one real
+> widget).
+>
+> Rebuilt symbol table from the current `nix develop` shell: 1209 symbols
+> (GTK4 4.22, libadwaita, no Vte/GtkSource/Shumate/WebKit/Panel typelibs
+> installed, matching this app's actual dependency set).
+>
+> | | Upstream (`src/` + `troll/src/widgets/ThemeSelector.*`) | Port (`lib/`) |
+> |---|---|---|
+> | Scan rows | 70 (plus 76 troll-tooling rows excluded as not imported) | 94 |
+> | Files with rows | 10 | 19 |
+>
+> Nothing in the re-scan changes the unit list below: every upstream template
+> root and every named top-level object still maps one-to-one to a `lib`
+> file, including `ThemeSelector`, whose actual upstream source is now
+> readable rather than assumed. See `.reports/component-parity.md` C6 for
+> what reading it changed.
+
 | | |
 |---|---|
 | Upstream | `origin/main` @ `70560b6` ("Follow the system style (#220)") |

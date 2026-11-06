@@ -1,9 +1,53 @@
 # Translation parity — Junction-rb against `origin/main`
 
-> **Round 2 re-derivation (this commit).** Everything below the line was
-> derived at `f9d0830` and is kept verbatim, because deleting a finding hides
-> that it was made. This block is the state of each gap *now*, re-read off the
-> tree rather than carried forward.
+> **Round 3 re-derivation (this commit, `3faff07`).** Re-censused rather than
+> re-read. Pulled `origin/l10n` (`po/`, 32 languages, `re.sonny.Junction.pot`
+> dated 2022-10-15) and censused `origin/main`'s current `src/`/`data/` with
+> `translation-parity/scripts/msgid-census.sh` to get the message set as it
+> is *today*, not as the 2022 `.pot` snapshot has it — the two disagree on
+> purpose, because upstream has shipped UI copy changes since the l10n branch
+> was last synced (`"Choose the application to open with"` → `"Choose the app
+> to open with"`, `"Show a hint for insecure link"` → `"…insecure links"`,
+> `"Middle click to open in multiple applications"` → `"Middle Click or Ctrl +
+> Click to open in multiple applications"`, among others). Diffing the port's
+> `po/re.sonny.Junction.pot` against the *stale* l10n `.pot` instead of
+> against current `main` source would have reported all three as rewordings;
+> checked against current `main`, the port's wording is byte-identical to
+> each. Every one of the 39 marked strings in `src/*.js`/`*.blp` plus
+> `data/*.desktop`/`data/*.metainfo.xml` that the census can see on current
+> `main` was checked against `po/re.sonny.Junction.pot` by hand, not by a
+> count: `About Junction`, `Application chooser`, `Choose the application to
+> open the image with`, `Choose the app to open with`, `Choose the browser to
+> open the link with`, the `Choosy;…` keywords, `Copy to Clipboard`,
+> `Discard and close`, `Edit the URL before opening`, `Features:`, `Junction`,
+> `Junction supports Linux mobile`, `Keyboard navigation`, `Keyboard
+> Shortcuts`, `Linux Mobile support`, `Main Menu`, `Middle Click or Ctrl +
+> Click to open in multiple applications`, `Open Location`, `Open with
+> application at position`, `Open with selected application[ and stay
+> active]`, `Quit`, `Run Junction in the background.`, `Select next/previous
+> application`, `Set Junction as default for Web`, `Show a hint for insecure
+> links`, `Show App Names`, `Show the location before opening`, `Supports
+> desktop actions on right click`, `Test Junction`, `This site has no
+> security…`, `translator-credits`, `View File in File Manager` — every one
+> is in `po/re.sonny.Junction.pot`, byte-identical. `Main Menu` and `This
+> site has no security…`, the two longest to grep for, were checked twice
+> after an early pass's `grep` truncation made it look like they were
+> missing; they are present (`po/re.sonny.Junction.pot:92,105`).
+>
+> `po/LINGUAS` matches `origin/l10n`'s exactly, 32 entries; 32 `.po` files
+> present; 32 compiled `.mo` under `locale/`.
+>
+> `data/re.sonny.Junction.metainfo.xml`'s current, un-ported-from text is
+> not a gap — see `.reports/component-parity.md` C5: upstream now marks its
+> own feature-list `<description>` `translatable="no"`, and its `<releases>`
+> history describes upstream's own 1.0–1.13, not this component's 0.1.0. T3
+> below, from round 1, is resolved by that reading: it is closed, not merely
+> re-scheduled.
+>
+> Nothing new is open this round. T2 (8 untranslated msgids pending human
+> translators) is unchanged and is not a gap this port can close by itself —
+> re-confirmed: still 8 strings showing in English in all 32 languages,
+> still because no translator has reached them yet, still not invented here.
 >
 > | Gap | State on this commit |
 > |---|---|

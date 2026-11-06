@@ -1,6 +1,23 @@
 # Component parity — Junction-rb against `origin/main`
 
-> **Round 2 re-derivation (this commit).** The text below the line was derived
+> **Round 3 re-derivation (this commit, `3faff07`).** Re-ran every check below
+> against the current tree rather than trusting the round-2 table. One
+> blocker in the round-1/round-2 text can now be partly resolved: the `troll`
+> submodule is still an uncheckout gitlink in this repo, but I cloned it at
+> the exact pinned commit (`37b53b29`) into a scratch directory and read
+> `ThemeSelector.js`/`.blp`/`.css` directly, which neither previous round did.
+>
+> | Gap | State on this commit |
+> |---|---|
+> | C1–C4 (round 2) | Re-checked, all four still in the state round 2 recorded: C1, C2, C4 closed; C3 (no Flatpak manifest) open. `rake` (schema, test, validate, drive, lint) ran clean end to end in this session: `drive_junction.rb` 246/246, `drive_locale.rb` 16/16, `rubocop` 48 files no offenses. |
+> | C5 the two screenshot captions and metainfo `<releases>` (new this round) | **not a gap.** Checked by reading `3faff07` and the shipped `data/re.sonny.Junction.Rb.metainfo.xml`: all three `<screenshot>` elements and captions are present, and the port's own `<releases>` describes the port's 0.1.0 history rather than upstream's 1.0–1.13, which is correct — AppStream matches a release list against the installed component's own version, and the port never shipped upstream's versions. The eight translatable release-note strings under upstream's unmarked `<release version="1.3.0">` and `<release version="1.0.0">` are therefore not missing-in-error; they describe releases this component is not. |
+> | C6 ThemeSwitcher vs the now-readable `troll/src/widgets/ThemeSelector.{js,blp,css}` (new this round) | **open, minor.** Two live behaviours upstream's JS has and `lib/junction_rb/theme_switcher.rb` does not: (1) upstream reconnects `style_manager`'s `notify::system-supports-color-schemes` and re-evaluates the "follow system" button's visibility for the life of the widget; the port reads `system_supports_color_schemes?` once, at build time, and never again. (2) upstream adds/removes a `dark` CSS class on the whole selector (not on a button) when `style_manager`'s `dark` property changes; the port does not reproduce this. Checked against both stylesheets (`troll/src/widgets/ThemeSelector.css`, `data/style.css`) — no selector in either one actually uses that class, so (2) has no visible effect today and is dead behaviour upstream carries, not a user-facing gap. (1) is a real, if narrow, miss: a desktop whose color-scheme-portal support changes while Junction is running (rare, but it is exactly the kind of thing `notify::` exists for) will leave the port's switcher showing a "follow system" button the live upstream widget would hide. Also noted, cosmetic only: upstream's CSS classes on the three buttons are `follow`/`light`/`dark`; the port's own reconstruction (`theme_switcher.rb` + `data/style.css:79-123`) renames the first to `system`, consistently on both sides of its own files, so nothing is broken by it — just not byte-identical to the original naming, which only matters if upstream's stylesheet is ever consulted directly. |
+>
+> Verdict for this round: **not clean.** C3 stays open (Flatpak), and C6 is a
+> newly-confirmed, narrow miss that round 1/2 could not check because the
+> submodule was unread. Nothing closed in round 2 regressed.
+
+> **Round 2 re-derivation.** The text below the line was derived
 > at `f9d0830` and is kept verbatim. This block is each gap's state now.
 >
 > | Gap | State on this commit |

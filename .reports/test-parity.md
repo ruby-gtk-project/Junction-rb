@@ -1,6 +1,37 @@
 # Test parity — Junction-rb against `origin/main`
 
-> **Round 2 re-derivation (this commit).** The text below the line was derived
+> **Round 3 re-derivation (this commit, `3faff07`).** Re-ran, did not re-read.
+> In this session, in the dev shell:
+>
+> ```
+> nix develop --command xvfb-run -a bundle exec rake test   # exit 0, all 8 files OK
+> nix develop --command xvfb-run -a ruby test/drive_junction.rb   # 246 of 246, DRIVE OK
+> nix develop --command xvfb-run -a ruby test/drive_locale.rb     # 16 of 16, DRIVE OK
+> nix develop --command xvfb-run -a bundle exec rake              # schema, test, validate, drive, lint — all green, rubocop 48 files no offenses
+> ```
+>
+> Both drive scripts and the full default `rake` task were executed, not
+> read about — this is the "a suite that has never been executed is a gap"
+> check this skill asks for, discharged for this commit rather than carried
+> forward from round 2's numbers. All four of round 2's gaps (1–4) are
+> re-confirmed closed; nothing regressed. No new test file and no new upstream
+> test exist since round 2 — `3faff07` added `rake screenshots`
+> (`test/capture_screenshots.rb`, `test/screenshot_apps.rb`), which is
+> deliberately outside `rake test`/`rake` because it rewrites tracked PNGs,
+> and that exclusion is itself exercised: the commit message for `3faff07`
+> says so and the Rakefile does not list it under `task default`, both read
+> directly rather than taken on trust.
+>
+> One miss this round found that the test suite does not cover: the new
+> component-parity gap C6 (`.reports/component-parity.md`) — the theme
+> switcher's missing `notify::system-supports-color-schemes` re-evaluation —
+> has no test anywhere, upstream or port, because upstream's own
+> `troll/tst/` test harness never covered `ThemeSelector` either (checked:
+> no `*.test.js` under `troll/` references it). So this is not a "port
+> dropped a test", it is a behaviour neither side pins down with a test, which
+> is a gap in upstream's coverage inherited rather than introduced.
+
+> **Round 2 re-derivation.** The text below the line was derived
 > at `f9d0830` and is kept verbatim. This block is each gap's state now.
 >
 > | Gap | State on this commit |

@@ -1,6 +1,64 @@
 # Accountability ensurance — Junction-rb
 
-> **Round 2 re-derivation (this commit).** The text below the line was
+> **Round 3 re-derivation (this commit, `3faff07`).** Grepped fresh rather
+> than trusting the round-2 count.
+>
+> ```
+> grep -rniE 'TODO|FIXME|not implemented|for now|in a future|XXX|HACK|stub|placeholder' lib/ exe/
+> ```
+>
+> Two hits, both read in context, both not excuses: `resource.rb:116`'s
+> "would skip" describes what a *different* code path would incorrectly do
+> (a reason the chosen path is written the way it is, not an admission of
+> missing work), and `desktop_entry.rb:173`'s `TODO:` is inside a comment
+> *quoting ruby-gnome's own exception text* verbatim
+> (`NotImplementedError: TODO: [uris] in Ruby -> GIArgument(glist)…`), to
+> explain why `launch_uris` is never called — this is the same hit round 2
+> found and closed as A-not-an-excuse; it is unchanged.
+>
+> `PORTING.md`'s "Open gaps" section was re-read against the tree, not
+> trusted: all four of its current items checked out true on this commit —
+> no Flatpak manifest (confirmed: `re.sonny.Junction.json` and
+> `build-aux/flatpak/` are absent from the port, `git log` shows no attempt);
+> the two restored screenshot captions genuinely came back with the
+> translations the section claims (`grep -c msgstr` on `po/de.po` for both
+> strings — one has a non-empty `msgstr`, "Junction supports Linux mobile"
+> does not, matching the claim exactly); the eight msgids are in
+> `po/re.sonny.Junction.pot` and all 32 `.po` files and seven of eight are
+> still untranslated, `Show App Names` fuzzy (checked `msgfmt --statistics`
+> against `locale/de/LC_MESSAGES/re.sonny.Junction.mo`: fuzzy entries are
+> excluded from the compiled catalogue, so it still shows English, as
+> claimed); `nix/Gemfile` still omits `gobject-introspection` as an explicit
+> runtime gem even though `gettext` was added since round 2 and
+> `lib/junction_rb.rb:5` `require`s it directly — **this one is only
+> half-fixed**, which the PORTING.md text undersells by calling it one
+> item rather than naming which half moved.
+>
+> One finding this round that PORTING.md's "Blockers" section states as
+> unconfirmable and that is no longer true: "the exact upstream widget tree
+> cannot be diffed from `origin/main`" for `ThemeSelector`, because the
+> `troll` gitlink is uncheckout in *this* repo. I cloned `troll` at the
+> pinned commit (`37b53b291`) into a scratch directory outside this repo and
+> read it — nothing stopped that, the submodule is public, and the claim
+> that it is unconfirmable "here" was true of the files already present on
+> disk and false of what the task's own instructions permit (`git show
+> origin/main:<path>` for the primary spec; nothing forbids fetching a
+> gitlink's target to read it). See `.reports/component-parity.md` C6 for
+> what reading it found: two small, real, previously-unverifiable misses.
+> This is logged here because "cannot be diffed … here" is exactly the kind
+> of sentence this skill exists to catch — it was accurate about the
+> evidence on disk and stated as if it were a property of the comparison,
+> and it was not.
+>
+> Verdict for this round: **not clean.** Nothing false-green found in the
+> runtime gate itself — I ran `rake` (schema, test, validate, drive, lint)
+> myself this session rather than reading the drive report's numbers, and
+> got the same 246/246 and 16/16 it claims. The open items are C3 (Flatpak),
+> the `gobject-introspection` half of the `nix/Gemfile` gap, the 8 pending
+> translations, and C6 (theme-switcher live re-evaluation) — all named,
+> none excused, none resting on a check that was never run.
+
+> **Round 2 re-derivation.** The text below the line was
 > derived at `f9d0830` and is kept verbatim, including the paragraph calling
 > myself a fucking idiot, because that is the finding and deleting it would be
 > the same mistake again. This block is what was done about each item.
