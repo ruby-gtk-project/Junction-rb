@@ -151,8 +151,11 @@ GtkDriver.drive(JunctionRb::Application.new, shots: SHOTS) do |d, app|
     d.shot('de-03-insecure', insecure.window)
   end
 
+  shortcuts = nil
+
   d.step('the shortcuts dialog is German') do
     JunctionRb::ShortcutsDialog.new.tap(&:build).then do |dialog|
+      shortcuts = dialog
       d.check("the Quit row reads #{QUIT}") do
         dialog.item_for('Quit', '<Primary>Q').title == QUIT
       end
@@ -168,6 +171,19 @@ GtkDriver.drive(JunctionRb::Application.new, shots: SHOTS) do |d, app|
 
   d.step('the shortcuts dialog renders over the chooser window') do
     d.shot('de-04-shortcuts', window.window)
+  end
+
+  # Every window and dialog opened above is still alive at this point, and
+  # none of them is the application's own welcome window. Quitting with them
+  # still attached crashes GTK's own teardown (gtk_application_shutdown walks
+  # every action muxer it owns and fires `notify::active` on grouped check
+  # buttons on the way down, which re-enters Ruby through
+  # JunctionRb::ThemeSwitcher's handler on an object the VM is already
+  # unwinding) — the same reason drive_junction.rb closes every window and
+  # dialog it opens before the run ends.
+  d.step('the extra windows and dialog are closed before quitting') do
+    shortcuts.dialog.close
+    insecure.window.close
   end
 
   # The component-parity check. An installed application's desktop actions
