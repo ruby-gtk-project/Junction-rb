@@ -48,8 +48,12 @@ jobs:
       - name: Cache the dev shell
         uses: DeterminateSystems/magic-nix-cache-action@v7
 
+      # `require "gtk4"` calls gtk_init() immediately, which needs a display
+      # even just to load the gem, so this runs under xvfb-run like every
+      # other step that touches GTK.
       - name: Build the dev shell
-        run: nix develop --command ruby -e 'puts "ruby #{RUBY_VERSION}, GTK #{Gtk::Version::STRING}"' -r gtk4
+        run: |
+          nix develop --command xvfb-run -a ruby -r gtk4 -e 'puts "ruby #{RUBY_VERSION}, GTK #{Gtk::Version::STRING}"'
 
       # The catalogue checks are a dependency of `rake test`, but running them
       # first means a broken po/ is named on its own line rather than buried

@@ -225,6 +225,14 @@
             pkgs.desktop-file-utils
             pkgs.appstream
             pkgs.shared-mime-info
+            # `rake lint`. This is nixpkgs' own rubocop derivation, not the
+            # dev-group Gemfile's — nix/Gemfile is the runtime bundle only
+            # (see its own comment), and the wrapped ruby above force-sets
+            # BUNDLE_FROZEN=1 against it, so `bundle install` for a lint
+            # Gemfile.lock can never run here. .rubocop.yml requires only the
+            # local cops/ files (relative requires), no rubocop-* plugin, so
+            # nixpkgs' rubocop package resolves the config as-is.
+            pkgs.rubocop
             # This machine may have no display server at all, so the shell
             # carries one it can start itself: `xvfb-run ruby exe/<app>` both
             # launches the app and is how test/drive_*.rb is run.
