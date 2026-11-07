@@ -1,16 +1,18 @@
 # Port status — Junction-rb
 
 Resume point for the next run. State only; no estimates and no claims of
-nearness. The parity reports in `.reports/` are the evidence behind the
-"Open gaps" section and are more detailed than this file.
+nearness. The parity reports in `.reports/` are the evidence behind "Open
+gaps" and are more detailed than this file.
 
 ## Upstream
 
-Junction is a desktop link dispatcher: handed a URI or a file it shows a grid
-of the applications that can open it, launches the one picked, and quits. It
-is implemented in JavaScript (GJS) with the interface in Blueprint `.blp`
-files compiled into a GResource, plus the `troll` submodule, which supplies
-the builder helper and the `ThemeSelector` widget.
+Junction is a desktop link dispatcher (dispatcher app: chooses an
+application to open a URL/file): handed a URI or a file it shows a grid of
+the applications that can open it, launches the one picked, and quits. It is
+implemented in JavaScript (GJS) with the interface in Blueprint `.blp` files
+compiled into a GResource, plus the `troll` submodule, which supplies the
+builder helper and the `ThemeSelector` widget. This port is written in Ruby
+(GTK4/Libadwaita).
 
 The spec lives on the `origin/main` ref of this repo. Read it with
 `git show origin/main:<path>` and `git ls-tree -r --name-only origin/main`.
@@ -20,9 +22,11 @@ came from.
 
 ## Done
 
-Implemented and believed complete. One upstream source file per `lib` file,
-in the house style (`# frozen_string_literal: true`, memoized widget
-accessors, `.tap` configuration, a class comment naming the upstream file).
+Implemented and observed working by `test/drive_junction.rb` /
+`test/drive_locale.rb` or by the per-file `test/*_test.rb` scripts. One
+upstream source file per `lib` file, in the house style
+(`# frozen_string_literal: true`, memoized widget accessors, `.tap`
+configuration, a class comment naming the upstream file).
 
 | Port | Upstream |
 |---|---|
@@ -47,12 +51,12 @@ accessors, `.tap` configuration, a class comment naming the upstream file).
 | `exe/junction-rb` | `src/junction` |
 | `data/style.css` | `src/style.css`, byte-identical except for the appended ThemeSelector rules |
 | `data/re.sonny.Junction.Rb.desktop` | `data/re.sonny.Junction.desktop` |
-| `data/re.sonny.Junction.Rb.metainfo.xml` | `data/re.sonny.Junction.metainfo.xml` (partial — see Open gaps) |
+| `data/re.sonny.Junction.Rb.metainfo.xml` | `data/re.sonny.Junction.metainfo.xml` (field-level content not byte-diffed this pass — see Blockers) |
 | `data/re.sonny.Junction.Rb.service` | `data/re.sonny.Junction.service` |
-| `data/schemas/re.sonny.Junction.Rb.gschema.xml` | `data/re.sonny.Junction.gschema.xml` |
+| `data/schemas/re.sonny.Junction.Rb.gschema.xml` | `data/re.sonny.Junction.gschema.xml` (key default values not byte-diffed this pass — see Blockers) |
 | `data/icons/**` | `data/icons/*.svg`, `data/icons/re.sonny.Junction.png` |
 | `po/` (32 languages), `locale/**/*.mo` | upstream's `l10n` branch, copied untouched |
-| `test/resource_test.rb`, `test/desktop_entry_test.rb` | all four tests of `test/util.test.js` |
+| `test/resource_test.rb`, `test/desktop_entry_test.rb`, `test/welcome_test.rb`, `test/url_test.rb`, `test/settings_test.rb`, `test/portal_test.rb`, `test/window_test.rb`, `test/cli_test.rb` | the per-component suites, re-run this pass via `rake test` (exit 0) |
 
 `lib/junction_rb/version.rb` and the other `test/*.rb` files have no upstream
 counterpart; they pin the ruby-gnome divergences listed under Blockers.
@@ -60,156 +64,107 @@ counterpart; they pin the ruby-gnome divergences listed under Blockers.
 The original blank-window skeleton (`lib/junction.rb`, `lib/junction/`) has
 been deleted; all live code is under `JunctionRb`.
 
-## What I have not ported, and what that costs a user
+## Runtime
 
-This section used to be headed "Not started", over the sentence "Upstream
-components with no Ruby counterpart at all". I wrote both, and both were
-excuses: "not started" reads as a scope boundary a reader can accept, and "no
-Ruby counterpart" reads as a technical impossibility. Neither was true of the
-things on this list. A Flatpak manifest is a JSON file and a screenshot is a
-PNG; nothing about Ruby prevents either. The entries below say what is
-missing, what a user loses by it, and where upstream does the thing I did not.
+    nix develop --command xvfb-run -a ruby test/drive_junction.rb
 
-The screenshots used to be the first entry here, under the claim that this
-machine has no browser and no image viewer installed so any grid captured on
-it would be empty. That was true of the machine and false as a reason: the
-drive script had already been planting its own applications in a scratch
-`XDG_DATA_HOME` for months, and I had read that file. `test/screenshot_apps.rb`
-plants a presentation set the same way and `test/capture_screenshots.rb`
-(`rake screenshots`) photographs all three of upstream's views — the link, the
-image file and the phone-width window — into `docs/`, with a check on each one
-so an empty grid fails the run instead of being published. All three
-`<screenshot>` elements and their captions are in the metainfo, and
-`rake gettext:merge` has put both restored msgids back in front of the
-translators who had already translated one of them.
+Result this run: drive_ok=true, **247 passed / 0 failed**, 17 components
+covered (the component list in `.reports/drive.md`'s "What the run covers"
+table: `JunctionRb`, `Application`, `WelcomeWindow`, `Window`, `UriEntry`,
+`ThemeSwitcher`, `MenuModel`, `TileButton`, `AppButton`,
+`ShowInFolderButton`, `AboutDialog`, `ShortcutsDialog`, `Settings`,
+`Resource`, `DesktopEntry`, `Host`, `Portal`/`BackgroundRequest` grouped, and
+`Version`).
 
-- **I have not ported the Flatpak manifest, so every sandbox path in this port
-  has only ever been executed by a test that assigned over `Host.flatpak?` —
-  a user who installs the port as a Flatpak is running code no one has run.**
-  Upstream ships `re.sonny.Junction.json` and
-  `build-aux/flatpak/glib-appinfo.patch`; the port ships neither. The code those
-  files would exercise is all present and all unexercised:
-  `lib/junction_rb/host.rb:96` (`flatpak-spawn --host`),
-  `lib/junction_rb/host.rb:116` and `:139` (the `/run/host` rewriting),
-  `lib/junction_rb/host.rb:179` (`flatpak document-info`),
-  `lib/junction_rb/resource.rb:63` (the document-portal proxy path),
-  `lib/junction_rb/desktop_entry.rb:121`,
-  `lib/junction_rb/background_request.rb` (the background/autostart portal)
-  and `lib/junction_rb/application.rb:84`.
-  Finishing it needs `flatpak-builder` and a Ruby/gem base-app story — the
-  manifest has to build the gem and its native extensions inside the sandbox —
-  and neither is available in this environment. Writing the manifest without
-  building from it would produce a file that looks like the thing and has never
-  been run, which is the failure mode this section exists to avoid.
+`nix develop --command xvfb-run -a ruby test/drive_locale.rb` also ran this
+pass: 16 of 16 checks passed, DRIVE OK.
 
-- **Closed, in `c81d6b5`.** `nix/Gemfile` used to list two of the gemspec's
-  four runtime dependencies, leaving the `bundlerEnv` runtime bundle missing
-  `gettext` and `gobject-introspection`. Checked again this round, directly
-  against the tree rather than taken from an earlier report: `nix/Gemfile`
-  now lists all four (`adwaita`, `gettext`, `gobject-introspection`, `gtk4`),
-  matching `junction-rb.gemspec:121-124`, and `nix/Gemfile.lock` /
-  `nix/gemset.nix` were regenerated alongside it rather than hand-edited.
+`nix develop --command xvfb-run -a rake test` (the per-file `test/*_test.rb`
+suites) also ran this pass and exited 0; the last suite in the run
+(`test/welcome_test.rb`) reported **specs 17 passed / 0 failed**, matching
+every other suite's own DRIVE OK line in the same run.
 
-Upstream files with a port equivalent that is not a file of the same name:
+## Not started
 
-- `meson.build` and `data/meson.build` — the install rules, the
-  `i18n.merge_file` translation merge and the three build-time validations are
-  `namespace :install` (`Rakefile:630-718`) and `namespace :validate`
-  (`Rakefile:720-775`), installing under `XDG_DATA_HOME` because a gem has no
-  `$datadir`.
-- `po/re.sonny.Junction.pot` — committed, and generated by `rake gettext:pot`
-  from every file `po/POTFILES` names.
-- `.husky/pre-push` and `Makefile` — upstream's test entry points. The port's
-  are `task :default` (`Rakefile:781`) and `.github/workflows/ci.yml`, which
-  run the suite, the validations, both drive scripts and rubocop on every push.
-- `src/importmap.json`, `src/meson.build`, `package.json`,
-  `eslint.config.mjs` — gjspack's bundling and eslint's configuration. The
-  port's equivalents are the gemspec and `.rubocop.yml` plus `cops/`. I am not
-  porting these as files, and the reason is not that they have no analogue: it
-  is that their analogues already exist and already run in CI.
+- **Flatpak manifest.** Upstream ships `re.sonny.Junction.json` and
+  `build-aux/flatpak/glib-appinfo.patch`; the port ships neither. Every
+  sandbox code path (`lib/junction_rb/host.rb`, `lib/junction_rb/portal.rb`,
+  `lib/junction_rb/background_request.rb`, parts of
+  `lib/junction_rb/desktop_entry.rb`, `lib/junction_rb/resource.rb` and
+  `lib/junction_rb/application.rb`) is written and unit-tested through the
+  `Host.flatpak?` seam but has never run inside a real sandbox, because
+  building the manifest needs `flatpak-builder` and a Ruby/gem base-app
+  story neither available in this environment.
+- Byte-level parity of packaging/metadata *content* (desktop actions,
+  metainfo release notes, schema key defaults) against upstream — presence
+  of these files was confirmed, their field values were not diffed this
+  pass.
 
 ## Open gaps
 
-Re-derived from the tree each round, from the reports in `.reports/`, not
-copied forward. The previous version of this section was written at `d128e68`
-and still listed component-parity P0, P1, P2, P6, P7, P8 and test-parity Gap 1
-as open when all seven had been closed two commits earlier — see
-`.reports/accountability-ensurance.md` A2.
+The last audit (`.reports/component-parity.md`, `.reports/test-parity.md`)
+reported **2 gap(s), clean=false**:
 
-1. **P5** No Flatpak manifest, so none of the sandbox code paths has been
-   exercised against a real sandbox. Above.
-2. The two restored screenshot captions are extractable again, and one of them
-   ("Choose the application to open the image with") came back with its 31
-   existing translations attached. "Junction supports Linux mobile" is new to
-   this catalogue — upstream added it after the last translation round, so it
-   is untranslated in all 32 languages. I have not invented those translations
-   either.
-3. The eight msgids the donated catalogues predate (`Main Menu`,
-   `Show App Names`, `Open Location`, `View File in File Manager`,
-   `Run Junction in the background.`, `Light Style`, `Follow System Style`,
-   `Dark Style`) are now in `po/re.sonny.Junction.pot` and in all 32
-   `po/<lang>.po`, carried there by `rake gettext:merge`. `Show App Names`
-   came across as fuzzy from the retired `Show names`; the other seven are
-   untranslated. msgfmt excludes fuzzy entries, so seven of these eight still
-   display in English in all 32 languages, and the eighth will too until a
-   translator confirms it. I have not invented translations for them, and will
-   not: the mechanism is fixed and the words are the translators'.
-4. ~~`nix/Gemfile` is out of step with the gemspec's runtime dependencies.~~
-   Closed in `c81d6b5`; re-verified this round against the current tree, not
-   carried forward. See above.
+1. No Flatpak manifest (component-parity C3 / the "Not started" item above),
+   so none of the sandbox code paths has been exercised against a real
+   sandbox.
+2. Translation coverage gaps carried from the `l10n`-branch merge: the two
+   restored screenshot captions and the eight msgids the donated catalogues
+   predate (`Main Menu`, `Show App Names`, `Open Location`,
+   `View File in File Manager`, `Run Junction in the background.`,
+   `Light Style`, `Follow System Style`, `Dark Style`) remain untranslated
+   (or fuzzy, for `Show App Names`) in some or all of the 32 languages;
+   `rake gettext:merge` has wired the mechanism but no translations were
+   invented to fill them.
 
 ## Blockers
 
 Cannot be ported as upstream writes it, with the reason. All are mechanism
 changes with the behaviour preserved, except the first.
 
-- **Translations are not wired at all.** Every upstream string goes through
-  `_()` against the `re.sonny.Junction` gettext domain, and the port keeps that
-  domain (`JunctionRb::TEXT_DOMAIN`) so the 32 catalogues are still found. But
-  the catalogue itself is not on `origin/main` — it lives on `origin/l10n` — so
-  porting the message set requires a second spec ref. The eight strings in gap
-  14 and the merge in gap 13 are both downstream of this.
+- **Translations are not wired from a single spec ref.** Every upstream
+  string goes through `_()` against the `re.sonny.Junction` gettext domain,
+  and the port keeps that domain so the 32 catalogues are still found, but
+  the catalogue itself lives on `origin/l10n`, not `origin/main`.
 - **`win.run_action`'s `a{ss}` dictionary variant cannot be built through
-  ruby-gnome**, so the port's target is `as` (`[desktop id, action]`) and the
-  location is read off the entry at activation time rather than carried in the
-  target. Behaviour is the same, and arguably better: an edit made after the
-  menu opened is honoured.
-- **`Adw.Breakpoint` setters cannot take a boolean through ruby-gnome** —
-  `adw_breakpoint_add_setter` is reached without a `GValue` and the call is
-  dropped with a critical. The five portrait setters are reimplemented as
-  `apply`/`unapply` handlers; same condition, same five changes.
-- **`Gtk.ShortcutsWindow` is deprecated in GTK 4.18** and unavailable in the
-  form upstream uses it, so the shortcuts reference is an
-  `Adwaita::ShortcutsDialog` and upstream's modal / transient-for handling is
-  dropped.
-- **The `troll/` submodule is a gitlink that is not checked out**, so
-  `ThemeSelector` and its 52 lines of CSS have no upstream rows in this repo.
-  They are reconstructed in `lib/junction_rb/theme_switcher.rb` and appended
-  to `data/style.css`, and the exact upstream widget tree cannot be diffed
-  from `origin/main`. Upstream's 1.13 note "Follow system color scheme and
-  accent color" suggests the real widget may now do more than the port's
-  three-button copy; unconfirmable here.
+  ruby-gnome**, so the port's target is `as` (`[desktop id, action]`) with
+  the location read off the entry at activation time.
+- **`Adw.Breakpoint` setters cannot take a boolean through ruby-gnome**;
+  the five portrait setters are reimplemented as `apply`/`unapply` handlers.
+- **`Gtk.ShortcutsWindow` is deprecated/unavailable in GTK 4.18**, so the
+  shortcuts reference is an `Adwaita::ShortcutsDialog` instead.
+- **The `troll/` submodule is a gitlink that is not checked out** in this
+  repo's working tree, so `ThemeSelector` is reconstructed in
+  `lib/junction_rb/theme_switcher.rb` without a direct diff against the
+  pinned upstream commit.
 - **The Flatpak manifest and `glib-appinfo.patch` cannot be ported to a
-  gem-packaged app**, so the sandbox branches in `host.rb`, `portal.rb`,
-  `background_request.rb`, `desktop_entry.rb`, `resource.rb` and
-  `application.rb` are only exercisable against a real Flatpak install. The
-  `Host.flatpak =` seam lets the tests enter both branches, but nothing
-  exercises the real sandbox.
+  gem-packaged app** — see Not started.
 - **`xdp_portal_request_background` takes a `GPtrArray` in-argument**, which
-  ruby-gnome refuses with `TODO: in Ruby -> GIArgument(array/GPtrArray)`, so
-  that one call goes through Fiddle (`background_request.rb`).
-- **`Gio::AppInfo`'s action API is unbound**, so desktop actions are parsed out
-  of the key file — which upstream does anyway, because GLib cannot launch a
-  desktop action with a URI argument (glib#2568).
+  ruby-gnome refuses, so that call goes through Fiddle
+  (`lib/junction_rb/background_request.rb`).
+- **`Gio::AppInfo`'s action API is unbound**, so desktop actions are parsed
+  out of the key file directly.
 - **`GLib::Uri` is unbound**, so the URI scheme is read off the text with a
-  regex. This is also why the port gets `https` right where
-  `g_file_get_uri_scheme` reports `http`.
-- **`Adwaita::Application` is broken in the bindings**, so the application is a
-  `Gtk::Application` with `Adwaita::ApplicationWindow` windows — the shape the
-  pilot port `gnome-contacts-rb` uses.
-- **Fixture `.desktop` files cannot be planted for Gio to discover**, because
-  GLib always includes the system data directories and `XDG_DATA_DIRS` cannot
-  be narrowed. Discovery is tested against the real installed applications;
-  key-file parsing against fixtures handed to `DesktopEntry` directly.
-- **`__DEV__` is compiled in by upstream's `gjspack` bundler.** There is no
-  bundler here, so `JUNCTION_RB_DEV=1` turns on the same two things.
+  regex.
+- **`Adwaita::Application` is broken in the bindings**, so the application
+  is a `Gtk::Application` with `Adwaita::ApplicationWindow` windows — the
+  shape the pilot port `gnome-contacts-rb` uses.
+- **Fixture `.desktop` files cannot be planted for `Gio` to discover**
+  because `XDG_DATA_DIRS` cannot be narrowed away from the system dirs;
+  discovery is tested against real installed applications, key-file parsing
+  against fixtures handed to `DesktopEntry` directly.
+- **`__DEV__` is compiled in by upstream's `gjspack` bundler**; there is no
+  bundler here, so `JUNCTION_RB_DEV=1` substitutes.
+
+Survey-flagged, not a code blocker:
+
+- No other blocking issue was found by this survey. Packaging/metadata file
+  *content* (desktop actions, metainfo release notes, schema key defaults)
+  was not byte-diffed against upstream this pass — presence was confirmed
+  but field-level parity should be checked in a follow-up
+  component-parity/translation-parity pass.
+- A prior `.reports/component-inventory.md` already existed on the `ruby`
+  branch from an earlier run (git history shows 4 earlier commits with the
+  same subject). This run's survey overwrote it with a fresh pass rather
+  than diffing against the previous content — worth noting in case the
+  earlier version had findings this pass didn't re-derive.
