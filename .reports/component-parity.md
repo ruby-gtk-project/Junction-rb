@@ -1,5 +1,23 @@
 # Component parity — Junction-rb against `origin/main`
 
+> **Round 5 re-derivation (this commit).** Re-ran `test/drive_junction.rb`
+> (247/247, DRIVE OK) and `test/drive_locale.rb` (16/16, DRIVE OK) myself;
+> both match every number below and every component in the "What the run
+> covers" table in `drive.md` is still exercised. C3 (no Flatpak manifest)
+> is unchanged and still open; nothing in the gap table below regressed.
+>
+> This round's finding is not a component gap, it is about the gate itself:
+> `rake lint` (rubocop) cannot run in this devshell — never has been able
+> to, by construction of `flake.nix` — and the one CI workflow that was
+> supposed to run it on every push has failed at its second step on every
+> push this fork has made, before reaching lint, the drives, or the test
+> suite. Full detail in `.reports/accountability-ensurance.md` round 5
+> (C1/C2) and `.reports/test-parity.md` round 5. Recorded here because this
+> file's own round-4 entries above cite a clean full-`rake` run (including
+> rubocop) as evidence a component's gate is green; that specific leg of the
+> evidence does not reproduce, even though the drive numbers it also cites
+> do.
+
 > **Round 4 re-derivation (this commit, `86c1f6c`).** Re-ran the drive and
 > read every commit since round 3 against the open gaps rather than trusting
 > their own commit messages.

@@ -1,5 +1,34 @@
 # Test parity — Junction-rb against `origin/main`
 
+> **Round 5 re-derivation (this commit).** Re-ran the suite and both drives
+> myself: `rake test` (8/8 files, exit 0), `rake validate` (all three
+> validators clean), `test/drive_junction.rb` (**247 of 247**, DRIVE OK),
+> `test/drive_locale.rb` (**16 of 16**, DRIVE OK). Those four match every
+> number this file and `drive.md` have ever claimed, and they are real: I
+> watched them run.
+>
+> The fifth component of round 3 and round 4's transcripts below —
+> `lint: rubocop, 48 files inspected, no offenses detected` and `Default
+> task complete. [exit 0]` for the **full** `rake` task — does not
+> reproduce. `rake lint` fails here with `rubocop: command not found`
+> (exit 127), and it cannot succeed in this devshell by construction:
+> `flake.nix` never puts a `rubocop` binary on `$PATH`, the dev `Gemfile`
+> that declares `rubocop` has no committed lockfile and no install step
+> anywhere in this repo or its CI, and the devshell's own wrapped `ruby`
+> hard-codes `BUNDLE_GEMFILE`/`BUNDLE_FROZEN` to the runtime bundle (which
+> deliberately excludes rubocop) so `bundle install` against the dev
+> `Gemfile` cannot even be attempted successfully. Full account, with the
+> CI angle, in `.reports/accountability-ensurance.md` round 5 (C1/C2): the
+> one automated gate that was supposed to run this on every push —
+> `.github/workflows/ci.yml` — has failed on every push to `ruby` this fork
+> has made, at the *second* step, before reaching rubocop, `rake test`,
+> `rake validate` or either drive script. So test parity for schema/test/
+> validate/drive stands exactly as this file has described it across five
+> rounds; the lint leg of `task :default` has never been verified by
+> anyone, in any session, against this repo's own devshell, and the
+> "all green, exit 0" transcripts below for the full `rake` task are not
+> something this round can stand behind.
+
 > **Round 4 re-derivation (this commit, `86c1f6c`).** Re-ran the full gate
 > myself rather than reading `drive.md`'s numbers or the task prompt's own
 > claim of them:
