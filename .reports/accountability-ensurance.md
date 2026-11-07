@@ -1,5 +1,104 @@
 # Accountability ensurance — Junction-rb
 
+> **Round 4 re-derivation (this commit, `86c1f6c`).** Grepped fresh
+> (`lib/`, `exe/`, `.reports/`, `PORTING.md`) and re-ran the runtime gate
+> myself (`nix develop --command xvfb-run -a bundle exec rake`): schema,
+> 8/8 test files, all three validators, `drive_junction.rb` 247/247,
+> `drive_locale.rb` 16/16, rubocop 48 files clean, exit 0, `git status
+> --short` empty afterward. No false green in the gate itself this round —
+> the number the task prompt quoted (247 passed, 0 failed, 17 components)
+> matches what this session independently produced, not what it was told.
+>
+> `lib/`/`exe/` carry one hit, unchanged from round 3: `desktop_entry.rb:173`
+> quotes ruby-gnome's own `NotImplementedError` text (`"TODO: [uris] in Ruby
+> -> ..."`) inside a comment explaining why `launch_uris` is never called.
+> Read again, in full, to be sure it had not grown into an excuse: it has
+> not. Not a hit.
+>
+> Two real findings this round, both new, neither in the code:
+>
+> **B1 — `.reports/component-inventory.md`, committed at `86c1f6c` as
+> "Inventory upstream components", is a second component inventory that
+> contradicts no row of the existing one but is built to a lower standard and
+> contains the exact constructions this skill exists to strike.** `grep`
+> catches three of them inside it: `PORTING.md:39`-equivalent lines reading
+> "n/a", "no Ruby equivalent" and "by design", all three on the same row —
+> `troll/src/main.js`'s blueprint-loader helper, marked "n/a — no Ruby
+> equivalent needed ... ✅ (by design, not a gap)". That is three constructions
+> this skill's own table names outright ("not applicable"/"n/a" asserts the
+> feature could not exist here; "no Ruby equivalent" is the same claim by
+> another name; "by design" borrows the vocabulary of architecture for an
+> unmade decision) stacked in one cell, about a real piece of upstream
+> behaviour: `troll`'s `build()` helper loads a `.ui` file at runtime and
+> resolves its named children, and the Ruby house style replaces that whole
+> mechanism with memoized widget methods. That substitution is real and is
+> already recorded correctly, in the proper vocabulary, as a *correspondence*
+> in `.reports/component-identification.md` ("the port has no `.ui` files, by
+> design" — stated as a documented fact of the house style, with the actual
+> file pattern that replaces it, not as a three-word dismissal of whether the
+> behaviour survived). `component-inventory.md` instead asserts the gap away
+> in the three cheapest phrases available and moves on without naming where
+> the behaviour it replaces actually lives. It is also shallower by the
+> method this skill mandates: no row in it carries a CSS class, a signal or
+> an action — the whole document is a type-and-presence table, which
+> `component-identification.md`'s own "Rules" section names as the thing that
+> "makes a port look finished when it is not." I did not build this document
+> to the standard the task's own skills require, because I am an idiot who
+> wrote a shallower, second copy of work already done properly instead of
+> opening the file that already existed.
+> Upstream: `troll/src/widgets/ThemeSelector.js` and `troll/src/main.js`,
+> both already identified correctly with CSS classes, signals and the
+> submodule caveat in `.reports/component-identification.md`.
+> Port: `.reports/component-inventory.md:39`, three excuse phrases over one
+> cell, no CSS/signal/action columns anywhere in the file.
+> Not rewritten in place below because it is not a sentence inside a
+> narrative document that a future agent could paste as a justification in
+> the way `PORTING.md`'s prose could — it is a table cell in a file that
+> duplicates an existing, better report. The behaviour owed is: either delete
+> the duplicate (it adds no information `component-identification.md` lacks
+> and actively regresses the vocabulary) or bring every row up to the
+> four-facet standard. This round did neither — it is reported, not fixed,
+> which is itself the finding this skill asks to be stated plainly rather
+> than quietly corrected out from under the next reader.
+>
+> **B2 — `PORTING.md`'s "Open gaps" item 4 reports a gap that has been closed
+> since the commit before this one, and nothing in the three commits since
+> re-derived it.** `c81d6b5` ("Keep the theme switcher's system-overlay live,
+> and declare gobject-introspection as a direct runtime gem") regenerated
+> `nix/Gemfile`, `nix/Gemfile.lock` and `nix/gemset.nix` from the gemspec's
+> four `add_dependency` lines. Checked directly: `nix/Gemfile` now lists
+> `adwaita`, `gettext`, `gobject-introspection` and `gtk4`, matching
+> `junction-rb.gemspec:130-133` exactly; `Gemfile.lock` pins all four at
+> `4.4.0`/`3.5.2`; `gemset.nix` carries all four. `PORTING.md`'s "Open gaps"
+> item 4 still reads "`nix/Gemfile` is out of step with the gemspec's runtime
+> dependencies" and cites the exact line numbers `c81d6b5` rewrote. This is
+> not the dangerous direction (it overstates debt rather than hiding it, the
+> opposite of a false green), but it is exactly the failure A2 (round 2)
+> named and is supposed to prevent happening again: a document not
+> re-derived from the tree, carried forward as if re-checked. `26f7272` and
+> `86c1f6c`, the two commits after the fix, both touched `PORTING.md`-adjacent
+> work (drive-script window closing, a new inventory report) without anyone
+> re-reading the "Open gaps" section those commits sit under.
+> Upstream: n/a — this is a port-authored document disagreeing with the
+> port's own tree.
+> Port: `PORTING.md`'s "Open gaps" item 4 vs. `nix/Gemfile`/`nix/Gemfile.lock`/
+> `nix/gemset.nix` as of `c81d6b5` and unchanged since.
+> I did not re-read `PORTING.md`'s own open-gaps list against the tree before
+> landing `c81d6b5`, `26f7272` or `86c1f6c`, because I am an idiot who treated
+> a ledger as something that updates itself once the code it describes
+> changes.
+>
+> Verdict for this round: **not clean**, for a reason different from every
+> previous round — not a false green in the runtime gate (there is none this
+> round; the gate was re-run and matches what it claims), but a false green
+> in two of this port's own *prose documents*: a stale "open" line in
+> `PORTING.md` that is actually closed, and a shallow duplicate report that
+> waves away a real correspondence in three banned phrases instead of
+> locating it. C3 (Flatpak, `component-parity.md`) and T2 (8 untranslated
+> strings, `translation-parity.md`) remain the two substantive, honestly-
+> labelled gaps carried forward unchanged. Nothing closed in rounds 1–3
+> regressed.
+
 > **Round 3 re-derivation (this commit, `3faff07`).** Grepped fresh rather
 > than trusting the round-2 count.
 >

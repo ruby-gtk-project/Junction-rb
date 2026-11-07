@@ -1,5 +1,38 @@
 # Component identification — Junction-rb vs `origin/main`
 
+> **Round 4 re-derivation (this commit, `86c1f6c`).** `origin/main` has not
+> moved (`70560b6`, same sha round 3 recorded) and `troll` is still pinned to
+> the same commit, so there is nothing new to scan on the upstream side.
+> Re-ran `component-scan.sh` on the port's `lib/` anyway, since four commits
+> landed since round 3 (`c057f09` parity reports, `3faff07` screenshots,
+> `c81d6b5` theme-switcher + gem fix, `26f7272` drive-script window closing,
+> `86c1f6c` the commit under audit). Only `c81d6b5` touched a file the unit
+> list covers: `lib/junction_rb/theme_switcher.rb` gained one
+> `signal_connect('notify::system-supports-color-schemes')`. That is a
+> `controller`/signal-axis row, not a new widget, and it does not change the
+> unit list or the file mapping below — carried to `component-parity.md`
+> round 4, where it closes C6.
+>
+> One thing this round found that is not a scan result: `86c1f6c` added
+> `.reports/component-inventory.md`, a second, independent component
+> inventory of the same app, built without this skill's four-facet method —
+> it lists widget *types* per file and nothing else; no CSS classes, no
+> signals, no actions, no counts. It also never names the `ThemeSelector`
+> submodule problem this file's round 1 spent a paragraph on, and asserts
+> "No missing components found" from a method (grep for file existence) that
+> cannot see a missing CSS class or an unconnected signal — exactly the
+> failure mode this skill's own "Rules" section warns against ("Never list a
+> widget type without its CSS classes and signals"). It does not contradict
+> any row below, because it checks less than this file does, but a reader who
+> opens it instead of this one walks away with a weaker claim dressed as a
+> clean inventory. Logged here and in `.reports/accountability-ensurance.md`
+> round 4, not fixed here — this document's job is the identification, not
+> cleaning up a sibling report.
+>
+> Verdict for this round: the unit list, file mapping and scan counts below
+> are unchanged and still current. Nothing re-derived this round moved any
+> row.
+
 > **Round 3 re-derivation (this commit, `3faff07`).** Re-ran the scan on both
 > sides from scratch rather than trusting the round-2 counts. Two things
 > changed how this round could read upstream: `origin/main` HEAD moved to

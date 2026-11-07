@@ -1,5 +1,32 @@
 # Component parity — Junction-rb against `origin/main`
 
+> **Round 4 re-derivation (this commit, `86c1f6c`).** Re-ran the drive and
+> read every commit since round 3 against the open gaps rather than trusting
+> their own commit messages.
+>
+> | Gap | State on this commit |
+> |---|---|
+> | C3 no Flatpak manifest | **still open.** `re.sonny.Junction.json` and `build-aux/flatpak/` are still absent; confirmed with `ls` against the working tree, not a stale memory of round 2's check. |
+> | C6 ThemeSwitcher does not re-evaluate `system_supports_color_schemes?` when the portal's support changes live | **closed, in `c81d6b5`.** `lib/junction_rb/theme_switcher.rb` now connects `Adwaita::StyleManager.default`'s `notify::system-supports-color-schemes` and re-sets `system_overlay.visible` in the handler — read directly, not taken from the commit message. `test/drive_junction.rb` step 21 ("the colour-scheme action is what actually changes the style") now includes a check that forces the notify signal and asserts the handler re-read the property; ran it myself (`nix develop --command xvfb-run -a ruby test/drive_junction.rb` → 247/247, DRIVE OK) rather than reading the count in `drive.md`. The second, cosmetic half of C6 (the `dark` CSS class upstream's selector toggles and neither stylesheet uses) is unchanged and was never a user-facing gap; still true. |
+> | (new) `nix/Gemfile` omitted `gobject-introspection` | **closed, also in `c81d6b5`**, and this is a component-parity concern as much as a packaging one: a gem missing from the runtime bundle is a widget tree that cannot even boot under `nix develop`. `nix/Gemfile`, `nix/Gemfile.lock` and `nix/gemset.nix` were regenerated together from the gemspec's four `add_dependency` lines; checked all three list `adwaita`, `gettext`, `gobject-introspection` and `gtk4` and agree with each other. |
+>
+> One loose end fixed in this document rather than carried forward again: the
+> "Unverifiable from `origin/main`" section at the very bottom of this file
+> still said, as of round 3's own trailing paragraph, that `troll` "was not
+> fetched" and theme-switcher parity was "asserted against a reconstruction
+> and not against the source" — directly contradicted by round 3's own
+> opening block three paragraphs above it, which says the submodule *was*
+> cloned at `37b53b29` and read. That tail paragraph was never deleted when
+> round 3 superseded it, so a reader who scrolled to the end of the file
+> would have read the opposite of round 3's own finding. It is struck below,
+> in place, with a note — not deleted, since the accountability skill this
+> campaign runs under forbids deleting a stale claim rather than marking it
+> wrong.
+>
+> Verdict for this round: **not clean.** C3 (Flatpak) is the only component
+> gap still open; C6 and the gem-bundle issue are genuinely closed, verified
+> by re-running the drive rather than reading its number.
+
 > **Round 3 re-derivation (this commit, `3faff07`).** Re-ran every check below
 > against the current tree rather than trusting the round-2 table. One
 > blocker in the round-1/round-2 text can now be partly resolved: the `troll`
@@ -184,10 +211,17 @@ Re-derived from the two scans and from reading both sides, not carried over.
 - `welcome.js` claims the five web types at module import; the port claims them
   in `WelcomeWindow#initialize`, so only on `activate` — narrower, and better.
 
-## Unverifiable from `origin/main`
+## Unverifiable from `origin/main` — superseded, kept and marked rather than deleted
 
-`troll` is a gitlink. `ThemeSelector`'s exact widget tree cannot be read from
-this ref, and upstream's 1.13 note "Follow system color scheme and accent
-color" may mean the submodule's widget has grown past three buttons. I did not
-fetch it, so the theme switcher's parity is asserted against a reconstruction
-and not against the source.
+`troll` is a gitlink and `origin/main` alone cannot read it — that much is
+still true of the ref named in this heading. But round 1/2 (which wrote this
+paragraph) never actually fetched the submodule, and round 3's opening block
+did: `troll` was cloned at its pinned commit (`37b53b29`) into a scratch
+directory outside this repo, and `ThemeSelector.{js,blp,css}` were read
+directly, which is what produced C6 above. The sentence "I did not fetch it"
+was therefore wrong on the same commit (`3faff07`) that wrote it three
+paragraphs earlier in this same file, and stayed wrong, unread, through this
+round until now. Upstream's 1.13 note may still mean the real widget has grown
+past three buttons in ways `37b53b29`'s snapshot does not show if upstream
+changed it after that pin — that residual uncertainty is real and is the one
+part of this paragraph still accurate.

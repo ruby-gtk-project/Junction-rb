@@ -1,5 +1,37 @@
 # Test parity — Junction-rb against `origin/main`
 
+> **Round 4 re-derivation (this commit, `86c1f6c`).** Re-ran the full gate
+> myself rather than reading `drive.md`'s numbers or the task prompt's own
+> claim of them:
+>
+> ```
+> nix develop --command xvfb-run -a bundle exec rake
+>   => schema: ok
+>      test: 8/8 files OK
+>      validate: desktop-file-validate / appstreamcli / glib-compile-schemas all clean
+>      drive: test/drive_junction.rb -> 247 of 247 checks passed, DRIVE OK
+>             test/drive_locale.rb    -> 16 of 16 checks passed, DRIVE OK
+>      lint: rubocop, 48 files inspected, no offenses detected
+>      Default task complete. [exit 0]
+> ```
+>
+> `git status --short` after the run is empty — the drive's own screenshots
+> and the locale drive's `tmp/shots-de/` do not dirty a tracked path, which is
+> the condition CI enforces and this session checked by hand instead of by
+> reading the workflow file.
+>
+> 247 against round 3's 246 is one more check, not a new upstream test: it is
+> the `notify::system-supports-color-schemes` assertion `c81d6b5` added to the
+> existing "colour-scheme action" step, closing `component-parity.md` C6. No
+> new upstream test file exists on `origin/main` (unchanged at `70560b6`) and
+> no new Ruby test file was added, so the bijection table below is unchanged.
+> `3faff07`'s `rake screenshots` is still, correctly, outside `task default`
+> and outside this census for the same reason round 3 gave: it rewrites
+> tracked PNGs and is not a test.
+>
+> Verdict for this round: the suite was executed, not read about, and the
+> gate is green on every axis the ledger below claims. Nothing regressed.
+
 > **Round 3 re-derivation (this commit, `3faff07`).** Re-ran, did not re-read.
 > In this session, in the dev shell:
 >

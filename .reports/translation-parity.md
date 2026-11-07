@@ -1,5 +1,51 @@
 # Translation parity — Junction-rb against `origin/main`
 
+> **Round 4 re-derivation (this commit, `86c1f6c`).** Spot-checked rather
+> than re-censused in full, because nothing in the four commits since round 3
+> touches a marked string, `po/`, `locale/`, `POTFILES` or the Rakefile's
+> gettext tasks — read each of the four commits' diffs to confirm that before
+> trusting the shortcut.
+>
+> Re-verified by hand, against the live tree, the two claims round 3 left
+> open:
+>
+> - **T2, the 8 untranslated strings.** Grepped all eight msgids
+>   (`Main Menu`, `Show App Names`, `Open Location`,
+>   `View File in File Manager`, `Run Junction in the background.`,
+>   `Light Style`, `Follow System Style`, `Dark Style`) against `po/de.po`.
+>   Seven have `msgstr ""`. `Show App Names` carries `#, fuzzy` over
+>   `#| msgid "Show names"` with `msgstr "Namen anzeigen"` — a fuzzy entry,
+>   which both GNU `msgfmt` and the `rmsgfmt` gem exclude from the compiled
+>   `.mo`, so it still renders English at runtime exactly as round 3 claimed.
+>   Still 8 strings with no human translation, in all 32 languages, not
+>   invented here.
+> - **T3, the restored screenshot caption.** `Choose the application to open
+>   the image with` has a non-empty `msgstr` in `po/de.po`
+>   ("Programm wählen, mit dem das Bild geöffnet werden soll"); `Junction
+>   supports Linux mobile` has `msgstr ""`, matching round 3's claim that one
+>   of the two restored captions came back translated and the other, being
+>   new to the catalogue, did not.
+>
+> Also re-verified: `nix/Gemfile`'s regeneration in `c81d6b5` touches
+> `gobject-introspection`, not `gettext` or `rmsgfmt`, so it changes nothing
+> this ledger tracks — confirmed by reading the diff rather than assuming a
+> packaging commit is out of scope by name alone.
+>
+> One stale claim found and worth recording even though it belongs to a
+> different document: `PORTING.md`'s "Open gaps" item 4 still says
+> "`nix/Gemfile` is out of step with the gemspec's runtime dependencies," and
+> that stopped being true at `c81d6b5` — `nix/Gemfile` now lists all four of
+> `adwaita`, `gettext`, `gobject-introspection` and `gtk4`, matching the
+> gemspec exactly, and `nix/Gemfile.lock`/`nix/gemset.nix` agree. This is not
+> a translation-parity gap; it is logged here because this document is where
+> the check that disproves it was run, and in full in
+> `.reports/accountability-ensurance.md` round 4, which is where a stale
+> ledger claim belongs.
+>
+> Verdict for this round: unchanged from round 3. T2 (8 strings) remains open
+> and is not closable by the port; everything else round 3 called closed is
+> still closed.
+
 > **Round 3 re-derivation (this commit, `3faff07`).** Re-censused rather than
 > re-read. Pulled `origin/l10n` (`po/`, 32 languages, `re.sonny.Junction.pot`
 > dated 2022-10-15) and censused `origin/main`'s current `src/`/`data/` with
