@@ -102,15 +102,13 @@ translators who had already translated one of them.
   building from it would produce a file that looks like the thing and has never
   been run, which is the failure mode this section exists to avoid.
 
-- **`nix/Gemfile` lists two of the gemspec's four runtime dependencies, so the
-  `bundlerEnv` runtime bundle is missing `gettext` and
-  `gobject-introspection`.** `junction-rb.gemspec:121-124` declares four;
-  `nix/Gemfile` lists `adwaita` and `gtk4`. The file carries a
-  generated-by-`converge-port-gem.sh` marker, and changing it also needs
-  `nix/Gemfile.lock` and `nix/gemset.nix` regenerated, which that generator
-  does. Hand-editing one of the three would leave the lock and the gemset
-  disagreeing with it, which is a worse state than the one it is in. This is
-  for the generator, and it has not been run.
+- **Closed, in `c81d6b5`.** `nix/Gemfile` used to list two of the gemspec's
+  four runtime dependencies, leaving the `bundlerEnv` runtime bundle missing
+  `gettext` and `gobject-introspection`. Checked again this round, directly
+  against the tree rather than taken from an earlier report: `nix/Gemfile`
+  now lists all four (`adwaita`, `gettext`, `gobject-introspection`, `gtk4`),
+  matching `junction-rb.gemspec:121-124`, and `nix/Gemfile.lock` /
+  `nix/gemset.nix` were regenerated alongside it rather than hand-edited.
 
 Upstream files with a port equivalent that is not a file of the same name:
 
@@ -156,8 +154,9 @@ as open when all seven had been closed two commits earlier — see
    display in English in all 32 languages, and the eighth will too until a
    translator confirms it. I have not invented translations for them, and will
    not: the mechanism is fixed and the words are the translators'.
-4. `nix/Gemfile` is out of step with the gemspec's runtime dependencies.
-   Above.
+4. ~~`nix/Gemfile` is out of step with the gemspec's runtime dependencies.~~
+   Closed in `c81d6b5`; re-verified this round against the current tree, not
+   carried forward. See above.
 
 ## Blockers
 
