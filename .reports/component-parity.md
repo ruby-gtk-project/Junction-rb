@@ -1,5 +1,29 @@
 # Component parity — Junction-rb against `origin/main`
 
+> **Round 6 re-derivation (this commit, 2026-11-07).** Independent audit.
+> Re-ran `test/drive_junction.rb` myself: **247 of 247 checks passed, DRIVE
+> OK** — matching the task prompt's stated gate exactly — and
+> `test/drive_locale.rb`: **16 of 16, DRIVE OK**. `origin/main` unchanged at
+> `70560b6`. No commit since round 5 (`9dc84d1`) touches a widget file;
+> it adds rubocop to the devshell and fixes CI's YAML quoting, confirmed
+> genuinely fixed this round (see `.reports/accountability-ensurance.md`
+> round 6, C1/C2) — a lint/CI gap, not a component gap, so it changes
+> nothing below.
+>
+> **C3 (Flatpak manifest) re-checked and still open.** `find . -iname
+> '*.json'` and `find . -path '*build-aux*'` against the working tree both
+> come back empty for anything Flatpak-shaped; `re.sonny.Junction.json` and
+> `build-aux/flatpak/glib-appinfo.patch` remain unported, exactly as every
+> prior round found. This is the one component-level gap keeping this
+> report from a clean verdict.
+>
+> C6 (ThemeSwitcher live re-evaluation) and C1/C2/C4 remain closed, as
+> round 5 found; not re-litigated here beyond confirming the drive numbers
+> above still cover them.
+>
+> Verdict for this round: **not clean.** C3 is the only open item, named
+> and located, same as rounds 2–5.
+
 > **Round 5 re-derivation (this commit).** Re-ran `test/drive_junction.rb`
 > (247/247, DRIVE OK) and `test/drive_locale.rb` (16/16, DRIVE OK) myself;
 > both match every number below and every component in the "What the run

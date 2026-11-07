@@ -1,5 +1,28 @@
 # Component identification — Junction-rb vs `origin/main`
 
+> **Round 6 re-derivation (this commit, 2026-11-07).** `origin/main` has not
+> moved since round 4 (`70560b63693eab0e2472dd0d8d564c3fe6c20b61`, same sha).
+> Re-checked `git ls-tree -r --name-only origin/main` against the file
+> mapping below: every `src/*.js`/`*.blp` and `data/*` entry round 1–4
+> mapped is still present, unchanged, and nothing new has appeared upstream
+> to map. No commit since round 4 (`26f7272`, `8b92f7d`, `33ee0c8`,
+> `9dc84d1`) touches a widget file — `26f7272` closes windows in the drive
+> script, `8b92f7d` corrects a `PORTING.md` line, `33ee0c8` is a prior
+> parity-report commit, and `9dc84d1` adds rubocop to the devshell and fixes
+> CI's YAML. None of the four changes anything this file's unit list, file
+> mapping or scan counts describe.
+>
+> One thing fixed this round rather than re-flagged: round 4's note about
+> `.reports/component-inventory.md` — a second, shallower inventory of the
+> same app, built without this skill's four-facet method and carrying "n/a"
+> / "no Ruby equivalent" / "by design" in one cell — is now moot. That file
+> is deleted in this commit (see `.reports/accountability-ensurance.md`
+> round 6, B1); this file remains the one component inventory for the app.
+>
+> Verdict for this round: unchanged. The unit list, file mapping and scan
+> counts below are still current, and the duplicate report that undercut
+> them is gone rather than merely noted.
+
 > **Round 4 re-derivation (this commit, `86c1f6c`).** `origin/main` has not
 > moved (`70560b6`, same sha round 3 recorded) and `troll` is still pinned to
 > the same commit, so there is nothing new to scan on the upstream side.

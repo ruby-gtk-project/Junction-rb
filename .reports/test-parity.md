@@ -1,5 +1,39 @@
 # Test parity — Junction-rb against `origin/main`
 
+> **Round 6 re-derivation (this commit, 2026-11-07).** Independent audit,
+> picking up exactly where round 5 left off: round 5 could not reproduce
+> `rake lint` or a full `rake` and said so plainly instead of guessing.
+>
+> That gap is closed, verified rather than assumed: `9dc84d1` ("Make rake
+> lint runnable and fix CI's broken YAML quoting") added nixpkgs' rubocop
+> to `flake.nix`'s devshell. This round, `nix develop --command rake lint`
+> → `48 files inspected, no offenses detected`, and the full default task,
+> `nix develop --command xvfb-run -a bundle exec rake` → schema ok, 8/8
+> test files OK, all three validators clean, `test/drive_junction.rb`
+> **247 of 247**, `test/drive_locale.rb` **16 of 16**, rubocop 48 files
+> clean, `Default task complete.` at exit 0, `git status --short` empty
+> afterward. All of it watched run in this session, not read from a prior
+> report.
+>
+> Beyond the local reproduction: the automated gate itself now passes.
+> `gh run list --branch ruby` shows the push for `9dc84d1`
+> (`42381460158`) as `completed success`, 16m16s — the first CI run on
+> this branch that has ever finished, as opposed to every prior push's
+> ~22-second failure at the "Build the dev shell" step. Full account in
+> `.reports/accountability-ensurance.md` round 6 (C1/C2).
+>
+> No new upstream test file exists on `origin/main` (unchanged at
+> `70560b6`), and no new Ruby test file was added since round 5, so the
+> bijection table below is unchanged and still current.
+>
+> Verdict for this round: test parity (schema/test/validate/drive/lint) is
+> now fully reproducible end to end, locally and in CI, for the first time
+> across six rounds. This closes the one open item this ledger carried
+> (round 5's unreproducible lint leg); it does not by itself make the
+> *port* clean — see `.reports/component-parity.md` (C3, Flatpak) and
+> `.reports/translation-parity.md` (T2, 8 untranslated strings) for what
+> still is.
+
 > **Round 5 re-derivation (this commit).** Re-ran the suite and both drives
 > myself: `rake test` (8/8 files, exit 0), `rake validate` (all three
 > validators clean), `test/drive_junction.rb` (**247 of 247**, DRIVE OK),

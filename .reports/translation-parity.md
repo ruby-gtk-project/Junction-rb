@@ -1,5 +1,28 @@
 # Translation parity — Junction-rb against `origin/main`
 
+> **Round 5/6 re-derivation (this commit, 2026-11-07).** Independent audit.
+> Re-grepped all eight T2 msgids against `po/de.po` directly this round
+> rather than trusting round 4's transcript: `Main Menu`, `Open Location`,
+> `View File in File Manager`, `Run Junction in the background.`, `Light
+> Style`, `Follow System Style`, `Dark Style` all still have `msgstr ""`;
+> `Show App Names` still carries a `#, fuzzy` `msgstr "Namen anzeigen"`,
+> which `msgfmt`/`rmsgfmt` exclude from the compiled `.mo`, so it still
+> renders English at runtime. All eight unchanged since round 3. No
+> commit since round 4 (`26f7272`, `8b92f7d`, `33ee0c8`, `9dc84d1`) touches
+> `po/`, `locale/`, `POTFILES` or a marked string — confirmed by reading
+> each commit's diff, not by name alone (`9dc84d1` touches `flake.nix` and
+> `.github/workflows/ci.yml` only; the other three touch the drive script,
+> `PORTING.md` prose, and prior parity reports respectively).
+>
+> `origin/main` unchanged at `70560b6`; `origin/l10n`'s catalogue snapshot
+> is unchanged from round 3's census.
+>
+> Verdict for this round: unchanged from round 4. T2 (8 strings, 32
+> languages each) remains the one open translation gap, named and
+> honestly stated in `PORTING.md` as something the port will not invent
+> translations for. Everything else prior rounds called closed is still
+> closed.
+
 > **Round 4 re-derivation (this commit, `86c1f6c`).** Spot-checked rather
 > than re-censused in full, because nothing in the four commits since round 3
 > touches a marked string, `po/`, `locale/`, `POTFILES` or the Rakefile's

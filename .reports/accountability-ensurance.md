@@ -1,5 +1,104 @@
 # Accountability ensurance — Junction-rb
 
+> **Round 6 re-derivation (this commit, 2026-11-07).** Independent audit,
+> adversarial: re-ran every gate myself rather than trusting round 5's
+> numbers, and treated round 5's own "not clean" verdict as a thing to go
+> check rather than a thing to carry forward.
+>
+> `origin/main` has not moved (`70560b6`, same sha as every prior round).
+> `nix develop --command xvfb-run -a ruby test/drive_junction.rb` →
+> **247 of 247 checks passed, DRIVE OK** — matching the task prompt's
+> claimed gate exactly, number for number. `test/drive_locale.rb` → **16 of
+> 16, DRIVE OK**. `nix develop --command xvfb-run -a bundle exec rake test`
+> → exit 0, no failures, across all 8 test files.
+>
+> **C1/C2 (round 5's lint/CI finding): closed, and verified rather than
+> taken on faith.** `9dc84d1` ("Make rake lint runnable and fix CI's broken
+> YAML quoting"), the commit immediately after round 5's report, added
+> nixpkgs' `rubocop` to `flake.nix`'s devshell and fixed the unquoted YAML
+> `run:` scalar in `.github/workflows/ci.yml` that was truncating the
+> "Build the dev shell" step into an unterminated bash string. Checked both
+> halves myself, not by reading the commit message: `nix develop --command
+> rake lint` here reports `48 files inspected, no offenses detected`, and a
+> full `nix develop --command xvfb-run -a bundle exec rake` (schema, test,
+> validate, drive×2, lint) reaches `Default task complete.` at exit 0 with
+> `git status --short` empty afterward. More importantly, the automated gate
+> itself: `gh run list --branch ruby` shows the push for `9dc84d1`
+> (`42381460158`) as **`completed success`, 16m16s** — the first real,
+> full-length CI run this branch has ever had, as opposed to every prior
+> push's 21–25-second failure at step two. The claim this round rests on is
+> therefore not "the commit message says it's fixed"; it is "I reproduced
+> the fix locally and watched the actual GitHub Actions run go green."
+>
+> **B1 (round 4's finding, re-opened by round 5's silence): fixed this
+> round, not just reported again.** `.reports/component-inventory.md` —
+> the duplicate, four-facet-deficient component inventory carrying "n/a",
+> "no Ruby equivalent" and "by design" in one cell — was still present on
+> disk going into this round; round 5 neither re-flagged nor removed it,
+> so a reader of round 5 alone would not have known it was still open.
+> Deleted in this commit (`git rm .reports/component-inventory.md`). It
+> added no information `.reports/component-identification.md` lacked and
+> its presence was the gap; `component-identification.md`'s round-4 block
+> and this file's own round-4 B1 entry (kept, below, unedited — the rule is
+> rewrite narrative excuses in place, not delete factual finding history)
+> remain the record of what it said and why it was wrong.
+>
+> **B2 (round 4's stale `PORTING.md` line): confirmed still closed.**
+> `PORTING.md`'s "Open gaps" item 4 reads `~~nix/Gemfile is out of step…~~
+> Closed in c81d6b5`, and `nix/Gemfile` still lists all four of `adwaita`,
+> `gettext`, `gobject-introspection` and `gtk4` against the gemspec. No
+> regression.
+>
+> **Fresh excuse-construction grep, same two non-hits as every prior
+> round:**
+> ```
+> grep -rniE 'TODO|FIXME|not implemented|for now|in a future|XXX|HACK|stub|placeholder' lib/ exe/
+> ```
+> `resource.rb:116` ("would skip") and `desktop_entry.rb:173` (quoting
+> ruby-gnome's own `NotImplementedError` text) — both read in full again,
+> both still not excuses, unchanged since round 2.
+>
+> **What remains open, honestly, and is not excused anywhere in this
+> round's documents:**
+>
+> - **C3 / Flatpak.** No `re.sonny.Junction.json`, no
+>   `build-aux/flatpak/glib-appinfo.patch`. Confirmed absent from the port
+>   again this round (`find . -iname '*.json' | xargs grep -l flatpak`
+>   finds nothing under the port's own tree). Every sandbox code path in
+>   `host.rb`, `portal.rb`, `background_request.rb`, `desktop_entry.rb`,
+>   `resource.rb` and `application.rb` remains tested only against
+>   `Host.flatpak =` assigned by the test suite, never against a real
+>   sandbox. `PORTING.md`'s "What I have not ported" section states this in
+>   first person, names every affected line, and does not call it "out of
+>   scope" or "by design" anywhere — re-read in full this round to confirm
+>   it has not drifted back toward excuse language. It has not.
+> - **T2 / 8 untranslated strings.** `Main Menu`, `Show App Names`, `Open
+>   Location`, `View File in File Manager`, `Run Junction in the
+>   background.`, `Light Style`, `Follow System Style`, `Dark Style` —
+>   re-grepped against `po/de.po` this round: all eight still carry empty
+>   or fuzzy `msgstr`. `PORTING.md` states plainly that the port will not
+>   invent translations for these, which is correct (translation is the
+>   translators' work, not the porter's) and is not an excuse because the
+>   mechanism that would carry a real translation is already wired and
+>   tested (`drive_locale.rb` proves three other German strings reach real
+>   widgets).
+>
+> Both are named, located, and neither rests on a check that was never run.
+> Neither is new; both were open at round 5 and remain open now, re-verified
+> rather than carried forward on faith.
+>
+> Verdict for this round: **not clean**, for the first time for a reason
+> that is not itself a false green. The runtime gate is real and matches
+> its claim (247/247, 0 failed, verified independently). The lint/CI gap
+> round 5 found is genuinely closed, in CI, not just in a commit message.
+> The one report-hygiene gap left open across rounds 4–5 (B1) is fixed
+> rather than re-reported. What keeps this port from `clean: true` is
+> exactly two items, both already honestly disclosed in the port's own
+> documents in the required first-person, non-excusing form: C3 (Flatpak,
+> unported, cost named) and T2 (8 strings, untranslated, reason stated and
+> not invented around). Full parity requires both closed; neither is, and
+> saying so is this round's job, not a reason to soften the number.
+
 > **Round 5 re-derivation (this commit).** Re-ran the runtime gate myself,
 > as every round claims to, and this time followed the claim all the way to
 > the one place it is never actually checked: the CI job the port's own docs
