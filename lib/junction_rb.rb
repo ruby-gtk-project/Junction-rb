@@ -4,6 +4,7 @@ require 'gtk4'
 require 'adwaita'
 require 'gobject-introspection'
 require 'gettext'
+require_relative "junction_rb/version"
 
 # Ported from src/main.js, src/bin.js and src/local.js, which between them hold
 # everything upstream decides once at start-up: the application id, the website
@@ -117,4 +118,3 @@ require_relative 'junction_rb/shortcuts_dialog'
 require_relative 'junction_rb/welcome_window'
 require_relative 'junction_rb/window'
 require_relative 'junction_rb/application'
-require_relative "junction_rb/version"

@@ -797,4 +797,3 @@ task validate: ["validate:desktop", "validate:metainfo", "validate:schema"]
 # now runs what README.md says it runs: the schema, the full suite, the data
 # validations upstream registers as meson tests, the two drive scripts, and
 # rubocop.
-task default: ["schema", "test", "validate", "drive", "lint"]
